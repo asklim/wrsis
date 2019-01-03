@@ -14,7 +14,7 @@ var salePlaceSchema = new mongoose.Schema({
   Description: {type: String},
         Notes: {type: String},
          Host: {type: String, required: true},
-  ModifiedDateTime: {type: Date, 'default': Date.now}
+    updatedAt: {type: Date, 'default': Date.now}
 });
 
 mongoose.model('SalePlace', salePlaceSchema, 'salePlaces'); 

@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var SPlace = mongoose.model('SalePlace');
+var Staffer = mongoose.model('Staffer');
 
 console.log('dbinfo: Mongoose version %s', mongoose.version);
 
@@ -17,3 +18,6 @@ SPlace.find({ PlaceID : '10611' }).exec(function(err, place) {
 });
 //*/
 
+Staffer.countDocuments({}, function(err, count) {
+  console.log('dbinfo: In staffers collection %d items.', count);
+});
