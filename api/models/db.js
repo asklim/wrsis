@@ -4,7 +4,7 @@ var gracefulShutdown;
 //var dbURI = 'mongodb+srv://asklim:kas2rsis@rsis-jjwdj.'+
 //            'mongodb.net/rsiscfg?retryWrites=true';
 
-var dbURI = process.env.MONGO_DEV_URI;
+var dbURI = process.env.DBCFG_DEV_URI;
 //var dbURI = process.env.MONGO_CLOUD_URI;
 /*var dbURI = 'mongodb://asklim:kas2rsis@'+
 'rsis-shard-00-00-jjwdj.mongodb.net:27017,'+
@@ -14,7 +14,7 @@ var dbURI = process.env.MONGO_DEV_URI;
 */
 
 if (process.env.NODE_ENV === 'production') {
-    dbURI = process.env.MONGO_CLOUD_URI;
+    dbURI = process.env.DBCFG_CLOUD_URI;
 }
 
 mongoose.connect(dbURI, { useNewUrlParser: true,

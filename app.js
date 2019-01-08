@@ -8,6 +8,11 @@ var logger = require('morgan');
 
 require('./api/models/db');
 
+// Only standalone instance
+if (process.env.NODE_ENV !== 'production') {
+    require('./api/models/dbintra');
+}
+
 var indexRouter = require('./server/routes/index');
 var usersRouter = require('./server/routes/users');
 var apiRouter = require('./api/routes/apiRoutes');
