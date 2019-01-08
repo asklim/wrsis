@@ -62,8 +62,10 @@ process.on('SIGTERM', function() {
 //require('./locations');
 //require('./users');
 
-require('./saleplaces');
-require('./staffers');
+var salePlaceSchema = require('./saleplaces');
+mongoose.model('SalePlace', salePlaceSchema, 'salePlaces'); 
+// last arg - collection`s name in MongoDB
 
-//debug/statistic info for Mongo DB
-require('./dbinfo.js');
+var stafferSchema = require('./staffers');
+mongoose.model('Staffer', stafferSchema, 'staffers'); 
+// last arg - collection`s name in MongoDB

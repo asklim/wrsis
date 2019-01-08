@@ -48,3 +48,13 @@ process.on('SIGTERM', function() {
 });
 
 // BRING IN YOUR SCHEMAS & MODELS
+
+var salePlaceSchema = require('./saleplaces');
+conn.model('SalePlace', salePlaceSchema, 'salePlaces'); 
+// last arg - collection`s name in MongoDB
+
+var stafferSchema = require('./staffers');
+conn.model('Staffer', stafferSchema, 'staffers'); 
+// last arg - collection`s name in MongoDB
+
+module.exports = conn;

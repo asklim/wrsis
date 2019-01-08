@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var salePlaceSchema = new mongoose.Schema({
+module.exports = new mongoose.Schema({
           _id: {type: String, required: true},
        'rec#': {type: Number, required: true, min: 1},
          Name: {type: String, required: true},
@@ -16,6 +16,3 @@ var salePlaceSchema = new mongoose.Schema({
          Host: {type: String, required: true},
     updatedAt: {type: Date, 'default': Date.now}
 });
-
-mongoose.model('SalePlace', salePlaceSchema, 'salePlaces'); 
-// last arg - collection`s name in MongoDB

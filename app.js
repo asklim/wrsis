@@ -9,9 +9,14 @@ var logger = require('morgan');
 require('./api/models/db');
 
 // Only standalone instance
+var intraDb;
 if (process.env.NODE_ENV !== 'production') {
-    require('./api/models/dbintra');
+    intraDb = require('./api/models/dbintra');
 }
+
+//debug/statistic info for Mongo DB
+var dbInfo = require('./api/models/dbinfo');
+dbInfo.log(intraDb);
 
 var indexRouter = require('./server/routes/index');
 var usersRouter = require('./server/routes/users');

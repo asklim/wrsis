@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var stafferSchema = new mongoose.Schema({
+module.exports = new mongoose.Schema({
           _id: {type: String, required: true},
        'rec#': {type: Number, required: true, min: 1},
          Role: {type: String, required: true},
@@ -26,5 +26,3 @@ var stafferSchema = new mongoose.Schema({
     updatedAt: {type: Date, 'default': Date.now}
 });
 
-mongoose.model('Staffer', stafferSchema, 'staffers'); 
-// last arg - collection`s name in MongoDB
