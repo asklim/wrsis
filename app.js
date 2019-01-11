@@ -5,6 +5,7 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var mongoose = require('mongoose');
 
 require('./api/models/db');
 
@@ -16,11 +17,12 @@ if (process.env.NODE_ENV !== 'production') {
 
 //debug/statistic info for Mongo DB
 var dbInfo = require('./api/models/dbinfo');
+dbInfo.log(mongoose.connection);
 dbInfo.log(intraDb);
 
-var indexRouter = require('./server/routes/index');
-var usersRouter = require('./server/routes/users');
-var apiRouter = require('./api/routes/apiRoutes');
+var indexRouter = require('./server/routes/indexRouter');
+var usersRouter = require('./server/routes/usersRouter');
+var apiRouter = require('./api/routes/apiRouter');
 
 var app = express();
 

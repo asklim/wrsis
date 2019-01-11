@@ -93,12 +93,12 @@ function onListening() {
 
 function serverOutput(mode) {
   
-  if(mode ='full') { 
-    console.log("Express server= '" + server.address().address +
-      "' Family= '" + server.address().family +"'");
+  if(mode === 'full') { 
+    console.log('Express server= "' + server.address().address +
+      '" Family= "' + server.address().family +'"');
     console.log(' listening on port ' + server.address().port);
   
   } else {
-
+      console.log('');
   }
 }
