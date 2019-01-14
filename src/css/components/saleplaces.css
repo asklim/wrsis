@@ -1,0 +1,18 @@
+.saleplacefull {
+  background: #FFF;
+  border: 1px solid rgba(0, 89, 181, 0.82);
+  width: 300px;
+  margin: 0 0 5px;
+  box-shadow: 2px 2px 5px -1px rgb(0, 81, 202);
+  padding: 3px 5px;
+}
+
+.splaceId {
+  /*text-decoration: underline;*/
+  color: #007DDC;
+}
+
+.summary {
+  margin: 10px 0 0 0;
+  display: block;
+}

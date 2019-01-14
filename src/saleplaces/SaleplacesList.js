@@ -34,8 +34,9 @@ export default class SaleplacesList extends React.Component {
       .then(list => {
         //console.log(list);      
         this.setState({list, loading: false});
-        }
-      );
+        })
+      .catch(err => {console.log(err); })
+    ;
   }
 
   _templateVerticalInline (lst) {

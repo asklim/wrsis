@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import StarRating from './../misc/StarRating.js';
+import style from './../css/components/saleplaces.css';
 
 export default class SaleplaceFull extends React.Component {
 

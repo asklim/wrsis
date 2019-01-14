@@ -1,3 +1,4 @@
+'use strict';
 import React from 'react';
 import { render} from 'react-dom';
 import PropTypes from 'prop-types';
@@ -6,7 +7,8 @@ import FormAddColor from './FormAddColor.js';
 import ColorList from './misc/ColorList.js';
 import SaleplacesList from './saleplaces/SaleplacesList.js';
 import { v4 } from 'uuid';
-
+//@import './css/app.css'; 
+import css from './css/app.css';
 
 const defaultColors = [
   {
