@@ -23,18 +23,43 @@ p {
 .saleplacefull {
   background: #FFF;
   border: 1px solid rgba(0, 89, 181, 0.82);
-  width: 600px;
+  width: 300px;
   margin: 0 0 5px;
   box-shadow: 2px 2px 5px -1px rgb(0, 81, 202);
   padding: 3px 5px;
 }
 
 .splaceId {
-  text-decoration: underline;
+  /*text-decoration: underline;*/
   color: #007DDC;
 }
 
 .summary {
   margin: 10px 0 0 0;
   display: block;
+}
+
+.star {
+  cursor: pointer;
+  height: 25px;
+  width: 25px;
+  margin: 2px;
+  float: left;
+  background-color: grey;
+  clip-path: polygon(
+      50%   0%,
+      63%  38%,
+     100%  38%,
+      69%  59%,
+      82% 100%,
+      50%  75%,
+      18% 100%,
+      31%  59%,
+       0%  38%,
+      37%  38%
+  );
+}
+
+.star.selected {
+background-color: red;
 }

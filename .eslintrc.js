@@ -37,7 +37,7 @@ module.exports = {
         ]
       },
     "rules": {
-        "react/jsx-uses-react": 1,
+        "react/jsx-uses-react": "warn",
         "no-console": "off",
         //"indent": ["error", 2],
         "linebreak-style": ["error", "unix"],
