@@ -4,23 +4,20 @@ html {
 }
 
 body {
-  padding: 50px;
+  background: rgba(0, 102, 255, 0.38);
+  /*font-family: sans-serif;*/
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  padding: 50px; 
 }
 
 a {
   color: #00B7FF;
 }
 
-.none {
-  display: none !important;
-}
-
-body {
-  background: rgba(0, 102, 255, 0.38);
-  font-family: sans-serif;
-}
-
 p {
   margin: 0 0 5px;
+}
+
+.none {
+  display: none !important;
 }

@@ -12,7 +12,7 @@ var sendJSONresponse = function(res, status, content) {
   * GET a saleplace info by the id 
   *
   **/
-module.exports.salePlaceReadOne = function(req, res) {
+module.exports.saleplaceReadOne = function(req, res) {
   console.log('Finding sale place details', req.params);
   if (req.params && req.params.placeId) {
     SPlace
@@ -41,7 +41,7 @@ module.exports.salePlaceReadOne = function(req, res) {
 
 /* POST a new saleplace */
 /* /api/saleplaces */
-module.exports.salePlaceCreate = function(req, res) {
+module.exports.saleplaceCreate = function(req, res) {
   console.log(req.body);
   SPlace.create( req.body
 /*    {
@@ -71,8 +71,10 @@ module.exports.salePlaceCreate = function(req, res) {
   });
 };
 
+
 /* PUT /api/saleplaces/:placeId */
-module.exports.salePlaceUpdateOne = function(req, res) {
+
+module.exports.saleplaceUpdateOne = function(req, res) {
   //console.log(req.body);
   if (!req.params.placeId) {
     sendJSONresponse(res, 404, {
@@ -124,8 +126,10 @@ module.exports.salePlaceUpdateOne = function(req, res) {
   );
 };
 
+
 /* DELETE /api/saleplaces/:placeId */
-module.exports.salePlaceDeleteOne = function(req, res) {
+
+module.exports.saleplaceDeleteOne = function(req, res) {
   if (req.params.placeId != '10600') {
     sendJSONresponse(res, 404, {
       'message': 'Not found, testing saleplace.id is 10600'
@@ -160,7 +164,7 @@ module.exports.salePlaceDeleteOne = function(req, res) {
   *
   **/
 
-module.exports.salePlacesListAll = function(req, res) {
+module.exports.saleplacesListAll = function(req, res) {
   console.log('Finding sale places details', req.params);
   if (req.params) { //={}
     SPlace

@@ -1,0 +1,10 @@
+nav {
+  height: 3em;
+  margin: 2px;
+  float: left;
+  background-color: grey;
+}
+
+nav.selected {
+background-color: red;
+}

@@ -13,7 +13,8 @@ var sendJSONresponse = function(res, status, content) {
   *
   **/
 module.exports.stafferReadOne = function(req, res) {
-  console.log('Finding staffer details', req.params);
+  console.log('RO: Finding staffer details', req.params);
+  console.log('RO: Finding staffer query', req.query);
   if (req.params && req.params.stafferId) {
     Staffer
       .findById(req.params.stafferId)
@@ -170,7 +171,8 @@ module.exports.stafferDeleteOne = function(req, res) {
   **/
 
 module.exports.staffersListAll = function(req, res) {
-  console.log('Finding sale places details', req.params);
+  console.log('LA: Finding staffer`s details', req.params);
+  console.log('LA: Finding staffer query', req.query);
   if (req.params) { //={}
     Staffer
       .find({}) //req.params)

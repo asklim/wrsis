@@ -1,33 +1,39 @@
 var express = require('express');
 var router = express.Router();
 
-var ctrlSalePlaces = require('../controllers/saleplaces');
+var ctrlSaleplaces = require('../controllers/saleplaces');
 var ctrlStaffers = require('../controllers/staffers');
+//var ctrlCatalogs = require('../controllers/catalog');
 
 /**  
   * api for 1 saleplace: /api/saleplaces/<placeId>. 
   * */
+let places = '/config/saleplaces';
+let placeId = places+'/:placeId';
 
-router.get('/saleplaces/:placeId', ctrlSalePlaces.salePlaceReadOne);
-router.post('/saleplaces', ctrlSalePlaces.salePlaceCreate);
-router.put('/saleplaces/:placeId', ctrlSalePlaces.salePlaceUpdateOne);
-router.delete('/saleplaces/:placeId', ctrlSalePlaces.salePlaceDeleteOne);
+router.get(placeId, ctrlSaleplaces.saleplaceReadOne);
+router.post(places, ctrlSaleplaces.saleplaceCreate);
+router.put(placeId, ctrlSaleplaces.saleplaceUpdateOne);
+router.delete(placeId, ctrlSaleplaces.saleplaceDeleteOne);
 
 /* api for all saleplaces */
-router.get('/saleplaces', ctrlSalePlaces.salePlacesListAll);
+router.get(places, ctrlSaleplaces.saleplacesListAll);
 
 
 /**  
   * api for 1 staffer: /api/staffers/<stafferId>. 
   * */
 
- router.get('/staffers/:stafferId', ctrlStaffers.stafferReadOne);
- router.post('/staffers', ctrlStaffers.stafferCreate);
- router.put('/staffers/:stafferId', ctrlStaffers.stafferUpdateOne);
- router.delete('/staffers/:stafferId', ctrlStaffers.stafferDeleteOne);
+ let staffers = '/config/staffers';
+ let stafferId = staffers + '/:stafferId';
+ 
+ router.get(stafferId, ctrlStaffers.stafferReadOne);
+ router.post(staffers, ctrlStaffers.stafferCreate);
+ router.put(stafferId, ctrlStaffers.stafferUpdateOne);
+ router.delete(stafferId, ctrlStaffers.stafferDeleteOne);
  
  /* api for all staffers */
- router.get('/staffers', ctrlStaffers.staffersListAll);
+ router.get(staffers, ctrlStaffers.staffersListAll);
 
 
 module.exports = router;

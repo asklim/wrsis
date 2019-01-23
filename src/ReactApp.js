@@ -1,94 +1,56 @@
 'use strict';
 import React from 'react';
-import { render} from 'react-dom';
-import PropTypes from 'prop-types';
-import Hello from './hello/Hello.js';
-import FormAddColor from './FormAddColor.js';
-import ColorList from './misc/ColorList.js';
-import SaleplacesList from './saleplaces/SaleplacesList.js';
-import { v4 } from 'uuid';
+import { render } from 'react-dom';
+//import PropTypes from 'prop-types';
+import 'bootstrap';
+
+//import { library } from '@fortawesome/fontawesome-svg-core';
+//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+//import { faHome } from '@fortawesome/free-solid-svg-icons';
+//library.add(faHome);
+
 //@import './css/app.css'; 
-import css from './css/app.css';
+import './css/app.css';
 
-const defaultColors = [
-  {
-  "id": "0175d1f0-a8c6-41bf-8d02-df5734d829a4",
-  "title": "ocean at dusk",
-  "color": "#00c4e2",
-  "rating": 5
-  },
-  {
-  "id": "83c7ba2f-7392-4d7d-9e23-35adbe186046",
-  "title": "lawn",
-  "color": "#26ac56",
-  "rating": 3
-  },
-  {
-  "id": "a11e3995-b0bd-4d58-8c48-5e49ae7f7f23",
-  "title": "bright red",
-  "color": "#ff0000",
-  "rating": 0
-  }
-];
+import {
+  HashRouter,
+  Route,
+  Switch
+} from 'react-router-dom';
 
-class Body extends React.Component {
+import {
+  Home,
+  About,
+  Events,
+  Products,
+  Contact,
+  Whoops404
+} from './PageTemplate';
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      colors: props.colors || []
-    };
-    this.addColor = this.addColor.bind(this);
-  }
-
-  static propTypes = {
-    colors: PropTypes.array
-  }
-
-  addColor(title, color) {
-    const colors = [
-      ...this.state.colors,
-      {
-        id: v4(),
-        title,
-        color,
-        rating: 0
-      }
-    ];
-    this.setState({colors});
-  }
-
-  render() {
-    //const { addColor } = this;
-    const { colors } = this.state;
-    return (
-      <div className="body">                
-        <FormAddColor onNewColor={this.addColor}/>
-        <ColorList colors={colors} />
-        <br/>
-      </div>
-    );
-  }
-}
+//import { Home } from './pageHome';
 
 window.React = React;
 
 render(
-  <Body colors={defaultColors}/>,
-  document.getElementById('contents1')
+  <HashRouter>
+  <div className="main">
+    <Switch>
+      <Route exact path="/" component={Home} />
+      <Route path="/about" component={About} />
+      <Route path="/events" component={Events} />
+      <Route path="/products" component={Products} />
+      <Route path="/contact" component={Contact} />
+      <Route component={Whoops404} />
+    </Switch>  
+  </div>
+  </HashRouter>,
+  document.getElementById('react-container')
 );
 
-render(
-  <SaleplacesList />,
-  document.getElementById('contents2')
-);
-
-render(
-  <Hello />,
-  document.getElementById('contents3')
-);
 console.log(React);
 //console.log(ReactDOM);
+
+
 
 
 /*

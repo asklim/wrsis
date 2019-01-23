@@ -23,7 +23,7 @@ export default class SaleplacesList extends React.Component {
     //console.log('getPlacesList');
     this.setState({loading: true});
     let host = window.location.origin;
-    let route = host+'/api/saleplaces';
+    let route = host+'/api/config/saleplaces';
     console.log(route);
     fetch(route)
       .then( response => {

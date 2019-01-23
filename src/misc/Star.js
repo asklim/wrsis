@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import style from './../css/components/star.css';
+import style from './../css/star.css';
 
 const Star = ({ selected=false, onClick=f=>f }) =>
   <div className={(selected) ? "star selected" : "star"}

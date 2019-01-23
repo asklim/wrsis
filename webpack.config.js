@@ -22,8 +22,25 @@ module.exports = {
         }  
       },
       {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        test: /\.(s*)css$/,
+        // порядок имеет значение: применяются с конца (last to first)
+        // сначала css-loader, затем style-loader.        
+        use: [{
+          loader: 'style-loader' // inject CSS to page
+        }, {
+          loader: 'css-loader' // translates CSS into CommonJS modules
+        }, {
+          loader: 'postcss-loader', // Run post CSS actions
+          options: { plugins: function (){
+                                return [
+                                  require('precss'),
+                                  require('autoprefixer')
+                                ];
+                              }
+          }
+        }, {
+          loader: 'sass-loader'   // compiles Sass to CSS 
+        }]
       }
     ]
   }
