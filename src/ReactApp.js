@@ -2,7 +2,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 //import PropTypes from 'prop-types';
-import 'bootstrap';
+//import 'bootstrap';
 
 //import { library } from '@fortawesome/fontawesome-svg-core';
 //import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,27 +13,28 @@ import 'bootstrap';
 import './css/app.css';
 
 import {
-  HashRouter,
+  HashRouter as Router,
   Route,
   Switch
 } from 'react-router-dom';
 
 import {
   Home,
-  About,
   Events,
   Products,
   Contact,
   Whoops404
 } from './PageTemplate';
 
+import { About } from './contentAbout';
+
 //import { Home } from './pageHome';
 
 window.React = React;
 
 render(
-  <HashRouter>
-  <div className="main">
+  <Router>
+  <div className='react-router'>
     <Switch>
       <Route exact path="/" component={Home} />
       <Route path="/about" component={About} />
@@ -42,9 +43,9 @@ render(
       <Route path="/contact" component={Contact} />
       <Route component={Whoops404} />
     </Switch>  
-  </div>
-  </HashRouter>,
-  document.getElementById('react-container')
+  </div>  
+  </Router>,
+  document.getElementById('react-app')
 );
 
 console.log(React);

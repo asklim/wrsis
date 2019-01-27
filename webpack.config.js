@@ -1,14 +1,20 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   mode:"development",
-  entry: './src/ReactApp.js',
-  output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'static'),
-    sourceMapFilename: 'bundle.map'
+  entry: {
+    app: './src/ReactApp.js'
   },
-  devtool: '#source-map',
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'static'),
+    sourceMapFilename: '[name].bundle.map'
+  },
+  devtool: 'hidden-source-map',
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ],
   module: {
     rules: [
       {
@@ -30,7 +36,7 @@ module.exports = {
         }, {
           loader: 'css-loader' // translates CSS into CommonJS modules
         }, {
-          loader: 'postcss-loader', // Run post CSS actions
+          loader: 'postcss-loader', // Run post CSS actions (? post SASS)
           options: { plugins: function (){
                                 return [
                                   require('precss'),
@@ -38,9 +44,13 @@ module.exports = {
                                 ];
                               }
           }
-        }, {
+        }, {        
           loader: 'sass-loader'   // compiles Sass to CSS 
         }]
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: ['file-loader']
       }
     ]
   }

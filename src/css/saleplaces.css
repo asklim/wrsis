@@ -1,9 +1,9 @@
 .saleplacefull {
-  background: #FFF;
+  background: #ffffaa;
   border: 1px solid rgba(0, 89, 181, 0.82);
   width: 300px;
   margin: 0 0 5px;
-  box-shadow: 2px 2px 5px -1px rgb(0, 81, 202);
+  box-shadow: 2px 2px 5px -1px rgba(0, 81, 202, 0.66);
   padding: 3px 5px;
 }
 

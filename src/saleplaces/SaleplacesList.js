@@ -88,7 +88,9 @@ export default class SaleplacesList extends React.Component {
       //console.log(list.length);     
       return (
       <div className="saleplaceslist">
-        <SaleplacesSummary count={list.length}/>
+        <div>
+          <SaleplacesSummary count={list.length}/>
+        </div>
         {listTemplate}
       </div> );     
     }

@@ -1,10 +1,50 @@
+#leftmenu, 
+#rightmenu {
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    overflow-y: auto;
+    height: 20vh; 
+    }
+
 nav {
-  height: 3em;
-  margin: 2px;
-  float: left;
-  background-color: grey;
-}
+    /*height: 3vh;*/
+    margin: 0px;
+    float: left;
+    /*background-color: grey;*/
+    }
 
 nav.selected {
-background-color: red;
-}
+    background-color: red;
+    }
+
+.main-menu {
+    height: 3em;
+    margin: 2px;
+    float: left;
+    /*background-color: grey;*/
+    }
+
+.main-menu.selected {
+    background-color: red;
+    }
+
+.right-menu {
+    list-style-type: none;
+    display: block;
+    height: 3em;
+    margin: 2px;
+    float: left;
+    /*background-color: grey;*/
+    }
+
+.right-menu.selected {
+    background-color: whitesmoke;
+    }
+
+.right-menu li {
+    margin: 0 0 0.5rem 0.5rem;
+    }
+
+.left-menu li {
+    margin: 0.5rem 0.5rem 0 0;
+    }
