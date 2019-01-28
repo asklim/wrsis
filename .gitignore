@@ -1,3 +1,6 @@
+# Static Bootstrap map files
+static/bootstrap/css/*.css.map
+
 # Logs
 logs
 *.log

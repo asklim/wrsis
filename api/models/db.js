@@ -1,20 +1,17 @@
 var mongoose = require('mongoose');
 var gracefulShutdown;
-//var dbURI = 'mongodb://localhost/rsiscfg';
-//var dbURI = 'mongodb+srv://asklim:kas2rsis@rsis-jjwdj.'+
-//            'mongodb.net/rsiscfg?retryWrites=true';
 
-var dbURI = process.env.DBCFG_DEV_URI;
-//var dbURI = process.env.MONGO_CLOUD_URI;
-/*var dbURI = 'mongodb://asklim:kas2rsis@'+
+var dbURI = process.env.MONGO_DEV2_URI+'/rsiscfg';
+//var dbURI = mongodb://localhost:27016/rsiscfg;
+
+if (process.env.NODE_ENV === 'production') {
+    dbURI = process.env.CLOUDDB_CFG_URI;
+/*var dbURI = 'mongodb://<user>:<pass>@'+
 'rsis-shard-00-00-jjwdj.mongodb.net:27017,'+
 'rsis-shard-00-01-jjwdj.mongodb.net:27017,'+
 'rsis-shard-00-02-jjwdj.mongodb.net:27017/rsiscfg?ssl=true&'+
 'replicaSet=rsis-shard-0&authSource=admin&retryWrites=true';
 */
-
-if (process.env.NODE_ENV === 'production') {
-    dbURI = process.env.DBCFG_CLOUD_URI;
 }
 
 mongoose.connect(dbURI, { useNewUrlParser: true,

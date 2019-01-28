@@ -1,10 +1,14 @@
 var mongoose = require('mongoose');
 var intraDbShutdown;
-//var dbURI = 'mongodb://localhost/rsiscfg';
 
+var dbURIIntra = process.env.MONGO_DEV1_URI+'/rsiscfg';
+//var dbURI = 'mongodb://localhost:27017/rsiscfg';
 
-var dbURIIntra = process.env.DBCFG_STANDALONE_URI;
-//var dbURIIntra = 'mongodb://localhost:36667/rsiscfg';
+if (process.env.NODE_ENV === 'intranet') {
+  dbURIIntra = process.env.MONGO_STANDALONE_URI+'rsiscfg';
+  //var dbURIIntra = 'mongodb://localhost:36667/rsiscfg';
+}
+
 
 var conn = mongoose.createConnection(dbURIIntra, { useNewUrlParser: true,
                                                    useCreateIndex : true });

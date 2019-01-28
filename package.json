@@ -1,6 +1,6 @@
 {
   "name": "rsis",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "rsis on express scaffolding",
   "private": true,
   "scripts": {
@@ -11,6 +11,11 @@
   },
   "author": "asklim",
   "license": "ISC",
+  "keywords": ["rsis", "heroku", "rsis web app"],
+  "engines": {
+    "node": "~10.x",
+    "npm": "~6.6.0"
+  },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
     "@fortawesome/fontawesome-svg-core": "^1.2.12",

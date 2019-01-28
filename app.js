@@ -9,16 +9,18 @@ var mongoose = require('mongoose');
 
 require('./api/models/db');
 
-// Only standalone instance
-var intraDb;
-if (process.env.NODE_ENV !== 'production') {
-    intraDb = require('./api/models/dbintra');
-}
-
 //debug/statistic info for Mongo DB
 var dbInfo = require('./api/models/dbinfo');
 dbInfo.log(mongoose.connection);
-dbInfo.log(intraDb);
+
+// Only standalone instance
+
+if (process.env.NODE_ENV !== 'production') {
+    var intraDb;
+    intraDb = require('./api/models/dbintra');
+    dbInfo.log(intraDb);
+}
+
 
 var indexRouter = require('./server/routes/indexRouter');
 var usersRouter = require('./server/routes/usersRouter');

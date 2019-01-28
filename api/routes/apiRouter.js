@@ -3,8 +3,19 @@ var router = express.Router();
 
 var ctrlSaleplaces = require('../controllers/saleplaces');
 var ctrlStaffers = require('../controllers/staffers');
-//var ctrlCatalogs = require('../controllers/catalog');
+var ctrlCatalogs = require('../controllers/catalogs');
 
+
+/**  
+  * api for 1 saleplace: /api/saleplaces/<placeId>. 
+  * */
+ let catalogs = '/config/catalogs';
+ let catalogClient = catalogs+'/:client';
+ 
+ router.get(catalogClient, ctrlCatalogs.catalogClientWithQuery);
+ router.get(catalogs, ctrlCatalogs.catalogsAllClients);
+ 
+ 
 /**  
   * api for 1 saleplace: /api/saleplaces/<placeId>. 
   * */

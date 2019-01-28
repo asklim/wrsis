@@ -13,8 +13,10 @@ var sendJSONresponse = function(res, status, content) {
   *
   **/
 module.exports.stafferReadOne = function(req, res) {
+
   console.log('RO: Finding staffer details', req.params);
   console.log('RO: Finding staffer query', req.query);
+  
   if (req.params && req.params.stafferId) {
     Staffer
       .findById(req.params.stafferId)
