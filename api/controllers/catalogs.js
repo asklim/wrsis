@@ -1,5 +1,5 @@
-var webClient = require('./catalogs4Web');
-var excelClient = require('./catalogs4Excel');
+var webClient = require('./catalogs4web');
+var excelClient = require('./catalogs4excel');
 
 var sendJSONresponse = function (res, status, content) {
   console.log(`catalogs: ${content}`);

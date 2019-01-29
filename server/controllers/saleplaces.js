@@ -1,9 +1,15 @@
 var request = require('request');
-var apiOptions = {
-  server : 'http://localhost:3666'
-};
-if (process.env.NODE_ENV === 'production') {
-  apiOptions.server = 'https://rsis.herokuapp.com';
+var apiOptions;
+
+switch (process.env.NODE_ENV) {
+  case 'production': 
+    apiOptions = { server: 'https://rsis-webapp.herokuapp.com'};
+    break;
+  case 'intranet':
+    apiOptions = { server : 'http://localhost:3666'};    
+    break;
+  default:
+    apiOptions = { server : 'http://localhost:3006'};  
 }
 
 
@@ -22,7 +28,7 @@ var renderSaleplacesPage = function(req, res, spData) {
 var getSaleplacesList = function(req, res, callback) {
 
   var requestOptions, path;
-  path = '/api/saleplaces/';
+  path = '/api/config/saleplaces/';
   requestOptions = {
     url : apiOptions.server + path,
     method : 'GET',

@@ -22,9 +22,9 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 
-var indexRouter = require('./server/routes/indexRouter');
-var usersRouter = require('./server/routes/usersRouter');
-var apiRouter = require('./api/routes/apiRouter');
+var indexRouter = require('./server/routes/index-router');
+var usersRouter = require('./server/routes/users-router');
+var apiRouter = require('./api/routes/api-router');
 
 var app = express();
 
