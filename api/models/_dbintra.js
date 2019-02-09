@@ -1,15 +1,24 @@
-var mongoose = require('mongoose');
-var intraDbShutdown;
+//var mongoose = require('mongoose');
+//var intraDbShutdown;
+var dbConnect = require('./dbconnect');
 
-var dbURIIntra = process.env.MONGO_DEV1_URI+'/rsiscfg';
-//var dbURI = 'mongodb://localhost:27017/rsiscfg';
+/**
+ * запускается ТОЛЬКО если NODE_ENV !== 'production'
+ * из /app-server.js 
+ */
 
 if (process.env.NODE_ENV === 'intranet') {
-  dbURIIntra = process.env.MONGO_STANDALONE_URI+'rsiscfg';
+  dbURIIntra = process.env.MONGO_STANDALONE_URI+'/rsiscfg';
   //var dbURIIntra = 'mongodb://localhost:36667/rsiscfg';
+
+} else {
+    var dbURIIntra = process.env.MONGO_DEV1_URI+'/rsiscfg';
+    //var dbURI = 'mongodb://localhost:27017/rsiscfg';    
 }
 
+var conn = dbConnect.connection( dbURIIntra, 'intraDB.cfg');
 
+/*
 var conn = mongoose.createConnection(dbURIIntra, { useNewUrlParser: true,
                                                    useCreateIndex : true });
 
@@ -60,5 +69,6 @@ conn.model('SalePlace', salePlaceSchema, 'salePlaces');
 var stafferSchema = require('./staffers');
 conn.model('Staffer', stafferSchema, 'staffers'); 
 // last arg - collection`s name in MongoDB
+*/
 
 module.exports = conn;

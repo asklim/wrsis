@@ -1,5 +1,7 @@
-var mongoose = require('mongoose');
-var Staffer = mongoose.model('Staffer');
+"use strict";
+//var mongoose = require('mongoose');
+var db = require('../models/databases').getDB('config');
+var Staffer = db.model('Staffer');
 
 var sendJSONresponse = function(res, status, content) {
   res.status(status);

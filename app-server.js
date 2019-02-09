@@ -5,22 +5,19 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var mongoose = require('mongoose');
+//var mongoose = require('mongoose');
+var dbs = require('./api/models/databases');
 
-require('./api/models/db');
+//require('./api/models/db');
+
+dbs.createConns();
 
 //debug/statistic info for Mongo DB
-var dbInfo = require('./api/models/dbinfo');
-dbInfo.log(mongoose.connection);
+//var dbInfo = require('./api/models/dbinfo');
+//dbInfo.log(mongoose.connection);
 
-// Only standalone instance
-
-if (process.env.NODE_ENV !== 'production') {
-    var intraDb;
-    intraDb = require('./api/models/dbintra');
-    dbInfo.log(intraDb);
-}
-
+// console.log(dbs.getDB('config').client.s);
+// console.log(dbs.getDB('Temp').client.s);
 
 var indexRouter = require('./server/routes/index-router');
 var usersRouter = require('./server/routes/users-router');
@@ -61,6 +58,7 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res) { //, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
+    console.log(`app-server error-handler: env='${req.app.get('env')}'`);
     res.locals.error = req.app.get('env') === 'development' ? err : {};
 
     // render the error page
