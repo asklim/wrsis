@@ -13,7 +13,7 @@ module.exports.createConn = function( uri, title) {
 
   // CONNECTION EVENTS
   conn.on('connected', function() {
-      console.log(`${title}: connected to ${uri}`);
+      console.log(`${title}: connected to ${conn.host}:${conn.port}`);
       dbInfo.log(conn);
   });
   conn.on('error', function(err) {

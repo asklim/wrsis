@@ -1,7 +1,7 @@
 {
   "name": "rsis",
-  "version": "0.0.1",
-  "description": "rsis on express scaffolding",
+  "version": "0.0.2",
+  "description": "rsis (R Stock-In System) (on MERN)",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",

@@ -1,5 +1,4 @@
-//var mongoose = require('mongoose');
-//var conn = mongoose.connection;
+"use strict";
 
 /**
  * iDb - mongoose.connection to MongoDB
@@ -9,31 +8,31 @@ module.exports.log = function(iDb) {
   
   //console.log('dbinfo: Mongoose version %s', mongoose.version);
 
-  //console.log('dbinfo: %s:%s', iDb.host, iDb.port);
-  var title = `dbinfo: ${iDb.host}:${iDb.port}`;
-
+  var title = `dbinfo: ${iDb.host}:${iDb.port}/${iDb.db.databaseName}`;
+  
 /*  console.log(`${title}: collection's count = %d`, 
                  Object.keys(iDb.collections).length);
   console.log(`${title}: model's count = ${iDb.modelNames().length}`);  
   console.log(`${title}: `, iDb.modelNames());
   */
 
-  var infoArr = [];
+  var callArr = [];
   let models = iDb.modelNames(); //массив имен моделей
 
-  models.forEach( mdlName => {
-    
-    infoArr.push(mdlName);
-    let mdl = iDb.model(mdlName);    
-    //infoArr.push(mdl.estimatedDocumentCount({}));
-
-    mdl.countDocuments({}, function(err, count) {     
-      infoArr.push( count );
-      //console.log(`${title}: In ${mdlName} model ${count} items.`);
-    });  
+  models
+  .forEach( mdlName => {   
+    let mdl = iDb.model(mdlName);
+    callArr.push( mdl.countDocuments({}, 
+                  (err, count) => { count; }));  
   });
-  
-  setTimeout(function() {console.log(`${title}: `, infoArr);}, 1500);
+
+  Promise.all( callArr )
+  .then( docsCounts => {  
+    console.log(`${title}: `, models, docsCounts);
+  })
+  .catch( error => {
+    console.log(error.message);
+  });
 
 /*  Object.keys(iDb.collections).forEach(key => {
     let coll = iDb.collection(key);

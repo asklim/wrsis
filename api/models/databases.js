@@ -4,6 +4,7 @@ var gracefulShutdown;
 
 var dbCfg;
 var dbTmp;
+var dbSum;
 //var dbWNext;
 //var dbWCur;
 //var dbWPrev;
@@ -17,8 +18,9 @@ module.exports.getDB = function(dbType) {
   }
   //console.log('getDB : ',); 
   switch (dbType.toLowerCase()) {
-    case 'config': { return dbCfg; }
-    case 'temp' : return dbTmp;
+    case 'config': return dbCfg;
+    case   'temp': return dbTmp;
+    case    'sum': return dbSum;
   }
 };
 
@@ -27,6 +29,10 @@ module.exports.createConns = function() {
 
   if (dbCfg == undefined) {
     dbCfg = require('./dbrsiscfg');
+  }
+
+  if (dbSum == undefined) {
+    dbSum = require('./dbrsissum');
   }
 
   if (dbTmp == undefined) {
@@ -59,10 +65,15 @@ module.exports.createConns = function() {
 gracefulShutdown = async function(msg, callback) {
   
   Promise.all([dbTmp.closeConn(),
-               dbCfg.closeConn()]).then((messages) => {
-    console.log('dbs closed: ', messages);
+               dbSum.closeConn(),
+               dbCfg.closeConn()])
+  .then( dbsNames => {
+    console.log('dbs closed: ', dbsNames);
     console.log('Mongoose disconnected through ' + msg);
     callback();  
+  })
+  .catch( error => {
+    console.log(error.message);
   });
   
 /*  
