@@ -4,9 +4,12 @@
   "description": "rsis (R Stock-In System) (on MERN)",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "build": "webpack",
-    "compile": "./node_modules/.bin/babel src -d static",
+    "start": "node bin/www.js",
+    "start2": "npm run compile && node static/www.js",
+    "build": "webpack && nodemon",
+    "test": "npm run test:imports",
+    "test:imports": "mocha \"./imports/**/*.test.js\"",
+    "compile": "node_modules/.bin/babel bin/www.js --out-dir static --source-map",
     "watch": "./node_modules/.bin/babel src -d static -watch"
   },
   "author": "asklim",
@@ -46,6 +49,7 @@
     "serve-favicon": "^2.5.0",
     "uuid": "^3.3.2"
   },
+  "//":"chai & mocha to '*' - last version",
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.2",
@@ -53,10 +57,12 @@
     "@babel/preset-env": "^7.2.3",
     "@babel/preset-react": "^7.0.0",
     "babel-eslint": "^10.0.1",
+    "chai": "*",
     "css-loader": "^2.1.0",
     "eslint": "^5.12.0",
     "eslint-plugin-react": "^7.12.3",
     "file-loader": "^3.0.1",
+    "mocha": "*",
     "node-sass": "^4.11.0",
     "postcss-loader": "^3.0.0",
     "precss": "^4.0.0",
@@ -68,5 +74,31 @@
     "style-loader": "^0.23.1",
     "webpack": "^4.28.4",
     "webpack-cli": "^3.2.1"
+  },
+  "nodemonConfig": {
+    "delay": "2000",
+    "verbose": true,
+    "execMap": {
+      "js": "node --experimental-modules",
+      "mjs": "node --experimental-modules"
+    },
+    "ext": "js,json,mjs",
+    "watch": [
+      "imports/**",
+      "server/**",
+      "api/**",
+      "bin/*"
+    ],
+    "ignore": [
+      ".git",
+      ".vscode",
+      "public/**",
+      "node_modules/*",
+      "node_modules/**/*",
+      "node_modules/*/**",
+      "node_modules/**",
+      "src/**",
+      "static/**"
+    ]
   }
 }

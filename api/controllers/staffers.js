@@ -4,6 +4,7 @@ var db = require('../models/databases').getDB('config');
 var Staffer = db.model('Staffer');
 
 var sendJSONresponse = function(res, status, content) {
+  console.log(`staffers: ${content}`);
   res.status(status);
   res.json(content);
 };

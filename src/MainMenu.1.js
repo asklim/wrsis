@@ -34,36 +34,32 @@ export const MainMenu = () => (
        onSelect={handleSelect}>
 
     <NavItem eventKey={'home'} href="/">
-      <NavLink to="/">
-        <FaHome />     
-      </NavLink>
+        <span><FaHome /> [home.1]</span>         
     </NavItem>
 
     <NavItem eventKey={'about'} href="/about">
-      <NavLink to="/about" activeStyle={selectedStyle}>
-        [About]
-      </NavLink>
+        [About] <FaHome/>
     </NavItem>
 
-    <NavItem eventKey={'events'} href="/events">
+    <NavItem eventKey={'events'}>
       <NavLink to="/events" activeStyle={selectedStyle}>
         [Events]
       </NavLink>
     </NavItem>
 
-    <NavItem eventKey={'products'} href="/products">
+    <NavItem eventKey={'products'}>
       <NavLink to="/products" activeStyle={selectedStyle}>
         [Products]
       </NavLink>
     </NavItem>
 
-    <NavItem eventKey={'cash'} href="/cash">
+    <NavItem eventKey={'cash'}>
       <NavLink to="/cash" activeStyle={selectedStyle}>
         [Выручка]
       </NavLink>
     </NavItem>
 
-    <NavItem eventKey={'contact'} href="/contact">
+    <NavItem eventKey={'contact'}>
       <NavLink to="/contact" activeStyle={selectedStyle}>
         [Contact Us]
       </NavLink>

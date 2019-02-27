@@ -4,6 +4,7 @@ var db = require('../models/databases').getDB('config');
 var SPlace = db.model('SalePlace');
 
 var sendJSONresponse = function(res, status, content) {
+  console.log(`saleplaces: ${content}`);
   res.status(status);
   res.json(content);
 };

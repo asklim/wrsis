@@ -93,8 +93,6 @@ export default class SaleplacesList extends React.Component {
         </div>
         {listTemplate}
       </div> );     
-    }
-
-      
+    }      
   }
 }

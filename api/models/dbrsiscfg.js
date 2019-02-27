@@ -43,4 +43,7 @@ var stafferSchema = require('./staffers');
 db.model('Staffer', stafferSchema, 'staffers'); 
 // last arg - collection`s name in MongoDB
 
+var idMappingSchema = require('./catalogs').idMappingExcel;
+db.model('IdMappingExcel', idMappingSchema, 'catalogs'); 
+
 module.exports = db;

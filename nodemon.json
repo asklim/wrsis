@@ -1,5 +1,0 @@
-{
-  "watch": ["server/*","api/*","bin/*"],
-  "verbose": true,
-  "ignore": ["public/*","node_modules/*","src/*","static/*"]
-}

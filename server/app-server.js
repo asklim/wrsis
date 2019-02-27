@@ -7,7 +7,7 @@ var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 //var mongoose = require('mongoose');
-var dbs = require('./api/models/databases');
+var dbs = require('../api/models/databases');
 
 //require('./api/models/db');
 
@@ -20,14 +20,14 @@ dbs.createConns();
 // console.log(dbs.getDB('config').client.s);
 // console.log(dbs.getDB('Temp').client.s);
 
-var indexRouter = require('./server/routes/index-router');
-var usersRouter = require('./server/routes/users-router');
-var apiRouter = require('./api/routes/api-router');
+var indexRouter = require('./routes/index-router');
+var usersRouter = require('./routes/users-router');
+var apiRouter = require('../api/routes/api-router');
 
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'server', 'views'));
+app.set('views', path.join(__dirname, /*'server',*/ 'views'));
 app.set('view engine', 'ejs');
 
 app.use((req,res,next) => {
@@ -36,15 +36,15 @@ app.use((req,res,next) => {
 });
 
 // uncomment after placing your favicon in /public
-app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(__dirname + './../public/favicon.ico'));
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'static')));
+app.use(express.static(path.join(__dirname, './../public')));
+app.use(express.static(path.join(__dirname, './../static')));
 
 app.use('/api', apiRouter);
 app.use('/users', usersRouter);

@@ -7,9 +7,9 @@ var sendJSONresponse = function (res, status, content) {
 };
 
 
-module.exports.catalogWithQuery = function (req, res) {
+module.exports.catalogReadOne = function (req, res) {
   
-  let coffeeTea = [{GID: 2019011001, 
+  let coffeeTea = [{gid: 2019011001, 
                    Group: 6,
                    Name: 'WebItem'
                   }];

@@ -2,7 +2,6 @@
 import React from 'react';
 import { FaHome } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
-import { Nav, NavItem } from 'react-bootstrap';
 
 //import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -21,52 +20,49 @@ const selectedStyle = {
       </span>      
     </NavLink>
 */
-
-function handleSelect(selectedKey) {
-  //console.log(`MainMenu selected ${selectedKey}`);
+function handleSelectMenuItem(selectedKey) {
+  console.log(`RightMenu selected`);
+  console.log(selectedKey);
   document.title = `${selectedKey} - rsis`;
 }
 
+export const RightMenu = () => (
 
-export const MainMenu = () => (
 
-  <Nav className="main-menu" bsStyle="pills" stacked activeKey={1} 
-       onSelect={handleSelect}>
-
-    <NavItem eventKey={'home'} href="/">
-      <NavLink to="/">
-        <FaHome />     
-      </NavLink>
-    </NavItem>
-
-    <NavItem eventKey={'about'} href="/about">
+    <ul className="right-menu" onFocus={handleSelectMenuItem}>
+      <li>
+        <NavLink to="/">
+          <FaHome /><span> Home</span>     
+        </NavLink>
+      </li>
+      <li>
       <NavLink to="/about" activeStyle={selectedStyle}>
         [About]
       </NavLink>
-    </NavItem>
+      </li>
 
-    <NavItem eventKey={'events'} href="/events">
+      <li>
       <NavLink to="/events" activeStyle={selectedStyle}>
         [Events]
       </NavLink>
-    </NavItem>
+      </li>
 
-    <NavItem eventKey={'products'} href="/products">
+      <li>
       <NavLink to="/products" activeStyle={selectedStyle}>
         [Products]
       </NavLink>
-    </NavItem>
+      </li>
 
-    <NavItem eventKey={'cash'} href="/cash">
+      <li>
       <NavLink to="/cash" activeStyle={selectedStyle}>
         [Выручка]
       </NavLink>
-    </NavItem>
+      </li>
 
-    <NavItem eventKey={'contact'} href="/contact">
+      <li>
       <NavLink to="/contact" activeStyle={selectedStyle}>
         [Contact Us]
       </NavLink>
-    </NavItem>
-  </Nav>
+      </li>
+      </ul>
 );

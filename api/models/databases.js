@@ -5,11 +5,17 @@ var gracefulShutdown;
 var dbCfg;
 var dbTmp;
 var dbSum;
-//var dbWNext;
-//var dbWCur;
-//var dbWPrev;
+//var dbWeekNext;
+//var dbWeekCur;
+//var dbWeekPrev;
 
-
+/**
+ * name getDB
+ * @memberof /api/models 
+ * @summary Возвращает указанную базу данных
+ * @param {String} dbType The database type
+ * @return {Mongoose.Connection} The connection to database
+ */
 module.exports.getDB = function(dbType) {
     
   if (typeof dbType !== 'string') {

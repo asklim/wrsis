@@ -1,15 +1,7 @@
 'use strict';
 import React from 'react';
 import { render } from 'react-dom';
-//import PropTypes from 'prop-types';
-//import 'bootstrap';
 
-//import { library } from '@fortawesome/fontawesome-svg-core';
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-//import { faHome } from '@fortawesome/free-solid-svg-icons';
-//library.add(faHome);
-
-//@import './css/app.css'; 
 import './css/app.css';
 
 import {
@@ -18,17 +10,14 @@ import {
   Switch
 } from 'react-router-dom';
 
-import {
-  Home,
-  Events,
-  Products,
-  Contact,
-  Whoops404
-} from './PageTemplate';
-
+import { Home } from './contentHome';
+import { Events } from './contentEvents';
+import { Products } from './contentProducts';
+import { Contact } from './contentContact';
+import { Cash } from './contentCash';
+import { Whoops404 } from './contentWhoops404';
 import { About } from './contentAbout';
 
-//import { Home } from './pageHome';
 
 window.React = React;
 
@@ -38,6 +27,7 @@ render(
     <Switch>
       <Route exact path="/" component={Home} />
       <Route path="/about" component={About} />
+      <Route path="/cash" component={Cash} />
       <Route path="/events" component={Events} />
       <Route path="/products" component={Products} />
       <Route path="/contact" component={Contact} />
