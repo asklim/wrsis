@@ -1,0 +1,35 @@
+.rightpanel 
+{
+  position: fixed;
+  /*left: 1200px;*/
+  right: 0px;
+  top: 0px;
+  width: 249px;
+  height: 100vh;
+  background-color: #eee;
+  padding-bottom: 10px;
+  border-left: 1px solid whitesmoke;
+  overflow-y: auto;
+
+  @media (max-width: 1200px)
+  {
+    display: none;
+  }  
+}
+
+
+#filter 
+{
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  background-color: darkorange;
+  height: 25vh;
+}
+
+#jumper 
+{
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  background-color: darkgoldenrod;
+  height: 25vh;
+}

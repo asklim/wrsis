@@ -6,9 +6,10 @@
   "scripts": {
     "start": "node bin/www.js",
     "start2": "npm run compile && node static/www.js",
-    "build": "webpack && nodemon",
+    "build": "webpack",
+    "buildnm": "webpack && nodemon",
     "test": "npm run test:imports",
-    "test:imports": "mocha \"./imports/**/*.test.js\"",
+    "test:imports": "mocha \"./imports/**/*.spec.js\"",
     "compile": "node_modules/.bin/babel bin/www.js --out-dir static --source-map",
     "watch": "./node_modules/.bin/babel src -d static -watch"
   },
@@ -35,6 +36,7 @@
     "dotenv": "^6.2.0",
     "ejs": "~2.5.7",
     "express": "~4.16.0",
+    "history": "^4.7.2",
     "http-errors": "~1.6.2",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.3.1",
@@ -49,7 +51,7 @@
     "serve-favicon": "^2.5.0",
     "uuid": "^3.3.2"
   },
-  "//":"chai & mocha to '*' - last version",
+  "//": "chai & mocha to '*' - last version",
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.2",

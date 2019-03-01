@@ -1,28 +1,30 @@
 'use strict';
+
+import './css/app.css';
 import React from 'react';
 import { render } from 'react-dom';
 
-import './css/app.css';
-
+//import { createHashHistory } from 'history';
 import {
-  HashRouter as Router,
-  Route,
-  Switch
+  HashRouter as Router
+  , Route
+  , Switch
 } from 'react-router-dom';
 
+import { About } from './contentAbout';
 import { Home } from './contentHome';
 import { Events } from './contentEvents';
 import { Products } from './contentProducts';
 import { Contact } from './contentContact';
 import { Cash } from './contentCash';
 import { Whoops404 } from './contentWhoops404';
-import { About } from './contentAbout';
 
 
 window.React = React;
+//const hashHistory = createHashHistory();
 
 render(
-  <Router>
+  <Router> 
   <div className='react-router'>
     <Switch>
       <Route exact path="/" component={Home} />

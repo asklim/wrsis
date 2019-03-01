@@ -5,6 +5,11 @@ import { MainMenu } from './MainMenu.1.js';
 //import { RightMenu } from './RightMenu';
 import PropTypes from 'prop-types';
 
+import './css/leftPanel.css';
+import './css/rightPanel.css';
+import './css/container.css';
+
+
 export const PageTemplate = ({children}) => (
 
   <div id="layout">

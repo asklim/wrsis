@@ -39,14 +39,14 @@ export default class SaleplacesList extends React.Component {
     ;
   }
 
-  _templateVerticalInline (lst) {
+  _templateSimpleDiv (lst) {
     return lst.map((item,index) => {
-      //console.log(item);
-      return (
-        <div key={index}>
-          <SaleplaceFull data={item} />
-        </div>  
-      );
+            //console.log(item);
+            return (
+              <div key={index}>
+                <SaleplaceFull data={item} />
+              </div>  
+            );
     });
   }
 
@@ -82,17 +82,20 @@ export default class SaleplacesList extends React.Component {
       let listTemplate;
 
       listTemplate = list.length > 0 
-        ? this._templateHorizontalInline(list)
+        ? this._templateSimpleDiv(list)
         : <p>Список пуст</p>
       ;
       //console.log(list.length);     
       return (
-      <div className="saleplaceslist">
         <div>
-          <SaleplacesSummary count={list.length}/>
+          <div>
+            <SaleplacesSummary count={list.length}/>
+          </div>
+          <div className="saleplaceslist">
+              {listTemplate}
+          </div>
         </div>
-        {listTemplate}
-      </div> );     
+      );     
     }      
   }
 }

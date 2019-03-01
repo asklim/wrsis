@@ -1,4 +1,33 @@
-.saleplacefull {
+.saleplaceslist {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column-gap:1px;
+  background-color: whitesmoke;
+
+  @media screen and (min-width: 900px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  @media screen and (min-width: 1200px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media screen and (min-width: 1500px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  @media screen and (min-width: 1800px) {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+  @media screen and (min-width: 2100px) {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  }
+
+}
+
+.saleplacefull 
+{
   background: #ffffaa;
   border: 1px solid rgba(0, 89, 181, 0.82);
   width: 300px;
@@ -7,12 +36,14 @@
   padding: 3px 5px;
 }
 
-.splaceId {
+.splaceId 
+{
   /*text-decoration: underline;*/
   color: #007DDC;
 }
 
-.summary {
+.summary 
+{
   margin: 10px 0 0 0;
   display: block;
 }
