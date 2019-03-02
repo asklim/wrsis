@@ -40,6 +40,10 @@ render(
   document.getElementById('react-app')
 );
 
+if (module.hot) {
+    module.hot.accept();
+}
+
 console.log(React);
 //console.log(ReactDOM);
 

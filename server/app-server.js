@@ -7,7 +7,7 @@ var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 //var mongoose = require('mongoose');
-var dbs = require('../api/models/databases');
+var dbs = require('../api/databases/databases');
 
 //require('./api/models/db');
 

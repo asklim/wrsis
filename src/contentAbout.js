@@ -1,22 +1,27 @@
 'use strict';
-
 import React from 'react';
+import { HashLink as HLink } from 'react-router-hash-link';
+
 import { PageTemplate } from './PageTemplate';
 import './css/contentAbout.css';
 
 export const About = () =>
 <PageTemplate>
   <section className="about">
-    <h1>
-      <a href="#about/our-services0">About</a>
-    </h1>
+    
+    <a id="our-services1"></a>
+    <h1>About</h1>
     <hr className="separate"/>
 
     <div className="aboutWrapper">
     <div className="aboutElements">
-        <h2>
-          <a href="#about/our-services1">Our Services One</a>
-        </h2>
+
+        <h2>Our Services One</h2>
+        <h5>
+          <HLink to="/about#our-services2">Our Services Two</HLink>
+          <br/>
+          <HLink to="/about#our-services3">Our Services Three</HLink>
+        </h5>        
         <p>
           Lorem ipsum dolor sit amet, consectetur
           adipiscing elit. Integer nec odio.
@@ -48,10 +53,16 @@ export const About = () =>
         </p>
         <hr className="separate-elements"/>
     </div>
-    <div className="aboutNote">
-        <h2>
-          <a href="#about/our-services2">Our Services Two</a>
-        </h2>
+
+    <div className="aboutElements">
+
+        <a id="our-services2"></a>
+        <h2>Our Services Two</h2>
+        <h5>
+          <HLink to="/about#our-services1">Our Services One</HLink>
+          <br/>
+          <HLink to="/about#our-services3">Our Services Three</HLink>
+        </h5>  
         <p>
           Lorem ipsum dolor sit amet, consectetur
           adipiscing elit. Integer nec odio.
@@ -83,10 +94,16 @@ export const About = () =>
         </p>
         <hr className="separate-elements"/>
     </div>
-    <div className="aboutNote">
-        <h2>
-          <a href="#about#our-services3">Our Services Three</a>
-        </h2>
+
+    <div className="aboutElements">
+
+        <a id="our-services3"></a>
+        <h2>Our Services Three</h2>
+        <h5>
+          <HLink to="/about#our-services1">Our Services One</HLink>
+          <br/>
+          <HLink to="/about#our-services2">Our Services Two</HLink>
+        </h5>
         <p>
           Lorem ipsum dolor sit amet, consectetur
           adipiscing elit. Integer nec odio.

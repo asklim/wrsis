@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class SaleplacesSummary extends React.Component {
-  
-/*  constructor(props) {
-    super(props);    
-  }
-*/
-  render() {
-  
+export default class SaleplacesSummary extends React.Component {
+
+  static propTypes = {
+    count: PropTypes.number.isRequired
+  };
+
+  render() 
+  {  
     const { count } = this.props;
     return (
       <div className="saleplacessummary">
@@ -17,9 +17,3 @@ class SaleplacesSummary extends React.Component {
     );
   }
 }
-
-SaleplacesSummary.propTypes = {
-  count: PropTypes.number.isRequired
-};
-
-export default SaleplacesSummary;

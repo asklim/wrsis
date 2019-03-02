@@ -28,11 +28,11 @@ db = conn.createConn(uri, title);
 
 // BRING IN YOUR SCHEMAS & MODELS
 
-var salePlaceSchema = require('./saleplaces');
+var salePlaceSchema = require('../../api/models/saleplaces');
 db.model('SalePlace', salePlaceSchema, 'salePlaces'); 
 // last arg - collection`s name in MongoDB
 
-var stafferSchema = require('./staffers');
+var stafferSchema = require('../../api/models/staffers');
 db.model('Staffer', stafferSchema, 'staffers'); 
 // last arg - collection`s name in MongoDB
 

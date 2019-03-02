@@ -60,10 +60,10 @@ process.on('SIGTERM', function() {
 //require('./locations');
 //require('./users');
 
-var salePlaceSchema = require('./saleplaces');
+var salePlaceSchema = require('../../api/models/saleplaces');
 mongoose.model('SalePlace', salePlaceSchema, 'salePlaces'); 
 // last arg - collection`s name in MongoDB
 
-var stafferSchema = require('./staffers');
+var stafferSchema = require('../../api/models/staffers');
 mongoose.model('Staffer', stafferSchema, 'staffers'); 
 // last arg - collection`s name in MongoDB

@@ -63,7 +63,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "8f371c0cbd72ffa94530";
+/******/ 	var hotCurrentHash = "af76d32adebf160ce3cf";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -49910,6 +49910,134 @@ module.exports = warning;
 
 /***/ }),
 
+/***/ "./node_modules/react-router-hash-link/lib/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/react-router-hash-link/lib/index.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+exports.genericHashLink = genericHashLink;
+exports.HashLink = HashLink;
+exports.NavHashLink = NavHashLink;
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+var hashFragment = '';
+var observer = null;
+var asyncTimerId = null;
+var scrollFunction = null;
+
+function reset() {
+  hashFragment = '';
+  if (observer !== null) observer.disconnect();
+  if (asyncTimerId !== null) {
+    window.clearTimeout(asyncTimerId);
+    asyncTimerId = null;
+  }
+}
+
+function getElAndScroll() {
+  var element = document.getElementById(hashFragment);
+  if (element !== null) {
+    scrollFunction(element);
+    reset();
+    return true;
+  }
+  return false;
+}
+
+function hashLinkScroll() {
+  // Push onto callback queue so it runs after the DOM is updated
+  window.setTimeout(function () {
+    if (getElAndScroll() === false) {
+      if (observer === null) {
+        observer = new MutationObserver(getElAndScroll);
+      }
+      observer.observe(document, {
+        attributes: true,
+        childList: true,
+        subtree: true
+      });
+      // if the element doesn't show up in 10 seconds, stop checking
+      asyncTimerId = window.setTimeout(function () {
+        reset();
+      }, 10000);
+    }
+  }, 0);
+}
+
+function genericHashLink(props, As) {
+  function handleClick(e) {
+    reset();
+    if (props.onClick) props.onClick(e);
+    if (typeof props.to === 'string') {
+      hashFragment = props.to.split('#').slice(1).join('#');
+    } else if (_typeof(props.to) === 'object' && typeof props.to.hash === 'string') {
+      hashFragment = props.to.hash.replace('#', '');
+    }
+    if (hashFragment !== '') {
+      scrollFunction = props.scroll || function (el) {
+        return props.smooth ? el.scrollIntoView({ behavior: "smooth" }) : el.scrollIntoView();
+      };
+      hashLinkScroll();
+    }
+  }
+
+  var scroll = props.scroll,
+      smooth = props.smooth,
+      filteredProps = _objectWithoutProperties(props, ['scroll', 'smooth']);
+
+  return _react2.default.createElement(
+    As,
+    _extends({}, filteredProps, { onClick: handleClick }),
+    props.children
+  );
+}
+
+function HashLink(props) {
+  return genericHashLink(props, _reactRouterDom.Link);
+}
+
+function NavHashLink(props) {
+  return genericHashLink(props, _reactRouterDom.NavLink);
+}
+
+var propTypes = {
+  onClick: _propTypes2.default.func,
+  children: _propTypes2.default.node,
+  scroll: _propTypes2.default.func,
+  to: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object])
+};
+
+HashLink.propTypes = propTypes;
+NavHashLink.propTypes = propTypes;
+
+/***/ }),
+
 /***/ "./node_modules/react-router/es/MemoryRouter.js":
 /*!******************************************************!*\
   !*** ./node_modules/react-router/es/MemoryRouter.js ***!
@@ -57269,6 +57397,11 @@ Object(react_dom__WEBPACK_IMPORTED_MODULE_2__["render"])(react__WEBPACK_IMPORTED
 }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Route"], {
   component: _contentWhoops404__WEBPACK_IMPORTED_MODULE_10__["Whoops404"]
 })))), document.getElementById('react-app'));
+
+if (true) {
+  module.hot.accept();
+}
+
 console.log(react__WEBPACK_IMPORTED_MODULE_1___default.a); //console.log(ReactDOM);
 
 /*
@@ -57329,40 +57462,53 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "About", function() { return About; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _PageTemplate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PageTemplate */ "./src/PageTemplate.js");
-/* harmony import */ var _css_contentAbout_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./css/contentAbout.css */ "./src/css/contentAbout.css");
-/* harmony import */ var _css_contentAbout_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_css_contentAbout_css__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_router_hash_link__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-hash-link */ "./node_modules/react-router-hash-link/lib/index.js");
+/* harmony import */ var react_router_hash_link__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_router_hash_link__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _PageTemplate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PageTemplate */ "./src/PageTemplate.js");
+/* harmony import */ var _css_contentAbout_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./css/contentAbout.css */ "./src/css/contentAbout.css");
+/* harmony import */ var _css_contentAbout_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_css_contentAbout_css__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
 
 
 var About = function About() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_PageTemplate__WEBPACK_IMPORTED_MODULE_1__["PageTemplate"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_PageTemplate__WEBPACK_IMPORTED_MODULE_2__["PageTemplate"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
     className: "about"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    href: "#about/our-services0"
-  }, "About")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    id: "our-services1"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "About"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
     className: "separate"
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "aboutWrapper"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "aboutElements"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    href: "#about/our-services1"
-  }, "Our Services One")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum velit. Class patent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
-    className: "separate-elements"
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "aboutNote"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    href: "#about/our-services2"
-  }, "Our Services Two")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum velit. Class patent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
-    className: "separate-elements"
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "aboutNote"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    href: "#about#our-services3"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Our Services One"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_hash_link__WEBPACK_IMPORTED_MODULE_1__["HashLink"], {
+    to: "/about#our-services2"
+  }, "Our Services Two"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_hash_link__WEBPACK_IMPORTED_MODULE_1__["HashLink"], {
+    to: "/about#our-services3"
   }, "Our Services Three")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum velit. Class patent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
+    className: "separate-elements"
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "aboutElements"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    id: "our-services2"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Our Services Two"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_hash_link__WEBPACK_IMPORTED_MODULE_1__["HashLink"], {
+    to: "/about#our-services1"
+  }, "Our Services One"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_hash_link__WEBPACK_IMPORTED_MODULE_1__["HashLink"], {
+    to: "/about#our-services3"
+  }, "Our Services Three")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum velit. Class patent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
+    className: "separate-elements"
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "aboutElements"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    id: "our-services3"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Our Services Three"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_hash_link__WEBPACK_IMPORTED_MODULE_1__["HashLink"], {
+    to: "/about#our-services1"
+  }, "Our Services One"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_hash_link__WEBPACK_IMPORTED_MODULE_1__["HashLink"], {
+    to: "/about#our-services2"
+  }, "Our Services Two")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum velit. Class patent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
     className: "separate-elements"
   })))));
 };
@@ -58602,10 +58748,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SaleplacesList; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _SaleplaceFull_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SaleplaceFull.js */ "./src/saleplaces/SaleplaceFull.js");
-/* harmony import */ var _SaleplacesSummary_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SaleplacesSummary.js */ "./src/saleplaces/SaleplacesSummary.js");
-/* harmony import */ var isomorphic_fetch__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! isomorphic-fetch */ "./node_modules/isomorphic-fetch/fetch-npm-browserify.js");
-/* harmony import */ var isomorphic_fetch__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(isomorphic_fetch__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var isomorphic_fetch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! isomorphic-fetch */ "./node_modules/isomorphic-fetch/fetch-npm-browserify.js");
+/* harmony import */ var isomorphic_fetch__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(isomorphic_fetch__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _SaleplaceFull_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SaleplaceFull.js */ "./src/saleplaces/SaleplaceFull.js");
+/* harmony import */ var _SaleplacesSummary_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SaleplacesSummary.js */ "./src/saleplaces/SaleplacesSummary.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -58616,13 +58762,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
@@ -58634,39 +58782,39 @@ var SaleplacesList =
 function (_React$Component) {
   _inherits(SaleplacesList, _React$Component);
 
-  function SaleplacesList(props) {
+  function SaleplacesList() {
+    var _getPrototypeOf2;
+
     var _this;
 
     _classCallCheck(this, SaleplacesList);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(SaleplacesList).call(this, props)); //console.log('constructor');
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
 
-    _this.state = {
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(SaleplacesList)).call.apply(_getPrototypeOf2, [this].concat(args)));
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "state", {
       list: [],
       loading: false
-    };
-    return _this;
-  }
+    });
 
-  _createClass(SaleplacesList, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "componentDidMount", function () {
       //console.log('compDidMount');
-      this._getPlacesList();
-    }
-  }, {
-    key: "_getPlacesList",
-    value: function _getPlacesList() {
-      var _this2 = this;
+      _this._getPlacesList();
+    });
 
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "_getPlacesList", function () {
       //console.log('getPlacesList');
-      this.setState({
+      _this.setState({
         loading: true
       });
+
       var host = window.location.origin;
       var route = host + '/api/config/saleplaces';
       console.log(route);
-      isomorphic_fetch__WEBPACK_IMPORTED_MODULE_3___default()(route).then(function (response) {
+      isomorphic_fetch__WEBPACK_IMPORTED_MODULE_1___default()(route).then(function (response) {
         //console.log(response.json());
         return response.json();
       }).then(function (json) {
@@ -58675,38 +58823,40 @@ function (_React$Component) {
         });
       }).then(function (list) {
         //console.log(list);      
-        _this2.setState({
+        _this.setState({
           list: list,
           loading: false
         });
       }).catch(function (err) {
         console.log(err);
       });
-    }
-  }, {
-    key: "_templateSimpleDiv",
-    value: function _templateSimpleDiv(lst) {
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "_templateSimpleDiv", function (lst) {
       return lst.map(function (item, index) {
         //console.log(item);
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           key: index
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SaleplaceFull_js__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SaleplaceFull_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
           data: item
         }));
       });
-    }
-  }, {
-    key: "_templateHorizontalInline",
-    value: function _templateHorizontalInline(lst) {
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "_templateHorizontalInline", function (lst) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, lst.map(function (item, index) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
           key: index
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SaleplaceFull_js__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SaleplaceFull_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
           data: item
         })));
       }))));
-    }
-  }, {
+    });
+
+    return _this;
+  }
+
+  _createClass(SaleplacesList, [{
     key: "render",
     value: function render() {
       var _this$state = this.state,
@@ -58717,10 +58867,10 @@ function (_React$Component) {
       if (loading) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Loading saleplaces ...");
       } else {
-        var listTemplate;
-        listTemplate = list.length > 0 ? this._templateSimpleDiv(list) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "\u0421\u043F\u0438\u0441\u043E\u043A \u043F\u0443\u0441\u0442"); //console.log(list.length);     
+        //let listTemplate;
+        var listTemplate = list.length > 0 ? this._templateSimpleDiv(list) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "\u0421\u043F\u0438\u0441\u043E\u043A \u043F\u0443\u0441\u0442"); //console.log(list.length);     
 
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SaleplacesSummary_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SaleplacesSummary_js__WEBPACK_IMPORTED_MODULE_3__["default"], {
           count: list.length
         })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "saleplaceslist"
@@ -58745,6 +58895,7 @@ function (_React$Component) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SaleplacesSummary; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
@@ -58767,6 +58918,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -58783,11 +58936,6 @@ function (_React$Component) {
 
   _createClass(SaleplacesSummary, [{
     key: "render",
-
-    /*  constructor(props) {
-        super(props);    
-      }
-    */
     value: function render() {
       var count = this.props.count;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -58801,10 +58949,11 @@ function (_React$Component) {
   return SaleplacesSummary;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-SaleplacesSummary.propTypes = {
+_defineProperty(SaleplacesSummary, "propTypes", {
   count: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired
-};
-/* harmony default export */ __webpack_exports__["default"] = (SaleplacesSummary);
+});
+
+
 
 /***/ })
 

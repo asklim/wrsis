@@ -1,6 +1,6 @@
 "use strict";
 //var mongoose = require('mongoose');
-var db = require('../models/databases').getDB('config');
+var db = require('../databases/databases').getDB('config');
 var SPlace = db.model('SalePlace');
 
 var sendJSONresponse = function(res, status, content) {

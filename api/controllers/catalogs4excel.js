@@ -1,5 +1,5 @@
 "use strict";
-var db = require('../models/databases').getDB('config');
+var db = require('../databases/databases').getDB('config');
 //var Catalog = db.model('Catalog');
 var IdList = db.model('IdMappingExcel');
 
