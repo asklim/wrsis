@@ -1,12 +1,11 @@
 'use strict';
-var conn = require('./dbconnect');
+const conn = require('./dbconnect');
 //debug/statistic info for Mongo DB
 
 
-let title = 'rsis.cfg';
+const title = 'rsis.cfg';
 
-var db;
-var uri;
+let uri;
 
 switch (process.env.NODE_ENV) {
   
@@ -30,20 +29,23 @@ switch (process.env.NODE_ENV) {
      //var dbURI = 'mongodb://localhost:27017/rsiscfg';    
 }      
 
-db = conn.createConn(uri, title);    
+const db = conn.createConn(uri, title);    
       
 
 // BRING IN YOUR SCHEMAS & MODELS
 
-var salePlaceSchema = require('../../api/models/saleplaces');
+const salePlaceSchema = require('../../api/models/saleplaces');
 db.model('SalePlace', salePlaceSchema, 'salePlaces'); 
 // last arg - collection`s name in MongoDB
 
-var stafferSchema = require('../../api/models/staffers');
+const stafferSchema = require('../../api/models/staffers');
 db.model('Staffer', stafferSchema, 'staffers'); 
 // last arg - collection`s name in MongoDB
 
-var idMappingSchema = require('../../api/models/catalogs').idMappingExcel;
+const idMappingSchema = require('../../api/models/catalogs').idMappingExcel;
 db.model('IdMappingExcel', idMappingSchema, 'catalogs'); 
+
+const agentSchema = require('../../api/models/agents');
+db.model('Agent', agentSchema, 'agents'); 
 
 module.exports = db;

@@ -1,20 +1,19 @@
 "use strict";
 //import { mongoose } from 'mongoose';
-var mongoose = require('mongoose');
-var dbInfo = require('./dbinfo');
+const mongoose = require('mongoose');
+const infoDB = require('./infodb');
 
 
 module.exports.createConn = function( uri, title) {
 
-  var conn;
-  conn = mongoose.createConnection(uri, 
+  const conn = mongoose.createConnection(uri, 
                   { useNewUrlParser: true,
                     useCreateIndex : true });
 
   // CONNECTION EVENTS
   conn.on('connected', function() {
       console.log(`${title}: connected to ${conn.host}:${conn.port}`);
-      dbInfo.log(conn);
+      infoDB.log(conn);
   });
   conn.on('error', function(err) {
       console.log(title, ': connection error: ', err);

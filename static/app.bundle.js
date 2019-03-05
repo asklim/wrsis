@@ -63,7 +63,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "af76d32adebf160ce3cf";
+/******/ 	var hotCurrentHash = "15b15bb63204cd88d539";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -58718,7 +58718,7 @@ function (_React$Component) {
         className: "saleplacefull"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "splaceId"
-      }, "ID: ", data._id), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "rec#: ", data['rec#']), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Name: ", data.Name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Full: ", data.FullName), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Moll: ", data.Moll), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Floor: ", data.Floor), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Sectr: ", data.Sector), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Line: ", data.Line), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Place: ", data.Place), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Addr: ", data.Address), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Descr: ", data.Description), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Notes: ", data.Notes), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Host: ", data.Host), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Updated at: ", data.updatedAt), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_misc_StarRating_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, "ID: ", data.id), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "rec#: ", data['rec#']), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Name: ", data.Name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Full: ", data.FullName), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Moll: ", data.Moll), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Floor: ", data.Floor), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Sectr: ", data.Sector), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Line: ", data.Line), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Place: ", data.Place), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Addr: ", data.Address), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Descr: ", data.Description), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Notes: ", data.Notes), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Host: ", data.host), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Updated at: ", data.updatedAt), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_misc_StarRating_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
         totalStars: 7,
         starsSelected: data['rec#']
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null));
@@ -58811,18 +58811,31 @@ function (_React$Component) {
         loading: true
       });
 
-      var host = window.location.origin;
-      var route = host + '/api/config/saleplaces';
+      var route = window.location.origin; //route += host+'/api/config/saleplaces';
+
+      route += '/api/config/agents';
       console.log(route);
       isomorphic_fetch__WEBPACK_IMPORTED_MODULE_1___default()(route).then(function (response) {
-        //console.log(response.json());
-        return response.json();
-      }).then(function (json) {
-        return json.map(function (place) {
-          return place;
+        return response.json(); // [{}, ..., {}]
+      }).then(function (agents) {
+        //console.log(places);
+        return agents.filter(function (agent) {
+          return agent.type == 'saleplace';
+        });
+      }).then(function (places) {
+        // console.log(places);
+        return places.map(function (place) {
+          return Object.assign({}, place.body, {
+            id: place.id
+          }, {
+            host: place.host
+          }, {
+            updatedAt: place.updatedAt
+          });
         });
       }).then(function (list) {
-        //console.log(list);      
+        console.log(list);
+
         _this.setState({
           list: list,
           loading: false

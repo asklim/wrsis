@@ -22,21 +22,37 @@ export default class SaleplacesList extends React.Component {
   {
     //console.log('getPlacesList');
     this.setState({loading: true});
-    const host = window.location.origin;
-    const route = host+'/api/config/saleplaces';
+    let route = window.location.origin;
+    //route += host+'/api/config/saleplaces';
+    route += '/api/config/agents';
     console.log(route);
 
     fetch(route)
-      .then( response => {
-        //console.log(response.json());
-        return response.json();}
-      )
-      .then(json => json.map(place => place))
+      .then( response => {        
+        return response.json();  // [{}, ..., {}]
+      })
+      .then( agents => {
+        //console.log(places);
+        return agents.filter( agent => agent.type == 'saleplace' );
+      })
+      .then( places => {
+        // console.log(places);
+        return places.map( place => {
+                 return Object.assign( {},
+                   place.body,
+                   {id: place.id},
+                   {host: place.host},
+                   {updatedAt: place.updatedAt}
+                 );
+        });         
+      })
       .then(list => {
-        //console.log(list);      
+        console.log(list);      
         this.setState({list, loading: false});
-        })
-      .catch(err => {console.log(err); })
+      })
+      .catch(err => {
+        console.log(err); 
+      })
     ;
   }
 

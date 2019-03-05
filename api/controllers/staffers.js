@@ -106,6 +106,7 @@ module.exports.stafferUpdateOne = function(req, res) {
           sendJSONresponse(res, 400, err);
           return;
         }
+        /*
         staff['rec#'] = req.body['rec#'];
         staff.Role = req.body.Role;
         staff.BlackList = req.body.BlackList;
@@ -127,7 +128,10 @@ module.exports.stafferUpdateOne = function(req, res) {
         staff.Ot = req.body.Ot;
         staff.To = req.body.To;
         staff.Host = req.body.Host;
-        
+        */
+
+        Object.assign(staff, req.body);
+
         staff.save(function(err, staffer) {
           if (err) {
             sendJSONresponse(res, 404, err);
@@ -139,7 +143,8 @@ module.exports.stafferUpdateOne = function(req, res) {
   );
 };
 
-/* DELETE /api/staffers/:placeId */
+
+/* DELETE /api/staffers/:staffId */
 module.exports.stafferDeleteOne = function(req, res) {
   if (req.params.stafferId != '1060') {
     sendJSONresponse(res, 404, {

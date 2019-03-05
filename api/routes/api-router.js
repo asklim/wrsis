@@ -2,6 +2,7 @@ const express = require('express');
 //import express from 'express';
 const router = express.Router();
 
+const ctrlAgents = require('../controllers/agents');
 const ctrlSaleplaces = require('../controllers/saleplaces');
 const ctrlStaffers = require('../controllers/staffers');
 const ctrlCatalogs = require('../controllers/catalogs');
@@ -28,6 +29,24 @@ router.get(catalogWeb, ctrlCatalogWeb.catalogReadOne);
  
 /*  get all catalogs (list?) */
 router.get(catalogs, ctrlCatalogs.catalogsAllClients);
+
+
+
+/**  
+ * api for 1 agent: /api/config/agents/<agentId>. 
+ */
+ const agents = '/config/agents';
+ const agentId = agents+'/:agentId';
+ 
+ router.get(agentId, ctrlAgents.readOne);
+ router.post(agents, ctrlAgents.create);
+ router.put(agentId, ctrlAgents.updateOne);
+ router.delete(agentId, ctrlAgents.deleteOne);
+ 
+ /* api for all agents */
+ router.get(agents, ctrlAgents.readListAll);
+
+
 
 
 /**  

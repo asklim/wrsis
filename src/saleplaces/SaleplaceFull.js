@@ -15,7 +15,7 @@ export default class SaleplaceFull extends React.Component {
 
     return (
       <div className='saleplacefull'>
-        <p className='splaceId'>ID: {data._id}</p>
+        <p className='splaceId'>ID: {data.id}</p>
         <p>rec#: {data['rec#']}</p>
         <p>Name: {data.Name}</p>
         <p>Full: {data.FullName}</p>
@@ -27,7 +27,7 @@ export default class SaleplaceFull extends React.Component {
         <p>Addr: {data.Address}</p>
         <p>Descr: {data.Description}</p>
         <p>Notes: {data.Notes}</p>
-        <p>Host: {data.Host}</p>
+        <p>Host: {data.host}</p>
         <p>Updated at: {data.updatedAt}</p>        
         <StarRating totalStars={7} starsSelected={data['rec#']} />
         <br/>
