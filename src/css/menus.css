@@ -27,7 +27,7 @@
 .main-menu a.active {
     color: orangered;
     font-weight: bold;
-    background-color: cyan;    
+    background-color: white;    
 }
 
 .main-menu ul {

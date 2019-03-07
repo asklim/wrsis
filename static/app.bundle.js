@@ -63,7 +63,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "58654d8812ea41254e5b";
+/******/ 	var hotCurrentHash = "04e92bc8fa4b433421d4";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -862,7 +862,7 @@ exports.push([module.i, ".leftpanel {\n  z-index: 1;\n  position: fixed;\n  top:
 
 exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, "#leftmenu {\n  height: 24vh; }\n\n.main-menu {\n  /*padding: 1em;*/\n  overflow: hidden;\n  display: flex;\n  flex-flow: row wrap;\n  width: 100%;\n  margin: 0.5em 0 0.5em 0;\n  /*float: left;*/\n  /*background-color: grey;*/ }\n\n.main-menu a {\n  margin: 0;\n  width: 200px;\n  padding: 0.25em 80% 0.25em 1em; }\n\n.main-menu a.active {\n  color: orangered;\n  font-weight: bold;\n  background-color: cyan; }\n\n.main-menu ul {\n  padding-left: 0px; }\n\n.main-menu li {\n  white-space: nowrap;\n  margin: 0.5em 0 0.5em 0;\n  list-style: none; }\n\n/*\n.right-menu \n{\n    list-style-type: none;\n    display: block;\n    height: 3em;\n    margin: 2px;\n    float: left;\n    /*background-color: grey;\n}\n\n.right-menu.selected {\n    background-color: whitesmoke;\n}\n\n.right-menu li {\n    margin: 0 0 0.5rem 0.5rem;\n}\n*/\n", ""]);
+exports.push([module.i, "#leftmenu {\n  height: 24vh; }\n\n.main-menu {\n  /*padding: 1em;*/\n  overflow: hidden;\n  display: flex;\n  flex-flow: row wrap;\n  width: 100%;\n  margin: 0.5em 0 0.5em 0;\n  /*float: left;*/\n  /*background-color: grey;*/ }\n\n.main-menu a {\n  margin: 0;\n  width: 200px;\n  padding: 0.25em 80% 0.25em 1em; }\n\n.main-menu a.active {\n  color: orangered;\n  font-weight: bold;\n  background-color: white; }\n\n.main-menu ul {\n  padding-left: 0px; }\n\n.main-menu li {\n  white-space: nowrap;\n  margin: 0.5em 0 0.5em 0;\n  list-style: none; }\n\n/*\n.right-menu \n{\n    list-style-type: none;\n    display: block;\n    height: 3em;\n    margin: 2px;\n    float: left;\n    /*background-color: grey;\n}\n\n.right-menu.selected {\n    background-color: whitesmoke;\n}\n\n.right-menu li {\n    margin: 0 0 0.5rem 0.5rem;\n}\n*/\n", ""]);
 
 
 
@@ -883,31 +883,31 @@ exports.push([module.i, ".rightpanel {\n  position: fixed;\n  /*left: 1200px;*/\
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js!./src/css/saleplaces.css":
-/*!***********************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/sass-loader/lib/loader.js!./src/css/saleplaces.css ***!
-  \***********************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
-// Module
-exports.push([module.i, ".saleplaceslist {\n  display: grid;\n  grid-template-columns: 1fr;\n  grid-column-gap: 1px;\n  background-color: whitesmoke; }\n  @media screen and (min-width: 900px) {\n    .saleplaceslist {\n      grid-template-columns: 1fr 1fr 1fr; } }\n  @media screen and (min-width: 1200px) {\n    .saleplaceslist {\n      grid-template-columns: 1fr 1fr; } }\n  @media screen and (min-width: 1500px) {\n    .saleplaceslist {\n      grid-template-columns: 1fr 1fr 1fr; } }\n  @media screen and (min-width: 1800px) {\n    .saleplaceslist {\n      grid-template-columns: 1fr 1fr 1fr 1fr; } }\n  @media screen and (min-width: 2100px) {\n    .saleplaceslist {\n      grid-template-columns: 1fr 1fr 1fr 1fr 1fr; } }\n\n.saleplacefull {\n  background: #ffffaa;\n  border: 1px solid rgba(0, 89, 181, 0.82);\n  width: 300px;\n  margin: 0 0 5px;\n  box-shadow: 2px 2px 5px -1px rgba(0, 81, 202, 0.66);\n  padding: 3px 5px; }\n\n.splaceId {\n  /*text-decoration: underline;*/\n  color: #007DDC; }\n\n.summary {\n  margin: 10px 0 0 0;\n  display: block; }\n", ""]);
-
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js!./src/css/star.css":
-/*!*****************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/sass-loader/lib/loader.js!./src/css/star.css ***!
-  \*****************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js!./src/misc/star.css":
+/*!******************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/sass-loader/lib/loader.js!./src/misc/star.css ***!
+  \******************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
 exports.push([module.i, ".star {\n  cursor: pointer;\n  height: 25px;\n  width: 25px;\n  margin: 2px;\n  float: left;\n  background-color: grey;\n  -webkit-clip-path: polygon(50% 0%, 63% 38%, 100% 38%, 69% 59%, 82% 100%, 50% 75%, 18% 100%, 31% 59%, 0% 38%, 37% 38%);\n          clip-path: polygon(50% 0%, 63% 38%, 100% 38%, 69% 59%, 82% 100%, 50% 75%, 18% 100%, 31% 59%, 0% 38%, 37% 38%); }\n\n.star.selected {\n  background-color: red; }\n", ""]);
+
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js!./src/saleplaces/saleplaces.css":
+/*!******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/sass-loader/lib/loader.js!./src/saleplaces/saleplaces.css ***!
+  \******************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
+// Module
+exports.push([module.i, ".saleplaceslist {\n  display: grid;\n  grid-template-columns: 1fr;\n  grid-column-gap: 1px;\n  background-color: whitesmoke; }\n  @media screen and (min-width: 900px) {\n    .saleplaceslist {\n      grid-template-columns: 1fr 1fr 1fr; } }\n  @media screen and (min-width: 1200px) {\n    .saleplaceslist {\n      grid-template-columns: 1fr 1fr; } }\n  @media screen and (min-width: 1500px) {\n    .saleplaceslist {\n      grid-template-columns: 1fr 1fr 1fr; } }\n  @media screen and (min-width: 1800px) {\n    .saleplaceslist {\n      grid-template-columns: 1fr 1fr 1fr 1fr; } }\n  @media screen and (min-width: 2100px) {\n    .saleplaceslist {\n      grid-template-columns: 1fr 1fr 1fr 1fr 1fr; } }\n\n.saleplacefull {\n  background: #ffffaa;\n  border: 1px solid rgba(0, 89, 181, 0.82);\n  width: 300px;\n  margin: 0 0 5px;\n  box-shadow: 2px 2px 5px -1px rgba(0, 81, 202, 0.66);\n  padding: 3px 5px; }\n\n.splaceId {\n  /*text-decoration: underline;*/\n  color: #007DDC; }\n\n.summary {\n  margin: 10px 0 0 0;\n  display: block; }\n", ""]);
 
 
 
@@ -37590,10 +37590,10 @@ FormAddColor.defaultProps = {
 
 /***/ }),
 
-/***/ "./src/MainMenu.2.js":
-/*!***************************!*\
-  !*** ./src/MainMenu.2.js ***!
-  \***************************/
+/***/ "./src/MainMenu.js":
+/*!*************************!*\
+  !*** ./src/MainMenu.js ***!
+  \*************************/
 /*! exports provided: MainMenu */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -37627,12 +37627,13 @@ var handleActive = function handleActive(match) //, location) =>
 
   return true;
 };
+/*
+const styleActive = { fontWeight: 'bold', 
+                      backgroundColor: 'white',
+                      color: 'orangered'};
+*/
 
-var styleActive = {
-  fontWeight: 'bold',
-  backgroundColor: 'white',
-  color: 'orangered'
-};
+
 var MainMenu = function MainMenu() {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "leftmenu",
@@ -37640,7 +37641,7 @@ var MainMenu = function MainMenu() {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
     exact: true,
     to: "/",
-    activeStyle: styleActive,
+    activeClassName: "main-menu active",
     isActive: handleActive
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     style: {
@@ -37648,23 +37649,23 @@ var MainMenu = function MainMenu() {
     }
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaHome"], null), " Home"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
     to: "/about",
-    activeStyle: styleActive,
+    activeClassName: "main-menu active",
     isActive: handleActive
   }, "[About] ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaHome"], null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
     to: "/events",
-    activeStyle: styleActive,
+    activeClassName: "main-menu active",
     isActive: handleActive
   }, "[Events]")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
     to: "/products",
-    activeStyle: styleActive,
+    activeClassName: "main-menu active",
     isActive: handleActive
   }, "[Products]")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
     to: "/cash",
-    activeStyle: styleActive,
+    activeClassName: "main-menu active",
     isActive: handleActive
   }, "\u0412\u044B\u0440\u0443\u0447\u043A\u0430")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
     to: "/agents",
-    activeStyle: styleActive,
+    activeClassName: "main-menu active",
     isActive: handleActive
   }, "\u0421\u0443\u0431\u044A\u0435\u043A\u0442\u044B"))));
 };
@@ -37688,7 +37689,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PageTemplate", function() { return PageTemplate; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _MainMenu_2_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MainMenu.2.js */ "./src/MainMenu.2.js");
+/* harmony import */ var _MainMenu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MainMenu */ "./src/MainMenu.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _css_leftPanel_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./css/leftPanel.css */ "./src/css/leftPanel.css");
@@ -37715,7 +37716,7 @@ var PageTemplate = function PageTemplate(_ref) {
     className: "leftpanel"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "signin"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MainMenu_2_js__WEBPACK_IMPORTED_MODULE_1__["MainMenu"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MainMenu__WEBPACK_IMPORTED_MODULE_1__["MainMenu"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "info"
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "container"
@@ -38449,116 +38450,6 @@ if(true) {
 
 /***/ }),
 
-/***/ "./src/css/saleplaces.css":
-/*!********************************!*\
-  !*** ./src/css/saleplaces.css ***!
-  \********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/postcss-loader/src??ref--5-2!../../node_modules/sass-loader/lib/loader.js!./saleplaces.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js!./src/css/saleplaces.css");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(true) {
-	module.hot.accept(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/postcss-loader/src??ref--5-2!../../node_modules/sass-loader/lib/loader.js!./saleplaces.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js!./src/css/saleplaces.css", function() {
-		var newContent = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/postcss-loader/src??ref--5-2!../../node_modules/sass-loader/lib/loader.js!./saleplaces.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js!./src/css/saleplaces.css");
-
-		if(typeof newContent === 'string') newContent = [[module.i, newContent, '']];
-
-		var locals = (function(a, b) {
-			var key, idx = 0;
-
-			for(key in a) {
-				if(!b || a[key] !== b[key]) return false;
-				idx++;
-			}
-
-			for(key in b) idx--;
-
-			return idx === 0;
-		}(content.locals, newContent.locals));
-
-		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
-
-		update(newContent);
-	});
-
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
-/***/ "./src/css/star.css":
-/*!**************************!*\
-  !*** ./src/css/star.css ***!
-  \**************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/postcss-loader/src??ref--5-2!../../node_modules/sass-loader/lib/loader.js!./star.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js!./src/css/star.css");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(true) {
-	module.hot.accept(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/postcss-loader/src??ref--5-2!../../node_modules/sass-loader/lib/loader.js!./star.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js!./src/css/star.css", function() {
-		var newContent = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/postcss-loader/src??ref--5-2!../../node_modules/sass-loader/lib/loader.js!./star.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js!./src/css/star.css");
-
-		if(typeof newContent === 'string') newContent = [[module.i, newContent, '']];
-
-		var locals = (function(a, b) {
-			var key, idx = 0;
-
-			for(key in a) {
-				if(!b || a[key] !== b[key]) return false;
-				idx++;
-			}
-
-			for(key in b) idx--;
-
-			return idx === 0;
-		}(content.locals, newContent.locals));
-
-		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
-
-		update(newContent);
-	});
-
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
 /***/ "./src/hello/Comments.js":
 /*!*******************************!*\
   !*** ./src/hello/Comments.js ***!
@@ -38941,8 +38832,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _css_star_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../css/star.css */ "./src/css/star.css");
-/* harmony import */ var _css_star_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_css_star_css__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _star_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./star.css */ "./src/misc/star.css");
+/* harmony import */ var _star_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_star_css__WEBPACK_IMPORTED_MODULE_2__);
 
 
 
@@ -39089,6 +38980,61 @@ _defineProperty(StarRating, "defaultProps", {
 
 /***/ }),
 
+/***/ "./src/misc/star.css":
+/*!***************************!*\
+  !*** ./src/misc/star.css ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/postcss-loader/src??ref--5-2!../../node_modules/sass-loader/lib/loader.js!./star.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js!./src/misc/star.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(true) {
+	module.hot.accept(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/postcss-loader/src??ref--5-2!../../node_modules/sass-loader/lib/loader.js!./star.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js!./src/misc/star.css", function() {
+		var newContent = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/postcss-loader/src??ref--5-2!../../node_modules/sass-loader/lib/loader.js!./star.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js!./src/misc/star.css");
+
+		if(typeof newContent === 'string') newContent = [[module.i, newContent, '']];
+
+		var locals = (function(a, b) {
+			var key, idx = 0;
+
+			for(key in a) {
+				if(!b || a[key] !== b[key]) return false;
+				idx++;
+			}
+
+			for(key in b) idx--;
+
+			return idx === 0;
+		}(content.locals, newContent.locals));
+
+		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
+
+		update(newContent);
+	});
+
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
 /***/ "./src/saleplaces/SaleplaceFull.js":
 /*!*****************************************!*\
   !*** ./src/saleplaces/SaleplaceFull.js ***!
@@ -39104,8 +39050,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _misc_StarRating_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../misc/StarRating.js */ "./src/misc/StarRating.js");
-/* harmony import */ var _css_saleplaces_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../css/saleplaces.css */ "./src/css/saleplaces.css");
-/* harmony import */ var _css_saleplaces_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_css_saleplaces_css__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _saleplaces_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./saleplaces.css */ "./src/saleplaces/saleplaces.css");
+/* harmony import */ var _saleplaces_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_saleplaces_css__WEBPACK_IMPORTED_MODULE_3__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -39398,6 +39344,61 @@ _defineProperty(SaleplacesSummary, "propTypes", {
 });
 
 
+
+/***/ }),
+
+/***/ "./src/saleplaces/saleplaces.css":
+/*!***************************************!*\
+  !*** ./src/saleplaces/saleplaces.css ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/postcss-loader/src??ref--5-2!../../node_modules/sass-loader/lib/loader.js!./saleplaces.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js!./src/saleplaces/saleplaces.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(true) {
+	module.hot.accept(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/postcss-loader/src??ref--5-2!../../node_modules/sass-loader/lib/loader.js!./saleplaces.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js!./src/saleplaces/saleplaces.css", function() {
+		var newContent = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/postcss-loader/src??ref--5-2!../../node_modules/sass-loader/lib/loader.js!./saleplaces.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js!./src/saleplaces/saleplaces.css");
+
+		if(typeof newContent === 'string') newContent = [[module.i, newContent, '']];
+
+		var locals = (function(a, b) {
+			var key, idx = 0;
+
+			for(key in a) {
+				if(!b || a[key] !== b[key]) return false;
+				idx++;
+			}
+
+			for(key in b) idx--;
+
+			return idx === 0;
+		}(content.locals, newContent.locals));
+
+		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
+
+		update(newContent);
+	});
+
+	module.hot.dispose(function() { update(); });
+}
 
 /***/ })
 

@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 //import { Link } from 'react-router-dom';
-import { MainMenu } from './MainMenu.2.js';
+import { MainMenu } from './MainMenu';
 //import { RightMenu } from './RightMenu';
 import PropTypes from 'prop-types';
 

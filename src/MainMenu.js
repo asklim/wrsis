@@ -2,71 +2,76 @@
 import React from 'react';
 import { FaHome } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
-import { Nav, NavItem } from 'react-bootstrap';
-
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './css/menus.css';
 
 
-const selectedStyle = {
-  backgroundColor: "darkorange",
-  color: "slategray"
+const handleActive = (match) => //, location) => 
+{  
+  if (!match) { 
+    return false;
+  }
+  //console.log('MainMenu.2 match', match);
+  //console.log('MainMenu.2 location', location);
+  if (match.isExact) {
+    document.title = `${match.url} - rsis`;    
+  }
+  return true;
 };
 
-/*    
-    <NavLink to="/">
-      <span style="font-size: 3em; color: darkorange;">
-        <i className="fas fa-home"></i>
-      </span>      
-    </NavLink>
+/*
+const styleActive = { fontWeight: 'bold', 
+                      backgroundColor: 'white',
+                      color: 'orangered'};
 */
 
-function handleSelect(selectedKey) {
-  //console.log(`MainMenu selected ${selectedKey}`);
-  document.title = `${selectedKey} - rsis`;
-}
+export const MainMenu = () =>
+<div
+  id="leftmenu" className="main-menu">
+  <ul>
+    <li><NavLink exact to="/"
+        activeClassName='main-menu active'
+        isActive={handleActive}
+    >
+        <span style={{font:'2em'}}>
+            <FaHome /> Home
+        </span>
+    </NavLink></li>
 
+    <li><NavLink to="/about"
+        activeClassName='main-menu active'
+        isActive={handleActive}
+       >[About] <FaHome/>
+    </NavLink></li>
 
-export const MainMenu = () => (
+    <li><NavLink to="/events"
+        activeClassName='main-menu active'   
+        isActive={handleActive}
+        >[Events]      
+    </NavLink></li>
 
-  <Nav className="main-menu" bsStyle="pills" stacked activeKey={1} 
-       onSelect={handleSelect}>
+    <li><NavLink to="/products"
+        activeClassName='main-menu active'
+        isActive={handleActive}
+        >[Products]      
+    </NavLink></li>
 
-    <NavItem eventKey={'home'} href="/">
-      <NavLink to="/">
-        <FaHome />     
-      </NavLink>
-    </NavItem>
+    <li><NavLink to="/cash"
+        activeClassName='main-menu active'
+        isActive={handleActive}
+        >Выручка
+    </NavLink></li>
 
-    <NavItem eventKey={'about'} href="/about">
-      <NavLink to="/about" activeStyle={selectedStyle}>
-        [About]
-      </NavLink>
-    </NavItem>
+    <li><NavLink to="/agents"
+        activeClassName='main-menu active'
+        isActive={handleActive}
+        >Субъекты
+    </NavLink></li>
+  </ul>
+</div>;
 
-    <NavItem eventKey={'events'} href="/events">
-      <NavLink to="/events" activeStyle={selectedStyle}>
-        [Events]
-      </NavLink>
-    </NavItem>
-
-    <NavItem eventKey={'products'} href="/products">
-      <NavLink to="/products" activeStyle={selectedStyle}>
-        [Products]
-      </NavLink>
-    </NavItem>
-
-    <NavItem eventKey={'cash'} href="/cash">
-      <NavLink to="/cash" activeStyle={selectedStyle}>
-        [Выручка]
-      </NavLink>
-    </NavItem>
-
-    <NavItem eventKey={'contact'} href="/contact">
-      <NavLink to="/contact" activeStyle={selectedStyle}>
-        [Contact Us]
-      </NavLink>
-    </NavItem>
-  </Nav>
-);
+/*
+<NavItem eventKey={'contact'} href="/#/contact">
+[Contact Us]
+</NavItem>
+*/
