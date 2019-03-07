@@ -7,15 +7,15 @@ import './css/contentAbout.css';
 
 export const About = () =>
 <PageTemplate>
-  <section className="about">
+  <section className="aboutLayout">
     
     <a id="our-services1"></a>
     <h1>About</h1>
     <hr className="separate"/>
 
     <div className="aboutWrapper">
-    <div className="aboutElements">
 
+      <div className="aboutElements">
         <h2>Our Services One</h2>
         <h5>
           <HLink to="/about#our-services2">Our Services Two</HLink>
@@ -52,10 +52,9 @@ export const About = () =>
           conubia nostra, per inceptos himenaeos.
         </p>
         <hr className="separate-elements"/>
-    </div>
+      </div>
 
-    <div className="aboutElements">
-
+      <div className="aboutElements">
         <a id="our-services2"></a>
         <h2>Our Services Two</h2>
         <h5>
@@ -93,10 +92,9 @@ export const About = () =>
           conubia nostra, per inceptos himenaeos.
         </p>
         <hr className="separate-elements"/>
-    </div>
+      </div>
 
-    <div className="aboutElements">
-
+      <div className="aboutElements">
         <a id="our-services3"></a>
         <h2>Our Services Three</h2>
         <h5>
@@ -134,7 +132,7 @@ export const About = () =>
           conubia nostra, per inceptos himenaeos.
         </p>
         <hr className="separate-elements"/>
-    </div>
+      </div>
     </div>
   </section>
 </PageTemplate>;

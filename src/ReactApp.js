@@ -3,8 +3,7 @@
 import './css/app.css';
 import React from 'react';
 import { render } from 'react-dom';
-
-//import { createHashHistory } from 'history';
+//import { createBrowserHistory } from 'history';
 import {
   HashRouter as Router
   , Route
@@ -16,29 +15,31 @@ import { Home } from './contentHome';
 import { Events } from './contentEvents';
 import { Products } from './contentProducts';
 import { Contact } from './contentContact';
+import { Agents } from './contentAgents';
 import { Cash } from './contentCash';
 import { Whoops404 } from './contentWhoops404';
 
 
 window.React = React;
-//const hashHistory = createHashHistory();
+//const browserHistory = createBrowserHistory();
 
 render(
-  <Router> 
-  <div className='react-router'>
+  //<Router history={browserHistory}> 
+  <Router>
     <Switch>
       <Route exact path="/" component={Home} />
       <Route path="/about" component={About} />
+      <Route path="/agents" component={Agents} />      
       <Route path="/cash" component={Cash} />
+      <Route path="/contact" component={Contact} />      
       <Route path="/events" component={Events} />
       <Route path="/products" component={Products} />
-      <Route path="/contact" component={Contact} />
       <Route component={Whoops404} />
-    </Switch>  
-  </div>  
+    </Switch> 
   </Router>,
   document.getElementById('react-app')
 );
+
 
 if (module.hot) {
     module.hot.accept();

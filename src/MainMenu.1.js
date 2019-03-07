@@ -3,7 +3,10 @@ import React from 'react';
 import { FaHome } from 'react-icons/fa';
 //import { NavLink } from 'react-router-dom';
 import { Nav, NavItem } from 'react-bootstrap';
-
+/*
+react-bootstrap is added approx. 1MB and 
+                257 modules to bundle.js 
+*/
 //import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './css/menus.css';
@@ -15,15 +18,16 @@ function handleSelect(selectedKey) {
 }
 
 
-export const MainMenu = () => (
+export const MainMenu = () =>
+<div 
+  id="leftmenu" className="main-menu">
 
-  <Nav className="main-menu" 
-       bsStyle="pills" 
+  <Nav bsStyle="pills" 
        stacked activeKey={1} 
        onSelect={handleSelect}>
 
     <NavItem eventKey={'home'} href="/#/">
-        <span style={{font:'36px'}}><FaHome /> [home.1]</span>
+        <span style={{'font-size':'36px'}}><FaHome /> [home.1]</span>
     </NavItem>
 
     <NavItem eventKey={'about'} href="/#/about">
@@ -39,11 +43,17 @@ export const MainMenu = () => (
     </NavItem>
 
     <NavItem eventKey={'cash'} href="/#/cash">
-        [Выручка]
+        Выручка
     </NavItem>
 
-    <NavItem eventKey={'contact'} href="/#/contact">
-        [Contact Us]
+    <NavItem eventKey={'agents'} href="/#/agents">
+        Субъекты
     </NavItem>
-  </Nav>
-);
+  </Nav>  
+</div>;
+
+/*
+<NavItem eventKey={'contact'} href="/#/contact">
+[Contact Us]
+</NavItem>
+*/

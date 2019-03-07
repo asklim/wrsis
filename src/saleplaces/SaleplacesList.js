@@ -28,12 +28,10 @@ export default class SaleplacesList extends React.Component {
     console.log(route);
 
     fetch(route)
-      .then( response => {        
-        return response.json();  // [{}, ..., {}]
-      })
+      .then( response => response.json())  // [{}, ..., {}]      
       .then( agents => {
         //console.log(places);
-        return agents.filter( agent => agent.type == 'saleplace' );
+        return agents.filter( agent => agent.type == 'saleplace');
       })
       .then( places => {
         // console.log(places);
@@ -47,7 +45,7 @@ export default class SaleplacesList extends React.Component {
         });         
       })
       .then(list => {
-        console.log(list);      
+        //console.log(list);      
         this.setState({list, loading: false});
       })
       .catch(err => {
@@ -57,17 +55,13 @@ export default class SaleplacesList extends React.Component {
   }
 
   _templateSimpleDiv = (lst) =>
-  {
-    return lst.map((item,index) => 
-    {
-      //console.log(item);
-      return (
-        <div key={index}>
-          <SaleplaceFull data={item} />
-        </div>  
-      );
-    });
-  }
+    lst.map(
+    (item,index) => 
+      <div key={index}>
+        <SaleplaceFull data={item} />
+      </div>  
+  );
+    
 
   _templateHorizontalInline = (lst) =>
   {
