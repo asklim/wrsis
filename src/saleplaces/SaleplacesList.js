@@ -18,6 +18,10 @@ export default class SaleplacesList extends React.Component {
     this._getPlacesList();
   }
 
+  //FE - функциональное выражение: 
+  //     this определяется в момент вызова.
+  //  Привязка в конструкторе не нужна.
+
   _getPlacesList = () =>
   {
     //console.log('getPlacesList');
@@ -28,25 +32,37 @@ export default class SaleplacesList extends React.Component {
     console.log(route);
 
     fetch(route)
-      .then( response => response.json())  // [{}, ..., {}]      
+      .then( response => response.json())  // '[{}, ..., {}]'      
       .then( agents => {
         //console.log(places);
-        return agents.filter( agent => agent.type == 'saleplace');
+        return agents.filter( 
+          agent => agent.type == 'saleplace'
+        );
       })
       .then( places => {
         // console.log(places);
-        return places.map( place => {
-                 return Object.assign( {},
-                   place.body,
-                   {id: place.id},
-                   {host: place.host},
-                   {updatedAt: place.updatedAt}
-                 );
+        return places.map( 
+          (place) => {
+            let {id, host, updatedAt} = place;
+            return ( 
+              {...place.body, 
+               id,
+               host,
+               updatedAt
+              }
+              /*Object.assign( {},              
+                place.body,
+                {id: place.id},
+                {host: place.host},
+                {updatedAt: place.updatedAt}              
+              )*/
+            );
         });         
       })
       .then(list => {
         //console.log(list);      
-        this.setState({list, loading: false});
+        this.setState({list});
+        this.setState({loading: false});        
       })
       .catch(err => {
         console.log(err); 

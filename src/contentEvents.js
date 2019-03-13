@@ -8,8 +8,9 @@ import {
 
 export const Events = () =>
   <PageTemplate>
-    <section className="events">
+    <section className="eventsLayout">
       <h1>[Event Calendar]</h1>    
+      <hr className="separate"/>
       <ColorPickupBody colors={defaultColors}/>
     </section>
   </PageTemplate>;

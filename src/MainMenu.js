@@ -1,8 +1,18 @@
 'use strict';
 import React from 'react';
-import { FaHome } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
-
+import { 
+  FaHome,
+  FaFontAwesomeLogoFull as FaEmpty,
+  FaVectorSquare as FaAgents,
+  FaInfoCircle as FaInfo,
+  FaRegMoneyBillAlt as FaMoney 
+} from 'react-icons/fa';
+/**
+ * использование двух доп.шрифтов:
+ * Github octicons and Game Icons
+ * увеличило bundle.js с 2.6 до 9.3 MiB !!!
+ */
 import './css/menus.css';
 
 
@@ -30,42 +40,47 @@ export const MainMenu = () =>
   id="leftmenu" className="main-menu">
   <ul>
     <li><NavLink exact to="/"
-        activeClassName='main-menu active'
-        isActive={handleActive}
-    >
-        <span style={{font:'2em'}}>
-            <FaHome /> Home
-        </span>
+      activeClassName='main-menu active'
+      isActive={handleActive}
+      >
+      <span style={{font:'2em'}}>
+        <FaHome /> Home
+      </span>
     </NavLink></li>
 
     <li><NavLink to="/about"
-        activeClassName='main-menu active'
-        isActive={handleActive}
-       >[About] <FaHome/>
+      activeClassName='main-menu active'
+      isActive={handleActive}
+      >
+      <span><FaInfo/> About</span>
     </NavLink></li>
 
     <li><NavLink to="/events"
         activeClassName='main-menu active'   
         isActive={handleActive}
-        >[Events]      
+        >
+        <span><FaEmpty/> Events</span>
     </NavLink></li>
 
     <li><NavLink to="/products"
         activeClassName='main-menu active'
         isActive={handleActive}
-        >[Products]      
+        >
+        <span><FaEmpty/> Products</span>
     </NavLink></li>
 
     <li><NavLink to="/cash"
         activeClassName='main-menu active'
         isActive={handleActive}
-        >Выручка
+        >
+        <span><FaMoney/> Выручка</span>
     </NavLink></li>
 
     <li><NavLink to="/agents"
-        activeClassName='main-menu active'
-        isActive={handleActive}
-        >Субъекты
+      activeClassName='main-menu active'
+      isActive={handleActive}
+      >
+      <span><FaAgents/> Субъекты</span>
     </NavLink></li>
   </ul>
 </div>;

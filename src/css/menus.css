@@ -41,6 +41,11 @@
     list-style: none;
 }
 
+.main-menu span
+{
+    /*white-space: nowrap;*/
+    vertical-align: text-top;
+}
 
 /*
 .right-menu 

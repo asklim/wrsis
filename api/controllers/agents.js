@@ -3,8 +3,10 @@ var db = require('../databases/databases').getDB('config');
 var Agent = db.model('Agent');
 
 
-const sendJSONresponse = (res, status, content) => 
+const sendJSONresponse = (res, status, content) =>
 {
+  //console.log('sendJSON: ', content);
+  //console.log('sendJSON: ', Object.keys(content[0]));
   logAgents(content);
   res.status(status);
   res.json(content);
@@ -20,37 +22,55 @@ const sendJSONresponse = (res, status, content) =>
  */
 function logAgents(content) 
 {
-  //console.log(`${typeof(content)}`); // object
+
+
+  //console.log('typeof content: ', typeof content); // object
+  //console.log('content isArray: ', Array.isArray(content));
   if (Array.isArray(content)) 
   {
-    if (content.length>0)
+    if (!content.length)    
     {
-      if (typeof content[0] === 'object')
-      {
-        const shortAgents = content.map( 
-          (agent) => {
-            let { id, type, group } = agent;
-            return {          
-              id,
-              type,
-              group
-            };
-        });
-        console.log(`agents[{},{}]:`);
-        console.log(shortAgents);
-      }
-      else {
-        console.log(`agent [array]:`);
-        console.log( content );
-      }
-    }
-    else {
       console.log(`agent [empty]:`);
-      console.log( content );      
+      console.log( content );
+      return;   
     }
+
+    //console.log('typeof content[0]: ', typeof content[0] );
+    // object or string
+
+    if (typeof content[0] === 'string')
+    {
+      console.log(`agents [string, ...]:`);
+      console.log( content );
+      return;
+    }
+
+    //console.log('logAgents: ', Object.keys(content[0]));
+    // [ '$__', 'isNew', 'errors', '_doc', '$init' ]
+
+    //console.log('logAgents: ');
+    //console.dir( content[0], {colors: true});
+    const shortAgents = content.map( 
+      (agent) => 
+      {
+        let { id, type, group, caption } = agent._doc;            
+        /*let {id} = agent._doc;
+        let {type} = agent._doc;
+        let {group} = agent._doc;
+        let {caption} = agent._doc;*/
+        let res = {id};
+        if (type) res = {...res, type};
+        if (group) res = {...res, group};
+        if (caption) res = {...res, caption};
+        return res;
+      }
+    );        
+    console.log(`agents [{}, ... ]:`);
+    console.log(shortAgents);
+
   }
   else {
-    console.log(`agent {object}:`);
+    console.log(`agent one {object}:`);
     console.log( content );
   }
 }
@@ -205,21 +225,47 @@ module.exports.readListAll = (req, res) =>
     let propName;
     let projection;
     const projections = {
-      'types': {type: 1},
-      'groups': {group: 1},
-      'ids' : {id: 1}
+       'types': {_id: 0, type: 1},
+      'groups': {_id: 0, group: 1},
+        'ids' : {_id: 0, id: 1},
+       'list' : {_id: 0, id: 1, caption: 1}
     };    
-    if (req.query && Object.keys(req.query).length != 0) {
+    let queryLength = Object.keys(req.query).length;
+    let conditions = {}; // all agents
+
+    if (req.query && queryLength) // !==0
+    {
       propName = Object.keys(req.query)[0];
+      if(!(propName in projections)) 
+      {
+        sendJSONresponse(res, 404, {
+          'message': 'No valid params in request'
+        });
+        return;
+      }
+
       projection = projections[propName] || '';
+      if (queryLength > 1)
+      {
+        //let {type, group} = req.query;
+        let type = new RegExp(req.query.type,'i');
+        let group = new RegExp(req.query.group,'i');
+        if (req.query.type) { 
+          conditions = {...conditions, type};
+        }
+        if (req.query.group) {
+          conditions = {...conditions, group};
+        } 
+      }
     }
     else {
       projection = '';
     }    
+    console.log('conditions: ', conditions);
     console.log('projection: ', projection);
 
-    Agent
-    .find({}, // all agents
+    Agent.find(
+      conditions, 
       projection,
       (err, agents) =>
       {
@@ -229,14 +275,18 @@ module.exports.readListAll = (req, res) =>
           });
           return;
         } 
-        else if (err) {
+       
+        if (err) {
           console.log(err);
           sendJSONresponse(res, 404, err);
           return;
-        }
-
-        if (propName && propName !=='') 
-        {         
+        }       
+        
+        //console.log('readAll: ', Object.keys(agents));
+        //console.log('agents Before: ', agents[0]);
+        //console.log('propName: ', propName);
+        if (propName) // && propName !=='') 
+        {          
           let docs;
           switch (propName.toLowerCase()) 
           {
@@ -247,10 +297,17 @@ module.exports.readListAll = (req, res) =>
               docs = uniqueValue( agents, 'group');
               break;
             case 'ids':
-              docs = uniqueValue( agents, 'id');
+              docs = uniqueValue( agents, 'id');              
               break;
+            default:
+              docs = [...agents];
+              
           }
+          //console.log('readAll: ', Object.keys(docs[0]));
+          //console.log('docs[0]: ', docs[0]);
+          //console.dir(docs);
           sendJSONresponse(res, 200, docs);
+          return;
         }
         else {  
           sendJSONresponse(res, 200, agents);
@@ -271,7 +328,7 @@ function uniqueValue( arr, propName )
 {
   let arrSet = new Set();
   arr.forEach( elem => {arrSet.add(elem[propName]);});
-  let result = [];
+  var result = [];
   arrSet.forEach( elem => {result.push(elem);});
   return result;
 }

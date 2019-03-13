@@ -15,6 +15,7 @@ export const PageTemplate = ({children}) =>
   
   <div className="leftpanel">
     <div id="signin">
+      <h5>0.0.2</h5>
     </div>
 
     <MainMenu />      

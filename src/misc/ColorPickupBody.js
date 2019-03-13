@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ColorList from './../misc/ColorList.js';
-import FormAddColor from './../FormAddColor.js';
+import ColorList from './ColorList.js';
+import FormAddColor from './FormAddColor.js';
 import { v4 } from 'uuid';
 
 
@@ -33,14 +33,16 @@ export class ColorPickupBody extends React.Component {
     this.state = {
       colors: props.colors || []
     };
-    this.addColor = this.addColor.bind(this);
+    //this.addColor = this.addColor.bind(this);
+    //для функц.выражения это не надо
   }
 
   static propTypes = {
     colors: PropTypes.array
   }
 
-  addColor(title, color) {
+  addColor = (title, color) =>
+  {
     const colors = [
       ...this.state.colors,
       {
@@ -53,8 +55,8 @@ export class ColorPickupBody extends React.Component {
     this.setState({colors});
   }
 
-  render() {
-    //const { addColor } = this;
+  render()
+  {    
     const { colors } = this.state;
     return (
       <div className="colorPickupBody">                
