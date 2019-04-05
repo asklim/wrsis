@@ -6,12 +6,13 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-//var mongoose = require('mongoose');
+const passport = require('passport');
+//passport before dbs-models
+
 var dbs = require('../api/databases/databases');
-
-//require('./api/models/db');
-
 dbs.createConns();
+
+require('../api/passport'); //after db create models
 
 //debug/statistic info for Mongo DB
 //var dbInfo = require('./api/models/dbinfo');
@@ -22,7 +23,7 @@ dbs.createConns();
 
 var indexRouter = require('./routes/index-router');
 var usersRouter = require('./routes/users-router');
-var apiRouter = require('../api/routes/api-router');
+var apiRouter = require('../api/routes');
 
 var app = express();
 
@@ -45,6 +46,8 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, './../public')));
 app.use(express.static(path.join(__dirname, './../static')));
+
+app.use(passport.initialize());
 
 app.use('/api', apiRouter);
 app.use('/users', usersRouter);

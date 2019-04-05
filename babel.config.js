@@ -1,7 +1,7 @@
 module.exports = function (api) {
 
   const presets = [
-    [ "@babel/env",
+    [ "@babel/preset-env",
       {
         targets: {
           edge: "17",

@@ -34,6 +34,12 @@ const db = conn.createConn(uri, title);
 
 // BRING IN YOUR SCHEMAS & MODELS
 
+const agentSchema = require('../../api/models/agents');
+db.model('Agent', agentSchema, 'agents'); 
+
+const userSchema = require('../../api/models/users');
+db.model('User', userSchema, 'users'); 
+
 const salePlaceSchema = require('../../api/models/saleplaces');
 db.model('SalePlace', salePlaceSchema, 'salePlaces'); 
 // last arg - collection`s name in MongoDB
@@ -45,7 +51,5 @@ db.model('Staffer', stafferSchema, 'staffers');
 const idMappingSchema = require('../../api/models/catalogs').idMappingExcel;
 db.model('IdMappingExcel', idMappingSchema, 'catalogs'); 
 
-const agentSchema = require('../../api/models/agents');
-db.model('Agent', agentSchema, 'agents'); 
 
 module.exports = db;
