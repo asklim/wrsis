@@ -1,10 +1,9 @@
-//#!/usr/bin/env node
 "use strict";
 /**
  * Module dependencies.
  */
 
-var app = require('../server/app-server');
+var app = require('./app-server');
 var debug = require('debug')('rsisexpress:server');
 var http = require('http');
 

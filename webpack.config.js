@@ -5,7 +5,6 @@ module.exports = {
   mode:"development",
   entry: {
     app: './src/ReactApp.js'
-    //server: './bin/www.js'
   },
   output: {
     filename: '[name].bundle.js',

@@ -188,9 +188,17 @@ module.exports.updateOne = (req, res) =>
  */
 module.exports.deleteOne = (req, res) =>
 {
+  //console.log('dOne: Finding agent`s params: ', req.params);
+  //console.log('dOne: Finding agent`s query: ', req.query);
   const { agentId } = req.params;
-  if (agentId) 
+
+  if (!agentId || agentId==='') 
   {
+    sendJSONresponse(res, 404, {
+      'message': 'No agent.id'
+    });    
+  } 
+  else {
     Agent.findOneAndDelete(
       {id: agentId},
       (err) =>
@@ -202,11 +210,6 @@ module.exports.deleteOne = (req, res) =>
         }
         console.log('Agent id ' + agentId + ' deleted');
         sendJSONresponse(res, 204, null);
-    });
-  } 
-  else {
-    sendJSONresponse(res, 404, {
-      'message': 'No agent.id'
     });
   }
 };
