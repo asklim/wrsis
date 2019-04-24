@@ -1,10 +1,10 @@
-'use strict';
+
 import React from 'react';
-import { PageTemplate } from './PageTemplate';
+import { PageTemplate } from '../layouts/PageTemplate';
 import {
   ColorPickupBody, 
   defaultColors 
-} from './misc/ColorPickupBody.js';
+} from '../components/misc/ColorPickupBody.js';
 
 export const Events = () =>
   <PageTemplate>

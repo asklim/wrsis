@@ -3,17 +3,17 @@ import React from 'react';
 
 import AgentSelector from './AgentSelector';
 import AgentEditor from './AgentEditor';
-import './AgentEditorForm.css';
+import './AgentsEditor.css';
 
 
-export default class AgentEditorForm extends React.Component
+export default class AgentsEditor extends React.Component
 {
 
   render()
   {
     return (
     <div>
-      <div className='AgentEditorFormWrapper'>
+      <div className='AgentsEditorWrapper'>
         <AgentSelector/>
         <AgentEditor />
       </div>

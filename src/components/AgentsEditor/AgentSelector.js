@@ -1,7 +1,7 @@
 import React from 'react';
 //import PropTypes from 'prop-types';
 
-import ErrorBoundary from './../misc/ErrorBoundary';
+import ErrorBoundary from '../misc/ErrorBoundary';
 
 
 const AGENTS_TYPES = [
@@ -204,7 +204,7 @@ export default class AgentSelector extends React.Component
   render()
   {
     return (
-      <div className='AgentFormElement'>
+      <div className='AgentsEditorElement'>
         <h5>Agent Selector</h5>
         <ErrorBoundary>
         {this.renderSelector()}

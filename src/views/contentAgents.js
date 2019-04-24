@@ -1,8 +1,7 @@
-'use strict';
 import React from 'react';
-import { PageTemplate } from './PageTemplate';
 
-import AgentEditorForm from './agenteditor/AgentEditorForm'; 
+import { PageTemplate } from '../layouts/PageTemplate';
+import AgentsEditor from '../components/AgentsEditor'; 
 
 export const Agents = () =>
   <PageTemplate>
@@ -11,6 +10,6 @@ export const Agents = () =>
       <h6>Субъекты, взаимодействующие между собой.</h6>
       <hr className="separate"/>
 
-      <AgentEditorForm />
+      <AgentsEditor />
     </section>
   </PageTemplate>;

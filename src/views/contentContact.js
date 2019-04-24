@@ -1,10 +1,14 @@
-'use strict';
 import React from 'react';
-import { PageTemplate } from './PageTemplate';
+
+import { PageTemplate } from '../layouts/PageTemplate';
+import TodosEditor from '../components/TodosEditor';
 
 export const Contact = () =>
   <PageTemplate>
     <section className="contact">
       <h1>[Contact Us]</h1>
+
+      <TodosEditor/>
+
     </section>
   </PageTemplate>;

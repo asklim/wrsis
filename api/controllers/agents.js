@@ -1,4 +1,3 @@
-"use strict";
 var db = require('../databases/databases').getDB('config');
 var Agent = db.model('Agent');
 

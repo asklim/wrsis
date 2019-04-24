@@ -1,13 +1,13 @@
 
 import React from 'react';
 //import { Link } from 'react-router-dom';
-import { MainMenu } from './layouts/MainMenu';
+import { MainMenu } from './MainMenu';
 //import { RightMenu } from './RightMenu';
 import PropTypes from 'prop-types';
 
-import './css/leftPanel.css';
-import './css/rightPanel.css';
-import './css/container.css';
+import './../assets/css/leftPanel.css';
+import './../assets/css/rightPanel.css';
+import './../assets/css/container.css';
 
 
 export const PageTemplate = ({children}) => 

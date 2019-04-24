@@ -1,8 +1,9 @@
-'use strict';
+
 import React from 'react';
-import { PageTemplate } from './PageTemplate';
-import SaleplacesList from './saleplaces/SaleplacesList.js';
-//import './css/contentProducts.css';
+import { PageTemplate } from '../layouts/PageTemplate';
+import SaleplacesList from '../components/saleplaces/SaleplacesList.js';
+
+//import '../assets/css/contentProducts.css';
 
 
 export const Products = () =>

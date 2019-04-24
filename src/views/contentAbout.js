@@ -1,9 +1,9 @@
-'use strict';
+
 import React from 'react';
 import { HashLink as HLink } from 'react-router-hash-link';
 
-import { PageTemplate } from './PageTemplate';
-import './css/contentAbout.css';
+import { PageTemplate } from '../layouts/PageTemplate';
+import '../assets/css/contentAbout.css';
 
 export const About = () =>
 <PageTemplate>

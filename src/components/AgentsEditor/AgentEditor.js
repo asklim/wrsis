@@ -7,7 +7,7 @@ export default class AgentEditor extends React.Component
   render = () =>
   {    
     return (
-      <div className='AgentFormElement'>
+      <div className='AgentsEditorElement'>
         <h3>Agent Editor</h3>        
       </div>
     );

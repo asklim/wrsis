@@ -1,4 +1,4 @@
-.AgentEditorFormWrapper 
+.AgentsEditorWrapper 
 {
   display: grid;
   grid-template-columns: 1fr;
@@ -16,7 +16,7 @@
   }*/
 }
 
-.AgentFormElements 
+.AgentsEditorElement
 {
   background-color: #0069b3;
   /*display: flex;

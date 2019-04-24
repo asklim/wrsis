@@ -1,7 +1,7 @@
-'use strict';
+
 import React from 'react';
-import { PageTemplate } from './PageTemplate';
-import Hello from './hello/Hello.js';
+import { PageTemplate } from '../layouts/PageTemplate';
+import Hello from '../components/hello/Hello.js';
 
 export const Home = () =>
 

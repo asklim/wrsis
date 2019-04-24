@@ -1,6 +1,6 @@
-'use strict';
+
 import React from 'react';
-import { PageTemplate } from './PageTemplate';
+import { PageTemplate } from '../layouts/PageTemplate';
 import PropTypes from 'prop-types';
 
 export const Whoops404 = ({ location }) => (

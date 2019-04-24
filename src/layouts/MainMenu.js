@@ -1,4 +1,3 @@
-'use strict';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { 
@@ -12,8 +11,9 @@ import {
  * использование двух доп.шрифтов:
  * Github octicons and Game Icons
  * увеличило bundle.js с 2.6 до 9.3 MiB !!!
- */
-import './css/menus.css';
+**/
+
+import '../assets/css/menus.css';
 
 
 const handleActive = (match) => //, location) => 
@@ -82,6 +82,14 @@ export const MainMenu = () =>
       >
       <span><FaAgents/> Субъекты</span>
     </NavLink></li>
+
+    <li><NavLink to="/contact"
+      activeClassName='main-menu active'
+      isActive={handleActive}
+      >
+      <span><FaEmpty/> Contact Us</span>
+    </NavLink></li>
+
   </ul>
 </div>;
 

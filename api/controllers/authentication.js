@@ -1,4 +1,5 @@
-"use strict";
+/*"use strict";*/
+
 const passport = require('passport');
 const db = require('../databases/databases').getDB('config');
 const User = db.model('User');

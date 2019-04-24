@@ -1,6 +1,6 @@
-'use strict';
+
 import React from 'react';
-import { PageTemplate } from './PageTemplate';
+import { PageTemplate } from '../layouts/PageTemplate';
 
 export const Cash = () =>
   <PageTemplate>
