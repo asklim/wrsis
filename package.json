@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "start:Heroku": "node static/server.bundle.js",
+    "start:heroku": "node static/server.bundle.js",
     "start:node": "node server/www.js",
     "nm": "nodemon",
     "forever": "forever start --fifo --minUptime 1000 --spinSleepTime 1000 --killSignal=SIGINT static/server.bundle.js && forever list",
@@ -17,7 +17,7 @@
     "build:nm": "webpack && npm run nm",
     "test": "npm run test:imports",
     "test:imports": "mocha \"./imports/**/*.spec.js\"",
-    "compile": "node_modules/.bin/babel bin/www.js --out-dir static --source-map",
+    "compile": "node_modules/.bin/babel server/www.js --out-dir static --source-map",
     "watch": "./node_modules/.bin/babel src -d static -watch"
   },
   "author": "asklim",
