@@ -1,38 +1,40 @@
-'use strict';
-var conn = require('./dbconnect');
-//debug/statistic info for Mongo DB
-//var dbInfo = require('./dbinfo');
+//'use strict';
+const util = require('util');
+
+const { dbName } = require('../../config/enumvalues');
+const conn = require('./dbconnect');
 
 let title = 'rsis.tmp';
-
-var db;
-var uri;
+let uri = util.format(process.env.CLOUDDB_URI_TEMPLATE,
+  process.env.ATLAS_CREDENTIALS,
+  dbName.rsistmp
+);
 
 switch (process.env.NODE_ENV) {
   
   case 'production': 
-    uri = process.env.CLOUDDB_TMP_URI;
+    //uri = process.env.CLOUDDB_TMP_URI;
     break;
 
   case 'intranet':
-    uri = process.env.CLOUDDB_TMP_URI;     
+    //uri = process.env.CLOUDDB_TMP_URI;     
     break;
 
   default:
-    uri = process.env.MONGO_DEV2_URI+'/rsistmp';
+    uri = process.env.MONGO_DEV2_URI+'/'+dbName.rsistmp;
      //var dbURI = 'mongodb://localhost:27016/rsistmp';    
 }      
 
-db = conn.createConn(uri, title);    
+const db = conn.createConn(uri, title);    
       
 
 // BRING IN YOUR SCHEMAS & MODELS
 
-var salePlaceSchema = require('../../api/models/saleplaces');
+const salePlaceSchema = require('../../api/models/saleplaces');
 db.model('SalePlace', salePlaceSchema, 'salePlaces'); 
 // last arg - collection`s name in MongoDB
 
-var stafferSchema = require('../../api/models/staffers');
+const stafferSchema = require('../../api/models/staffers');
 db.model('Staffer', stafferSchema, 'staffers'); 
 // last arg - collection`s name in MongoDB
 

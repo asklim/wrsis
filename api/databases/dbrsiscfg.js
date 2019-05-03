@@ -1,31 +1,29 @@
-'use strict';
-const conn = require('./dbconnect');
-//debug/statistic info for Mongo DB
+//'use strict';
+const util = require('util');
 
+const { dbName } = require('../../config/enumvalues');
+const conn = require('./dbconnect');
 
 const title = 'rsis.cfg';
-
 let uri;
 
 switch (process.env.NODE_ENV) {
   
   case 'production': 
-    uri = process.env.CLOUDDB_CFG_URI;
-    /*var dbURI = 'mongodb://<user>:<pass>@'+
-    'rsis-shard-00-00-jjwdj.mongodb.net:27017,'+
-    'rsis-shard-00-01-jjwdj.mongodb.net:27017,'+
-    'rsis-shard-00-02-jjwdj.mongodb.net:27017/rsiscfg?ssl=true&'+
-    'replicaSet=rsis-shard-0&authSource=admin&retryWrites=true';
-    */
+    //uri = process.env.CLOUDDB_CFG_URI;
+    uri = util.format(process.env.CLOUDDB_URI_TEMPLATE,
+      process.env.ATLAS_CREDENTIALS,
+      dbName.rsiscfg
+    );
     break;
 
   case 'intranet':
-    uri = process.env.MONGO_STANDALONE_URI+'/rsiscfg';
+    uri = process.env.MONGO_STANDALONE_URI+'/'+dbName.rsiscfg;
     //var dbURI = 'mongodb://localhost:36667/rsiscfg';      
     break;
 
   default:
-    uri = process.env.MONGO_DEV1_URI+'/rsiscfg';
+    uri = process.env.MONGO_DEV1_URI+'/'+dbName.rsiscfg;
      //var dbURI = 'mongodb://localhost:27017/rsiscfg';    
 }      
 

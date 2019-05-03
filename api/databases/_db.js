@@ -1,9 +1,18 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const util = require('util');
+
+const { dbName } = require('../../config/enumvalues');
+
 var gracefulShutdown;
+var dbURI;
 
 if (process.env.NODE_ENV === 'production' ||
     process.env.NODE_ENV === 'intranet') {
-    dbURI = process.env.CLOUDDB_CFG_URI;
+    //dbURI = process.env.CLOUDDB_CFG_URI;
+    dbURI = util.format(process.env.CLOUDDB_URI_TEMPLATE,
+        process.env.ATLAS_CREDENTIALS,
+        dbName.rsiscfg
+    );
 /*var dbURI = 'mongodb://<user>:<pass>@'+
 'rsis-shard-00-00-jjwdj.mongodb.net:27017,'+
 'rsis-shard-00-01-jjwdj.mongodb.net:27017,'+
@@ -11,8 +20,8 @@ if (process.env.NODE_ENV === 'production' ||
 'replicaSet=rsis-shard-0&authSource=admin&retryWrites=true';
 */
 } else {
-   var dbURI = process.env.MONGO_DEV2_URI+'/rsiscfg';
-    //var dbURI = mongodb://localhost:27016/rsiscfg; 
+   dbURI = process.env.MONGO_DEV2_URI+'/'+dbName.rsiscfg;
+    //dbURI = mongodb://localhost:27016/rsiscfg; 
 }
 
 mongoose.connect(dbURI, { useNewUrlParser: true,
