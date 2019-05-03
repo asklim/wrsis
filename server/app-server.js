@@ -1,4 +1,4 @@
-"use strict";
+//"use strict";
 require('dotenv').load();
 var createError = require('http-errors');
 var express = require('express');
@@ -59,7 +59,8 @@ app.use(function(req, res, next) {
 });
 
 // error handler
-app.use(function(err, req, res) { //, next) {
+// eslint-disable-next-line no-unused-vars
+app.use(function(err, req, res, next) { // must be 4 args
     // set locals, only providing error in development
     res.locals.message = err.message;
     console.log(`app-server error-handler: env='${req.app.get('env')}'`);

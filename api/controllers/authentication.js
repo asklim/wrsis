@@ -62,7 +62,8 @@ module.exports.login = function( req, res ) {
 
       if(user) {
         let token = user.generateJwt();
-        sendJSONresponse(res, 200, {"token" : token}); 
+        sendJSONresponse(res, 200, {"token" : token});
+        //res.redirect(303,'/levelA');
       }
       else {
         sendJSONresponse(res, 401, info);
