@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { PageTemplate } from '../layouts/PageTemplate';
+import { PageTemplate } from '../layoutA/PageTemplate';
 import SaleplacesList from '../components/saleplaces/SaleplacesList.js';
 
 //import '../assets/css/contentProducts.css';

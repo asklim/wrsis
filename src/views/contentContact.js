@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { PageTemplate } from '../layouts/PageTemplate';
+import { PageTemplate } from '../layoutA/PageTemplate';
 import TodosEditor from '../components/TodosEditor';
 
 export const Contact = () =>

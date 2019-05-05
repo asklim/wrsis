@@ -1,44 +1,28 @@
-import React from 'react';
-import { render } from 'react-dom';
-//import { createBrowserHistory } from 'history';
-import {
-  HashRouter as Router
-  , Route
-  , Switch
-} from 'react-router-dom';
+import React from "react";
+import ReactDOM from "react-dom";
+import { createBrowserHistory } from "history";
+import { Router, Route, Switch, Redirect } from "react-router-dom";
 
-import './assets/css/app.css';
+// core components
+//import Admin from "layouts/Admin.jsx";
+//import RTL from "layouts/RTL.jsx";
+import Level0 from "./layouts/Level0.jsx";
 
-import { About } from './views/contentAbout';
-import { Home } from './views/contentHome';
-import { Events } from './views/contentEvents';
-import { Products } from './views/contentProducts';
-import { Contact } from './views/contentContact';
-import { Agents } from './views/contentAgents';
-import { Cash } from './views/contentCash';
-import { Whoops404 } from './views/contentWhoops404';
+import "./assets/css/material-dashboard-react.css?v=1.6.0";
 
+const hist = createBrowserHistory();
 
-window.React = React;
-//const browserHistory = createBrowserHistory();
-
-render(
-  //<Router history={browserHistory}> 
-  <Router>
+ReactDOM.render(
+  <Router history={hist}>
     <Switch>
-      <Route exact path="/" component={Home} />
-      <Route path="/about" component={About} />
-      <Route path="/agents" component={Agents} />      
-      <Route path="/cash" component={Cash} />
-      <Route path="/contact" component={Contact} />      
-      <Route path="/events" component={Events} />
-      <Route path="/products" component={Products} />
-      <Route component={Whoops404} />
-    </Switch> 
+      <Route path="/level0" component={Level0} />      
+      {/*
+      <Route path="/admin" component={Admin} />
+      <Route path="/rtl" component={RTL} />
+      <Redirect from="/" to="/admin/dashboard" />
+      */}
+      <Redirect from="/" to="/level0" />
+    </Switch>
   </Router>,
-  document.getElementById('react-app')
+  document.getElementById("react-app")
 );
-
-
-console.log(React);
-//console.log(ReactDOM);

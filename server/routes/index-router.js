@@ -7,9 +7,9 @@ router.get('/', function(req, res) { //, next) {
   res.render('index', { title: 'rsis login' });
 });
 
-/* GET levelA home page. 
-router.get('/levelA', function(req, res) { //, next) {
-  res.render('index', { title: 'rsis - A level' });
-});*/
+// GET for react app page. 
+router.get('/*', (req, res) => {
+  res.redirect('/');
+});
 
 module.exports = router;

@@ -2,7 +2,7 @@
 import React from 'react';
 import { HashLink as HLink } from 'react-router-hash-link';
 
-import { PageTemplate } from '../layouts/PageTemplate';
+import { PageTemplate } from '../layoutA/PageTemplate';
 import '../assets/css/contentAbout.css';
 
 export const About = () =>

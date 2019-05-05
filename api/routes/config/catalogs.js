@@ -1,4 +1,4 @@
-"use strict";
+//"use strict";
 const ctrlCatalogs = require('../../controllers/catalogs');
 const ctrlCatalogExcel = require('../../controllers/catalogs4excel');
 const ctrlCatalogWeb = require('../../controllers/catalogs4web');
