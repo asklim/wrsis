@@ -7,16 +7,16 @@ import {
   , Switch
 } from 'react-router-dom';
 
-import '../assets/css/app.css';
+import 'assets/css/app.css';
 
-import { About } from '../views/contentAbout';
-import { Home } from '../views/contentHome';
-import { Events } from '../views/contentEvents';
-import { Products } from '../views/contentProducts';
-import { Contact } from '../views/contentContact';
-import { Agents } from '../views/contentAgents';
-import { Cash } from '../views/contentCash';
-import { Whoops404 } from '../views/contentWhoops404';
+import { About } from 'viewsA/contentAbout';
+import { Home } from 'viewsA/contentHome';
+import { Events } from 'viewsA/contentEvents';
+import { Products } from 'viewsA/contentProducts';
+import { Contact } from 'viewsA/contentContact';
+import { Agents } from 'viewsA/contentAgents';
+import { Cash } from 'viewsA/contentCash';
+import { Whoops404 } from 'viewsA/contentWhoops404';
 
 
 //window.React = React;

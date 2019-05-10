@@ -19,6 +19,8 @@ function ensureSlash(inputPath, needsSlash) {
 // https://github.com/facebook/create-react-app/issues/637
 
 const appDirectory = fs.realpathSync(process.cwd());
+//console.log('paths: appDirectory is ', appDirectory);
+//console.log('paths: __dirname is ', __dirname);
 
 const resolveApp = relativePath => 
   path.resolve(appDirectory, relativePath);
@@ -72,22 +74,22 @@ const resolveModule = (resolveFn, filePath) =>
 
 // config after eject: we're in ./config/
 module.exports = {
-  dotenv: resolveApp('.env'),
-  appPath: resolveApp('.'),
-  appBuild: resolveApp('static'), //('build'),
-  appPublic: resolveApp('public'),
-  appHtml: resolveApp('server/views/index.ejs'),
-  //'public/index.html', //resolveApp('public/index.html'),
-  appIndexJs: resolveModule(resolveApp, 'src/ReactApp'), //'src/index'),
-  appPackageJson: resolveApp('package.json'),
-  appSrc: resolveApp('src'),
-  appTsConfig: resolveApp('tsconfig.json'),
-  yarnLockFile: resolveApp('yarn.lock'),
-  testsSetup: resolveModule(resolveApp, 'src/setupTests'),
-  proxySetup: resolveApp('src/setupProxy.js'),
-  appNodeModules: resolveApp('node_modules'),
-  publicUrl: getPublicUrl(resolveApp('package.json')),
-  servedPath: getServedPath(resolveApp('package.json')),
+  dotenv : resolveApp('.env'),
+  appPath : resolveApp('.'),
+  appBuild : resolveApp('static'), //('build'),
+  appPublic : resolveApp('public'),
+  //ejsRoot : resolveApp('server/views/index.ejs'),
+  appHtml : resolveApp('src/index.html'),
+  appIndexJs : resolveModule(resolveApp, 'src/ReactApp'), //'src/index'),
+  appPackageJson : resolveApp('package.json'),
+  appSrc : resolveApp('src'),
+  appTsConfig : resolveApp('tsconfig.json'),
+  yarnLockFile : resolveApp('yarn.lock'),
+  testsSetup : resolveModule(resolveApp, 'src/setupTests'),
+  proxySetup : resolveApp('src/setupProxy.js'),
+  appNodeModules : resolveApp('node_modules'),
+  publicUrl : getPublicUrl(resolveApp('package.json')),
+  servedPath : getServedPath(resolveApp('package.json')),
 };
 
 

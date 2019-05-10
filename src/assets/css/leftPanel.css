@@ -9,9 +9,11 @@
   width: 200px;
   /*border-right: 1px solid #ddd;*/
   overflow: hidden;
+}
 
-  @media (max-width: 800px) 
-  {
+@media (max-width: 800px) 
+{
+  .leftpanel {
     display: none;
     /*position: absolute;
     top: 45px;

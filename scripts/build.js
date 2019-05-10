@@ -53,15 +53,21 @@ const config = configFactory('production');
 // We require that you explicitly set browsers and do not fall back to
 // browserslist defaults.
 const { checkBrowsers } = require('react-dev-utils/browsersHelper');
-checkBrowsers(paths.appPath, isInteractive)
+
+checkBrowsers(
+  paths.appPath, 
+  isInteractive
+  )
+  // First, read the current file sizes in build directory.
+  // This lets us display how much they changed later.
   .then(() => {
-    // First, read the current file sizes in build directory.
-    // This lets us display how much they changed later.
     return measureFileSizesBeforeBuild(paths.appBuild);
   })
-  .then(previousFileSizes => {
     // Remove all content but keep the directory so that
-    // if you're in it, you don't end up in Trash
+    // if you're in it, you don't end up in Trash  
+  .then(
+    previousFileSizes => 
+    {
     fs.emptyDirSync(paths.appBuild);
     // Merge with the public folder
     copyPublicFolder();
@@ -69,7 +75,8 @@ checkBrowsers(paths.appPath, isInteractive)
     return build(previousFileSizes);
   })
   .then(
-    ({ stats, previousFileSizes, warnings }) => {
+    ({ stats, previousFileSizes, warnings }) => 
+      {
       if (warnings.length) {
         console.log(chalk.yellow('Compiled with warnings.\n'));
         console.log(warnings.join('\n\n'));
@@ -122,12 +129,21 @@ checkBrowsers(paths.appPath, isInteractive)
     process.exit(1);
   });
 
+/**
+ * Function definition
+ */
+
 // Create the production build and print the deployment instructions.
-function build(previousFileSizes) {
+//
+function build(previousFileSizes) 
+{
   console.log('Creating an optimized production build...');
 
-  let compiler = webpack(config);
-  return new Promise((resolve, reject) => {
+  const compiler = webpack(config);
+
+  return new Promise(
+    (resolve, reject) => 
+    {
     compiler.run((err, stats) => {
       let messages;
       if (err) {
@@ -151,7 +167,7 @@ function build(previousFileSizes) {
         }
         return reject(new Error(messages.errors.join('\n\n')));
       }
-      if (
+      /*if (
         process.env.CI &&
         (typeof process.env.CI !== 'string' ||
           process.env.CI.toLowerCase() !== 'false') &&
@@ -164,7 +180,7 @@ function build(previousFileSizes) {
           )
         );
         return reject(new Error(messages.warnings.join('\n\n')));
-      }
+      }*/
 
       const resolveArgs = {
         stats,
@@ -183,7 +199,8 @@ function build(previousFileSizes) {
   });
 }
 
-function copyPublicFolder() {
+function copyPublicFolder() 
+{
   fs.copySync(paths.appPublic, paths.appBuild, {
     dereference: true,
     filter: file => file !== paths.appHtml,

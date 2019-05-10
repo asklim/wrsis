@@ -4,14 +4,18 @@
   grid-template-columns: 1fr;
   grid-column-gap:1px;
   background-color: orangered;
+}
 
-  @media screen and (min-width: 1400px) 
-  {
+@media screen and (min-width: 1400px) 
+{
+  .aboutWrapper {
     grid-template-columns: 1fr 1fr;
   }
+}
 
-  @media screen and (min-width: 1900px) 
-  {
+@media screen and (min-width: 1900px) 
+{
+  .aboutWrapper {
     grid-template-columns: 1fr 1fr 1fr;
   }
 }
