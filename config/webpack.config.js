@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 
-//const resolve = require('resolve');
+const resolve = require('resolve');
 const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
@@ -21,13 +21,12 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
-
 const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
 const WatchMissingNodeModulesPlugin = 
       require('react-dev-utils/WatchMissingNodeModulesPlugin');
-//const ForkTsCheckerWebpackPlugin = 
-//      require('react-dev-utils/ForkTsCheckerWebpackPlugin');
-//const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
+const ForkTsCheckerWebpackPlugin =
+      require('react-dev-utils/ForkTsCheckerWebpackPlugin');
+const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 
 
 // Source maps are resource heavy 
@@ -292,7 +291,7 @@ module.exports = function(webpackEnv)
         // It is guaranteed to exist because we tweak it in `env.js`
         process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
       ),
-/*
+
       // These are the reasonable defaults supported by the Node ecosystem.
       // We also include JSX as a common component filename extension to support
       // some tools, although we do not recommend using it, see:
@@ -308,8 +307,7 @@ module.exports = function(webpackEnv)
         'react-native': 'react-native-web',
         
       },
-*/
-/*
+
       plugins: [
         // Adds support for installing with Plug'n'Play, 
         // leading to faster installs and adding
@@ -326,7 +324,7 @@ module.exports = function(webpackEnv)
         // as they will not be processed in any way.
         new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
       ],
-*/      
+    
     },
 /*
     resolveLoader: {
@@ -618,8 +616,7 @@ module.exports = function(webpackEnv)
 */
       // Generate a service worker script that will precache, and keep up to date,
       // the HTML & assets that are part of the Webpack build.
-/*
-      isEnvProduction &&
+        isEnvProduction &&
         new WorkboxWebpackPlugin.GenerateSW({
           clientsClaim: true,
           exclude: [/\.map$/, /asset-manifest\.json$/],
@@ -633,8 +630,7 @@ module.exports = function(webpackEnv)
             new RegExp('/[^/]+\\.[^/]+$'),
           ],
         }),
-*/        
-/*
+    
       // TypeScript type checking
       useTypeScript &&
         new ForkTsCheckerWebpackPlugin({
@@ -647,18 +643,18 @@ module.exports = function(webpackEnv)
           tsconfig: paths.appTsConfig,
           reportFiles: [
             '**',
-            '!** /*.json',
-            '!** /__tests__/**',
-            '!** /?(*.)(spec|test).*',
-            '!** /src/setupProxy.*',
-            '!** /src/setupTests.*',
+            '!**/*.json',
+            '!**/__tests__/**',
+            '!**/?(*.)(spec|test).*',
+            '!**/src/setupProxy.*',
+            '!**/src/setupTests.*',
           ],
           watch: paths.appSrc,
           silent: true, 
           // The formatter is invoked directly in WebpackDevServerUtils during development
           formatter: isEnvProduction ? typescriptFormatter : undefined,
         }),
-*/
+
     ].filter(Boolean),
 
     // Some libraries import Node modules but don't use them in the browser.
