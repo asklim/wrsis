@@ -1,22 +1,29 @@
-const express = require('express');
+//const express = require('express');
 //import express from 'express';
-const router = express.Router();
+//const router = express.Router();
 
+const router = require('express').Router();
 
-const { setAuthRoutes } = require('./auth');
-setAuthRoutes( router );
+require('./config/processenv')( router );
 
-const { setCatalogsRoutes } = require('./config/catalogs');
-setCatalogsRoutes( router );
+require('./auth')( router );
 
-const { setAgentsRoutes } = require('./config/agents');
-setAgentsRoutes( router );
+require('./config/catalogs')( router );
 
+require('./config/agents')( router );
+
+router.get('/*', 
+  (req, res) => {
+     res.status(400);
+     res.json({message: "Bad request"});
+});
+
+/*
 const { setSaleplacesRoutes } = require('./config/saleplaces');
 setSaleplacesRoutes( router );
 
 const { setStaffersRoutes } = require('./config/staffers');
 setStaffersRoutes( router );
-
+*/
 
 module.exports = router;

@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from 'react';
 import {
   withScriptjs,
   withGoogleMap,
@@ -8,11 +9,7 @@ import {
 
 
 const VitebskLatLong = { lat: 55.2047, lng: 30.2086 };
-const Vitebsk2LatLong = { lat: 55.206, lng: 30.21 };
-
-const _fetchGoogleMapApiKey = () => {
-  return "AIzaSyDSHhsC3wqjA6IXiIvROlCDwSGsrnnqzGw";
-};
+const Vitebsk2LatLong = { lat: 55.25, lng: 30.3 };
 
 const CustomSkinMap = withScriptjs(
   withGoogleMap( /*props*/ () => (
@@ -90,13 +87,52 @@ const CustomSkinMap = withScriptjs(
   ))
 );
 
+
+const _fetchGoogleMapApiKey = (callback) =>
+{
+  let route = window.location.origin;
+  route += '/api/config/processenv?name=RSIS_GOOGLE_API_KEY';
+
+  fetch(route)
+    .then( response => response.json())  // '{}'
+    .then( env => {
+      //console.log('env.value: ', env.value);
+      callback(env.value);
+    })
+  .catch(err => {
+    console.log(err); 
+  });    
+};
+
+/*
+async function _fetchGoogleMapApiKey(callback)
+{
+  let route = window.location.origin;
+  route += '/api/config/processenv?name=RSIS_GOOGLE_API_KEY';
+  try {
+    console.log('route: ', route);
+    let response = await fetch(route);
+    let env = await response.json();
+    console.log('env.value: ', env.value);
+    callback(env.value);
+  } 
+  catch( err ) {
+    console.log(err); 
+  }
+}
+*/
+
 // eslint-disable-next-line no-unused-vars
 function Maps({ ...props }) 
 {
-  const gmapApiKey = _fetchGoogleMapApiKey();
-  //console.log(gmapApiKey);
-  const url = `https://maps.googleapis.com/maps/api/js?key=${gmapApiKey}`;
+  const [gmapApiKey, setApiKey] = useState('');
+  if(!gmapApiKey) {
+    _fetchGoogleMapApiKey(setApiKey);    
+  }
 
+  const url = 'https://maps.googleapis.com/maps/api/js?key='+gmapApiKey;
+  //console.log(url);
+  
   return (
     <CustomSkinMap
       googleMapURL={url}

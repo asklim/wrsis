@@ -1,10 +1,10 @@
-"use strict";
+//"use strict";
 const ctrlAgents = require('../../controllers/agents');
 
 /**  
  * api for 1 agent: /api/config/agents/<agentId>. 
  */
-module.exports.setAgentsRoutes = function ( router ) {
+module.exports = function ( router ) {
 
   let agents = '/config/agents';
   let agentId = agents+'/:agentId';

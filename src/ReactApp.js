@@ -12,23 +12,24 @@ import "assets/css/material-dashboard-react.css?v=1.6.0";
 
 const hist = createBrowserHistory();
 
-console.log('running ReactApp');
+//console.log('running ReactApp');
 
 ReactDOM.render(
   <Router history={hist}>
     <Switch>
       <Route path="/level0" component={Level0} />      
-      
       <Route path="/admin" component={Admin} />
-      <Route path="/rtl" component={RTL} />
-      <Redirect from="/" to="/admin/dashboard" />
+      <Route path="/rtl" component={RTL} />      
+      <Redirect from="/0" to="/level0" />
       {/*}
-      <Redirect from="/" to="/level0" />
+      <Redirect from="/1" to="/level1" />
       */}
+      <Redirect from="/" to="/admin/dashboard" />
     </Switch>
   </Router>,
   document.getElementById("react-app")
 );
-
+/*
 console.log(React);
 console.log(ReactDOM);
+*/

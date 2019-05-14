@@ -1,4 +1,4 @@
-"use strict";
+
 const ctrlStaffers = require('../../controllers/staffers');
 
 /**  

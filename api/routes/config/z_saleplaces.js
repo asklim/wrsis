@@ -1,4 +1,4 @@
-"use strict";
+
 const ctrlSaleplaces = require('../../controllers/saleplaces');
 
 /**  

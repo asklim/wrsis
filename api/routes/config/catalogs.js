@@ -28,7 +28,7 @@ const setCatalogs4WebRoutes = ( router ) => {
 };
  
 
-module.exports.setCatalogsRoutes = function ( router ) { 
+module.exports = function ( router ) { 
 
   setCatalogs4ExcelRoutes( router );
   setCatalogs4WebRoutes( router );

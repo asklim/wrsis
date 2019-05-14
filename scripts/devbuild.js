@@ -142,7 +142,7 @@ function devBuild( previousFileSizes )
 {
 
   console.log('Creating a development build...');
-  console.log(paths);
+  //console.log(paths);
 
   const config = configFactory('development');
   //const config = webpackCfg;
