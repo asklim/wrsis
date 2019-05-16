@@ -1,18 +1,18 @@
 //"use strict";
 require('dotenv').load();
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const passport = require('passport');
 //passport before dbs-models
 
-var dbs = require('../api/databases/databases');
+const dbs = require('./databases/databases');
 dbs.createConns();
 
-require('../api/passport'); //after db create models
+require('./passport'); //after db create models
 
 //debug/statistic info for Mongo DB
 //var dbInfo = require('./api/models/dbinfo');
@@ -21,11 +21,11 @@ require('../api/passport'); //after db create models
 // console.log(dbs.getDB('config').client.s);
 // console.log(dbs.getDB('Temp').client.s);
 
-var indexRouter = require('./routes/index-router');
+//const restRouter = require('./routes/rest-router');
 //var usersRouter = require('./routes/users-router');
-var apiRouter = require('../api/routes');
+const apiRouter = require('./routes/api-router');
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, /*'server',*/ 'views'));
@@ -51,16 +51,29 @@ app.use(passport.initialize());
 
 app.use('/api', apiRouter);
 //app.use('/users', usersRouter);
-app.use('*', indexRouter);
+//app.use('*', restRouter);
+
+app.get('*', 
+  (req, res, next) => {
+    console.log('server app: dirname is ', __dirname);
+    res.sendFile( path.resolve(
+        __dirname, 
+        '../static/index.html'
+        ),
+        err => {
+        if(err) { next(err); }
+        }
+    );
+});
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use( (req, res, next) => {
     next(createError(404), req, res);
 });
 
 // error handler
 // eslint-disable-next-line no-unused-vars
-app.use(function(err, req, res, next) { // must be 4 args
+app.use( (err, req, res, next) => { // must be 4 args
     // set locals, only providing error in development
     res.locals.message = err.message;
     console.log(`app-server error-handler: env='${req.app.get('env')}'`);

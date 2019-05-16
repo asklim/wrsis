@@ -21,13 +21,14 @@ ReactDOM.render(
       <Route path="/level0" component={Level0} />      
       <Route path="/admin" component={Admin} />
       <Route path="/rtl" component={RTL} />       
-      <Route component={Whoops404} />
-
+      
       <Redirect from="/0" to="/level0" />
       {/*}
-      <Redirect from="/1" to="/level1" />
+      <Redirect from="/i" to="/invoice" />
       */}
       <Redirect from="/" to="/admin/dashboard" />
+
+      <Route component={Whoops404} />
     </Switch>
   </Router>,
   document.getElementById("react-app")

@@ -112,7 +112,7 @@ class Dashboard extends React.Component
   render() 
   {
     const { classes, ...rest } = this.props;
-    console.log('Admin ...rest : ', rest);
+    //console.log('Admin ...rest : ', rest);
 
     return (
       <div className={classes.wrapper}>

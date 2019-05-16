@@ -30,11 +30,11 @@ const db = conn.createConn(uri, title);
 
 // BRING IN YOUR SCHEMAS & MODELS
 
-const salePlaceSchema = require('../../api/models/saleplaces');
+const salePlaceSchema = require('../models/saleplaces');
 db.model('SalePlace', salePlaceSchema, 'salePlaces'); 
 // last arg - collection`s name in MongoDB
 
-const stafferSchema = require('../../api/models/staffers');
+const stafferSchema = require('../models/staffers');
 db.model('Staffer', stafferSchema, 'staffers'); 
 // last arg - collection`s name in MongoDB
 
