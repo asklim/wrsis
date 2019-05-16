@@ -140,6 +140,8 @@ function TableList(props)
 */
   return (
     <GridContainer>
+      {/*console.log('TableList Props : ', props)*/}
+
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">

@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from 'react';
+import PropTypes from "prop-types";
 import {
   withScriptjs,
   withGoogleMap,
@@ -125,6 +126,7 @@ async function _fetchGoogleMapApiKey(callback)
 // eslint-disable-next-line no-unused-vars
 function Maps({ ...props }) 
 {
+  //console.log('props: ', props);
   const [gmapApiKey, setApiKey] = useState('');
   if(!gmapApiKey) {
     _fetchGoogleMapApiKey(setApiKey);    
@@ -133,14 +135,20 @@ function Maps({ ...props })
   const url = 'https://maps.googleapis.com/maps/api/js?key='+gmapApiKey;
   //console.log(url);
   
-  return (
+  return gmapApiKey !== '' ? (
     <CustomSkinMap
       googleMapURL={url}
       loadingElement={<div style={{ height: `100%` }} />}
       containerElement={<div style={{ height: `100vh` }} />}
       mapElement={<div style={{ height: `100%` }} />}
     />
+  ) : ( 
+    null 
   );
 }
+
+Maps.propTypes = {
+  gmapApiKey : PropTypes.string
+};
 
 export default Maps;

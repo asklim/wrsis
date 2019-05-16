@@ -2,9 +2,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Switch, Route /*, Redirect*/ } from "react-router-dom";
+
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
+
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 
@@ -48,40 +50,49 @@ class Dashboard extends React.Component
       color: "blue",
       hasImage: true,
       fixedClasses: "dropdown",
-      mobileOpen: false
+      mobileOpen: false,
     };
   }
+
   handleImageClick = image => {
     this.setState({ image: image });
   };
+
   handleColorClick = color => {
     this.setState({ color: color });
   };
+
   handleFixedClick = () => {
-    if (this.state.fixedClasses === "dropdown") {
+    if(this.state.fixedClasses === "dropdown") {
       this.setState({ fixedClasses: "dropdown show" });
-    } else {
+    } 
+    else {
       this.setState({ fixedClasses: "dropdown" });
     }
   };
+
   handleDrawerToggle = () => {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   };
-  getRoute() {
-    return this.props.location.pathname !== "/admin/maps";
+
+  isMapView() {
+    return this.props.location.pathname === "/admin/maps";
   }
+
   resizeFunction = () => {
     if (window.innerWidth >= 960) {
       this.setState({ mobileOpen: false });
     }
   };
+
   componentDidMount() {
     if (navigator.platform.indexOf("Win") > -1) {
       // eslint-disable-next-line no-unused-vars, react/no-string-refs
       const ps = new PerfectScrollbar(this.refs.mainPanel);
     }
-    window.addEventListener("resize", this.resizeFunction);
+    window.addEventListener("resize", this.resizeFunction);  
   }
+
   componentDidUpdate(e) {
     if (e.history.location.pathname !== e.location.pathname) {
       // eslint-disable-next-line react/no-string-refs
@@ -91,11 +102,16 @@ class Dashboard extends React.Component
       }
     }
   }
+
   componentWillUnmount() {
     window.removeEventListener("resize", this.resizeFunction);
   }
-  render() {
+
+  render() 
+  {
     const { classes, ...rest } = this.props;
+    //console.log('Admin ...rest : ', rest);
+
     return (
       <div className={classes.wrapper}>
         <Sidebar
@@ -116,14 +132,14 @@ class Dashboard extends React.Component
             {...rest}
           />
           {/* On the /maps route we want the map to be on full screen - this is not possible if the content and container classes are present because they have some paddings which would make the map smaller */}
-          {this.getRoute() ? (
+          {!this.isMapView() ? (
             <div className={classes.content}>
               <div className={classes.container}>{switchRoutes}</div>
             </div>
           ) : (
             <div className={classes.map}>{switchRoutes}</div>
           )}
-          {this.getRoute() ? <Footer /> : null}
+          {this.isMapView() ? null : <Footer />}
           <FixedPlugin
             handleImageClick={this.handleImageClick}
             handleColorClick={this.handleColorClick}
