@@ -1,11 +1,14 @@
-/*eslint-disable*/
+/*e  slint-disable*/
 import React from "react";
 import PropTypes from "prop-types";
+
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
+
 // @material-ui/core
 import withStyles from "@material-ui/core/styles/withStyles";
 import Icon from "@material-ui/core/Icon";
+
 // @material-ui/icons
 import Store from "@material-ui/icons/Store";
 import Warning from "@material-ui/icons/Warning";
@@ -18,6 +21,7 @@ import Accessibility from "@material-ui/icons/Accessibility";
 import BugReport from "@material-ui/icons/BugReport";
 import Code from "@material-ui/icons/Code";
 import Cloud from "@material-ui/icons/Cloud";
+
 // core components
 import Button from "components/CustomButtons/Button.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
@@ -40,7 +44,7 @@ import {
   completedTasksChart
 } from "variables/charts.jsx";
 
-import rtlStyle from "assets/jss/material-dashboard-react/views/rtlStyle.jsx";
+import rtlStyle from "assets/jss/views/rtlStyle.jsx";
 
 import avatar from "assets/img/faces/marc.jpg";
 
@@ -301,11 +305,15 @@ class RTLPage extends React.Component {
                 <h4 className={classes.cardTitleWhite}>اعلان ها</h4>
                 <p className={classes.cardCategoryWhite}>
                   يدويا من قبل أصدقائنا من{" "}
-                  <a target="_blank" href="https://material-ui-next.com/">
+                  <a target="_blank" rel="noopener noreferrer" 
+                     href="https://material-ui-next.com/"
+                  >
                     واجهة المستخدم المادية
                   </a>{" "}
                   ونصب من قبل{" "}
-                  <a target="_blank" href="https://www.creative-tim.com/">
+                  <a target="_blank" rel="noopener noreferrer"
+                     href="https://www.creative-tim.com/"
+                  >
                     الإبداعية تيم
                   </a>
                   . يرجى التحقق من{" "}

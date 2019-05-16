@@ -21,9 +21,11 @@ import Button from "components/CustomButtons/Button.jsx";
 
 import headerStyle from "assets/jss/material-dashboard-react/components/headerStyle.jsx";
 
-function Header({ ...props }) {
-  function makeBrand() {
-    var name;
+function Header({ ...props }) 
+{
+  function makePageBrand() 
+  {
+    let name;
     // eslint-disable-next-line no-unused-vars
     props.routes.map((prop, key) => {
       if (prop.layout + prop.path === props.location.pathname) {
@@ -31,7 +33,7 @@ function Header({ ...props }) {
       }
       return null;
     });
-    return name;
+    return name || 'Error 404';
   }
 
   const { classes, color } = props;
@@ -40,15 +42,19 @@ function Header({ ...props }) {
   });
 
   const titleTail = document.title.split(" - ")[1] || document.title;
-  document.title = makeBrand() + " - " + titleTail;
+  const pageName = makePageBrand();
+  document.title = pageName + " - " + titleTail;
 
   return (
     <AppBar className={classes.appBar + appBarClasses}>
+
+      {/*console.log('Header props : ', props)*/}
+
       <Toolbar className={classes.container}>
         <div className={classes.flex}>
           {/* Here we create navbar brand, based on route name */}
           <Button color="transparent" href="#" className={classes.title}>
-            {makeBrand()}
+            {pageName}
           </Button>
         </div>
         <Hidden smDown implementation="css">

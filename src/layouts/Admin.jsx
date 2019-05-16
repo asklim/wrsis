@@ -16,9 +16,10 @@ import Footer from "components/Footer/Footer.jsx";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
 import FixedPlugin from "components/FixedPlugin/FixedPlugin.jsx";
 
+import Whoops404 from "components/misc/Whoops404.jsx";
 import routes from "routes.js";
 
-import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx";
+import dashboardStyle from "assets/jss/layouts/dashboardStyle.jsx";
 
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
@@ -37,6 +38,7 @@ const switchRoutes = (
       }
       return null;
     })}
+    <Route component={Whoops404} />
   </Switch>
 );
 
@@ -110,7 +112,7 @@ class Dashboard extends React.Component
   render() 
   {
     const { classes, ...rest } = this.props;
-    //console.log('Admin ...rest : ', rest);
+    console.log('Admin ...rest : ', rest);
 
     return (
       <div className={classes.wrapper}>

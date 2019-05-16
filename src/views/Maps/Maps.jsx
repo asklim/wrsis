@@ -8,6 +8,7 @@ import {
   Marker
 } from "react-google-maps";
 
+import Loading from "components/misc/Loading.jsx";
 
 const VitebskLatLong = { lat: 55.2047, lng: 30.2086 };
 const Vitebsk2LatLong = { lat: 55.25, lng: 30.3 };
@@ -143,7 +144,7 @@ function Maps({ ...props })
       mapElement={<div style={{ height: `100%` }} />}
     />
   ) : ( 
-    null 
+    <Loading /> 
   );
 }
 

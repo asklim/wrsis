@@ -7,6 +7,7 @@ import { Router, Route, Switch, Redirect } from "react-router-dom";
 import Admin from "layouts/Admin.jsx";
 import RTL from "layouts/RTL.jsx";
 import Level0 from "layouts/Level0.jsx";
+import Whoops404 from "components/misc/Whoops404.jsx";
 
 import "assets/css/material-dashboard-react.css?v=1.6.0";
 
@@ -16,10 +17,12 @@ const hist = createBrowserHistory();
 
 ReactDOM.render(
   <Router history={hist}>
-    <Switch>
+    <Switch>      
       <Route path="/level0" component={Level0} />      
       <Route path="/admin" component={Admin} />
-      <Route path="/rtl" component={RTL} />      
+      <Route path="/rtl" component={RTL} />       
+      <Route component={Whoops404} />
+
       <Redirect from="/0" to="/level0" />
       {/*}
       <Redirect from="/1" to="/level1" />
