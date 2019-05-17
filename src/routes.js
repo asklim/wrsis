@@ -1,6 +1,7 @@
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
-//import Person from "@material-ui/icons/Person";
+import AddBox from "@material-ui/icons/AddBoxOutlined";
+import Person from "@material-ui/icons/Person";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import BubbleChart from "@material-ui/icons/BubbleChart";
 import LocationOn from "@material-ui/icons/LocationOn";
@@ -11,7 +12,8 @@ import Fingerprint from '@material-ui/icons/Fingerprint';
 
 // core components/views for Admin layout
 import DashboardPage from "./views/Dashboard/Dashboard.jsx";
-//import UserProfile from "views/UserProfile/UserProfile.jsx";
+import InvoiceBoardPage from "./views/InvoiceBoard.jsx";
+import UserProfile from "views/UserProfile/UserProfile.jsx";
 import DialogList from "./views/DialogList/DialogList.jsx";
 import TableList from "./views/TableList/TableList.jsx";
 import Typography from "./views/Typography/Typography.jsx";
@@ -32,14 +34,22 @@ const dashboardRoutes = [
     component: DashboardPage,
     layout: "/admin"
   },
-  /*{
+  {
+    path: "/dashboard",
+    name: "Invoices",
+    rtlName: "rtl_invoices",
+    icon: AddBox,
+    component: InvoiceBoardPage,
+    layout: "/invoice"
+  },  
+  {
     path: "/user",
     name: "User Profile",
     rtlName: "ملف تعريفي للمستخدم",
     icon: Person,
     component: UserProfile,
     layout: "/admin"
-  },*/
+  },
   {
     path: "/dialogs",
     name: "Dialog List",
