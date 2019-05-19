@@ -31,10 +31,10 @@ const fetchDataSet = ( hostname, weekId, callback ) =>
       .then( rawData => {  
         //Преобразование в Procurement DataSet
         return rawData.map( item => {
-          item.sp = needUnitsForPeriod( item, period.small );
-          item.mp = needUnitsForPeriod( item, period.medium );
-          item.lp = needUnitsForPeriod( item, period.large );
-          item.xlp = needUnitsForPeriod( item, period.xtraLarge );
+          item.sp = needUnitsForPeriod( item, period.short );
+          item.mp = needUnitsForPeriod( item, period.middle );
+          item.lp = needUnitsForPeriod( item, period.long );
+          item.xlp = needUnitsForPeriod( item, period.xtraLong );
           delete item.valid;
           delete item.fqA;
           delete item.fqM;
@@ -50,9 +50,7 @@ const fetchDataSet = ( hostname, weekId, callback ) =>
       })      
     ;
   } else {
-    const json = JSON.stringify( dataset );
-    //console.log( json );
-    callback( null, json );
+    callback( null, dataset );
   }
 };
 
@@ -67,25 +65,26 @@ module.exports.readOne = (req, res) =>
   console.log('ROne: Finding procurement`s query: ', req.query);
   console.log(`hostname is ${req.hostname}`);
   
-  const { weekId } = req.params;
+  const { weekId } = req.params;  
   if (req.params && weekId) 
   {
+    const week = weekId === 'last' ? 959 : weekId;
     fetchDataSet( '', //req.hostname,
-      weekId,
-      (err, jsonData) =>
+      week,
+      (err, data) =>
       {
         if (err) {
           //console.log(err);
           sendJSONresponse(res, 404, err);
           return;
         } 
-        if (!jsonData) {
+        if (!data) {
           sendJSONresponse(res, 404, {
             'message': `data for week ${weekId} not found`
           });
           return;
         }       
-        sendJSONresponse(res, 200, jsonData);
+        sendJSONresponse(res, 200, data);
       });
   } 
   else {

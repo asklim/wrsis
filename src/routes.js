@@ -12,7 +12,7 @@ import Fingerprint from '@material-ui/icons/Fingerprint';
 
 // core components/views for Admin layout
 import DashboardPage from "./views/m-d-r/Dashboard.jsx";
-import ProcurementBoardPage from "./views/ProcurementBoard.jsx/index.js";
+import ProcurementBoardPage from "./views/ProcurementBoard.jsx";
 import UserProfile from "./views/m-d-r/UserProfile.jsx";
 import DialogList from "./views/m-d-r/DialogList.jsx";
 import TableList from "./views/m-d-r/TableList.jsx";

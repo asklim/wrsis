@@ -7,7 +7,7 @@ import Fingerprint from '@material-ui/icons/Fingerprint';
 // core components/views for Invoice layout
 import DashboardPage from "../views/m-d-r/Dashboard.jsx";
 import DialogList from "../views/m-d-r/DialogList.jsx";
-import ProcurementBoardPage from "../views/ProcurementBoard.jsx/index.js";
+import ProcurementBoardPage from "../views/ProcurementBoard.jsx";
 
 
 const dashboardRoutes = [

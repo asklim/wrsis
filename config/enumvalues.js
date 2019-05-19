@@ -56,10 +56,10 @@ const staffStatus = {
 };
  
 const procurementPeriods = {
-  small : 12,
-  medium : 24,
-  large : 36,
-  xtraLarge : 96,
+  short : 12,
+  middle : 24,
+  long : 36,
+  xtraLong : 96,
 };
 
 module.exports = {

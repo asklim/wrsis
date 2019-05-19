@@ -1,4 +1,3 @@
-"use strict";
 //import { mongoose } from 'mongoose';
 const mongoose = require('mongoose');
 const infoDB = require('./infodb');
