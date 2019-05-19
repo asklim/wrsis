@@ -11,19 +11,21 @@ import Language from "@material-ui/icons/Language";
 import Fingerprint from '@material-ui/icons/Fingerprint';
 
 // core components/views for Admin layout
-import DashboardPage from "./views/Dashboard/Dashboard.jsx";
-import InvoiceBoardPage from "./views/InvoiceBoard.jsx";
-import UserProfile from "views/UserProfile/UserProfile.jsx";
-import DialogList from "./views/DialogList/DialogList.jsx";
-import TableList from "./views/TableList/TableList.jsx";
-import Typography from "./views/Typography/Typography.jsx";
-import Icons from "./views/Icons/Icons.jsx";
-import Maps from "./views/Maps/Maps.jsx";
-import NotificationsPage from "./views/Notifications/Notifications.jsx";
-import UpgradeToPro from "./views/UpgradeToPro/UpgradeToPro.jsx";
+import DashboardPage from "./views/m-d-r/Dashboard.jsx";
+import ProcurementBoardPage from "./views/ProcurementBoard.jsx/index.js";
+import UserProfile from "./views/m-d-r/UserProfile.jsx";
+import DialogList from "./views/m-d-r/DialogList.jsx";
+import TableList from "./views/m-d-r/TableList.jsx";
+import Typography from "./views/m-d-r/Typography.jsx";
+import Icons from "./views/m-d-r/Icons.jsx";
+import Maps from "./views/m-d-r/Maps.jsx";
+import NotificationsPage from "./views/m-d-r/Notifications.jsx";
+import UpgradeToPro from "./views/m-d-r/UpgradeToPro.jsx";
+
+import Level0 from "layouts/Level0.jsx";
 
 // core components/views for RTL layout
-import RTLPage from "./views/RTLPage/RTLPage.jsx";
+import RTLPage from "./views/m-d-r/RTLPage.jsx";
 
 const dashboardRoutes = [
   {
@@ -35,11 +37,11 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/dashboard",
-    name: "Invoices",
-    rtlName: "rtl_invoices",
+    path: "/procurement",
+    name: "Procurement",
+    rtlName: "rtl_procurement",
     icon: AddBox,
-    component: InvoiceBoardPage,
+    component: ProcurementBoardPage,
     layout: "/invoice"
   },  
   {
@@ -113,7 +115,15 @@ const dashboardRoutes = [
     icon: Language,
     component: RTLPage,
     layout: "/rtl"
-  }
+  },
+  {
+    path: "/",
+    name: "Old version",
+    rtlName: "rtl_oldversion",
+    icon: Language,
+    component: Level0,
+    layout: "/level0"
+  },  
 ];
 
 export default dashboardRoutes;

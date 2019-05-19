@@ -5,9 +5,9 @@ import Fingerprint from '@material-ui/icons/Fingerprint';
 
 
 // core components/views for Invoice layout
-import DashboardPage from "../views/Dashboard/Dashboard.jsx";
-import DialogList from "../views/DialogList/DialogList.jsx";
-import InvoiceBoardPage from "../views/InvoiceBoard.jsx";
+import DashboardPage from "../views/m-d-r/Dashboard.jsx";
+import DialogList from "../views/m-d-r/DialogList.jsx";
+import ProcurementBoardPage from "../views/ProcurementBoard.jsx/index.js";
 
 
 const dashboardRoutes = [
@@ -20,11 +20,11 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/dashboard",
-    name: "Invoice",
-    rtlName: "rtl_invoice",
+    path: "/procurement",
+    name: "Procurement",
+    rtlName: "rtl_procurement",
     icon: AddBox,
-    component: InvoiceBoardPage,
+    component: ProcurementBoardPage,
     layout: "/invoice"
   },
   {

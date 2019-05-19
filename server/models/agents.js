@@ -1,4 +1,3 @@
-'use strict';
 const mongoose = require('mongoose');
 
 /**
@@ -19,7 +18,7 @@ const mongoose = require('mongoose');
  *           - OM = Order Manager,
  *           - SP = Sale Person
  *   saleplace - moll1 (смоленский рынок)
- *   supplier  - BY, RU, EU, 1BY
+ *   supplier  - BY, RU, EU, 1BY, LM
  *   wholesale - cafe
  *   warehouse - frm, f1
  *   

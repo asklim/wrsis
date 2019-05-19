@@ -55,8 +55,16 @@ const staffStatus = {
   }  
 };
  
+const procurementPeriods = {
+  small : 12,
+  medium : 24,
+  large : 36,
+  xtraLarge : 96,
+};
+
 module.exports = {
   staffRole,
   staffStatus,
   dbName,
+  procurementPeriods,
 };

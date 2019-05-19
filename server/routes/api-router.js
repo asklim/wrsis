@@ -12,10 +12,12 @@ require('./config/catalogs')( router );
 
 require('./config/agents')( router );
 
+require('./sum/procurements')( router );
+
 router.get('/*', 
   (req, res) => {
      res.status(400);
-     res.json({message: "Bad request"});
+     res.json({message: "Bad request in api-router."});
 });
 
 /*

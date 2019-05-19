@@ -42,7 +42,7 @@ import { bugs, website, server } from "variables/general.jsx";
 
 import dashboardStyle from "assets/jss/views/dashboardStyle.jsx";
 
-class InvoiceBoardPage extends React.Component {
+class ProcurementBoardPage extends React.Component {
   state = {
     value: 0
   };
@@ -106,8 +106,8 @@ class InvoiceBoardPage extends React.Component {
   }
 }
 
-InvoiceBoardPage.propTypes = {
+ProcurementBoardPage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(dashboardStyle)(InvoiceBoardPage);
+export default withStyles(dashboardStyle)(ProcurementBoardPage);

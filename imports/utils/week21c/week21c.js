@@ -1,5 +1,5 @@
-'use strict';
-var { julianDay } = require('./julianDay');
+
+const { julianDay } = require('./julianDay');
 const JDN_of_20010101 = 2451911; 
 // first day of XXI century: Jan 01, 2001
 
