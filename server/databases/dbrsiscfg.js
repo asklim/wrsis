@@ -1,4 +1,3 @@
-//'use strict';
 const util = require('util');
 
 const { dbName } = require('../../config/enumvalues');
@@ -16,12 +15,12 @@ switch (process.env.NODE_ENV) {
       dbName.rsiscfg
     );
     break;
-
+/*
   case 'intranet':
     uri = process.env.MONGO_STANDALONE_URI+'/'+dbName.rsiscfg;
     //var dbURI = 'mongodb://localhost:36667/rsiscfg';      
     break;
-
+*/
   default:
     uri = process.env.MONGO_DEV1_URI+'/'+dbName.rsiscfg;
      //var dbURI = 'mongodb://localhost:27017/rsiscfg';    
@@ -38,12 +37,12 @@ db.model('Agent', agentSchema, 'agents');
 const userSchema = require('../models/users');
 db.model('User', userSchema, 'users'); 
 
-const salePlaceSchema = require('../models/saleplaces');
-db.model('SalePlace', salePlaceSchema, 'salePlaces'); 
+//const salePlaceSchema = require('../models/saleplaces');
+//db.model('SalePlace', salePlaceSchema, 'salePlaces'); 
 // last arg - collection`s name in MongoDB
 
-const stafferSchema = require('../models/staffers');
-db.model('Staffer', stafferSchema, 'staffers'); 
+//const stafferSchema = require('../models/staffers');
+//db.model('Staffer', stafferSchema, 'staffers'); 
 // last arg - collection`s name in MongoDB
 
 const idMappingSchema = require('../models/catalogs').idMappingExcel;
