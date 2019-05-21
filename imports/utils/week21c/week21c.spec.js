@@ -1,4 +1,4 @@
-'use strict';
+
 var { week21c } = require('./week21c');
 var { datesAsString,
       datesAsDate } = require('./dataset-helper');

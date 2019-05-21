@@ -92,7 +92,7 @@ class ProcurementBoardPage extends React.Component {
   fetchLists = () => {
     this.setState({loading: true});
     let route = window.location.origin;
-    route += '/api/sum/procurements/last';
+    route += '/api/sum/procurement/last';
     //console.log('fetch Lists: ', route);    
     fetch(route)
       .then( response => response.json())  // '[{}, ..., {}]'      

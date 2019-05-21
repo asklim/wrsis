@@ -1,14 +1,14 @@
-const ctrlProcurements = require('../../controllers/procurements');
+const ctrlProcurement = require('./ctrl-procurement');
 
 /**  
  * api for 1 week procurement: /api/sum/procurements/<weekId>. 
  */
 module.exports = function ( router ) {
 
-  let route = '/sum/procurements';
+  let route = '/sum/procurement';
   let routeWithWeekId = route + '/:weekId';
   
-  router.get(routeWithWeekId, ctrlProcurements.readOne);
+  router.get(routeWithWeekId, ctrlProcurement.readOne);
 
 };
 

@@ -31,11 +31,12 @@ const db = conn.createConn(uri, title);
       
 
 // BRING IN YOUR SCHEMAS & MODELS
-/*
-var salePlaceSchema = require('./saleplaces');
-db.model('SalePlace', salePlaceSchema, 'salePlaces'); 
+
+const weekNaturalSchema = require('../api/sum/weeknatural/schm-weeknatural');
+db.model('WeekNatural', weekNaturalSchema, 'weekNatural'); 
 // last arg - collection`s name in MongoDB
 
+/*
 var stafferSchema = require('./staffers');
 db.model('Staffer', stafferSchema, 'staffers'); 
 // last arg - collection`s name in MongoDB

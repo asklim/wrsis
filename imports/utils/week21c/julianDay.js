@@ -1,4 +1,3 @@
-'use strict';
 /**
  * @name julianDay
  * @param {Date} gregorianDate Gregorian date at local timezone

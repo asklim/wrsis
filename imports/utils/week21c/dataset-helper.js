@@ -1,4 +1,3 @@
-'use strict';
 
 const dataSet = [
   ['2019-02-27', 948, 2458542],
@@ -51,14 +50,14 @@ const dataSet19c = [
 
 function datesAsString() {
 
-  return dataSet
-         .map( elem => {
-            return [ 
-               elem[0] 
-             , elem[1]
-             , elem[2]
-            ];
-         });         
+  return dataSet.map( 
+    elem => {
+      return [ 
+          elem[0] 
+        , elem[1]
+        , elem[2]
+      ];
+  });         
 }
 
 
@@ -67,14 +66,14 @@ function datesAsString() {
 **/
 function datesAsDate() {
 
-  return dataSet
-         .map( elem => {
-            return [ 
-              new Date(elem[0])
-              , elem[1]
-              , elem[2]
-            ];
-         });         
+  return dataSet.map( 
+    elem => {
+      return [ 
+        new Date(elem[0])
+        , elem[1]
+        , elem[2]
+      ];
+  });         
 }
 
 module.exports = {

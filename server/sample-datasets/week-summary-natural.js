@@ -1,9 +1,9 @@
 /**
  * @name WeekSummaryNatural // итоги недели в натуральных величинах
  * 
- * @property {Number} gid - Global id of product item
+ * @property {String} gid - Global id of product item
  * @property {String} name - Название продукта (InnerName)
- * @property {Number} gr - Группа, используется для сортировки: 10 .. 99
+ * @property {String} gr - Группа, используется для сортировки: 10 .. 99
  * @property {Number} qpu - Quantity per Unit - Количество штук в коробке 
  * @property {String} type - тип канала поставки товара: [ BY | RU | EU ]
  * @property {Number} frAct - Остаток товара на фирме (Актуальный)
@@ -16,9 +16,9 @@
 
 module.exports = [
   {
-    gid : 2019051901,
+    gid : "2019051901",
     name : "Чай-Кофе #1",
-    gr : 40,
+    gr : "40",
     qpu : 11,
     type : "BY",
     frAct : 4,
@@ -28,9 +28,9 @@ module.exports = [
     valid : 24,
   },
   {
-    gid : 2019051902,
+    gid : "2019051902",
     name : "Чай-Кофе #2",
-    gr : 30,
+    gr : "30",
     qpu : 12,
     type : "BY,RU",
     frAct : 14,
@@ -40,9 +40,9 @@ module.exports = [
     valid : 24,
   },
   {
-    gid : 2019051903,
+    gid : "2019051903",
     name : "Чай-Кофе #3",
-    gr : 20,
+    gr : "20",
     qpu : 13,
     type : "EU,RU",
     frAct : 23,
@@ -52,9 +52,9 @@ module.exports = [
     valid : 24,
   },
   {
-    gid : 2019051904,
+    gid : "2019051904",
     name : "Чай-Кофе #4",
-    gr : 10,
+    gr : "10",
     qpu : 14,
     type : "BY,RU,EU",
     frAct : 33,

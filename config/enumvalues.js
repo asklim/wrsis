@@ -62,9 +62,17 @@ const procurementPeriods = {
   xtraLong : 96,
 };
 
+const nextWorkDayTime = {
+  time : "14:00",
+  hours : 14,
+  minutes : 0,
+  delta : 50400000,  // 14*60*60*1000
+};
+
 module.exports = {
   staffRole,
   staffStatus,
   dbName,
   procurementPeriods,
+  nextWorkDayTime,
 };

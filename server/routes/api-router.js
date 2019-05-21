@@ -12,7 +12,9 @@ require('./config/catalogs')( router );
 
 require('./config/agents')( router );
 
-require('./sum/procurements')( router );
+require('../api/sum/procurement/rout-procurement')( router );
+
+require('../api/sum/weeknatural/rout-weeknatural')( router );
 
 router.get('/*', 
   (req, res) => {
