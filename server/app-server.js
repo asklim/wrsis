@@ -1,10 +1,10 @@
-//"use strict";
 require('dotenv').load();
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
 const cookieParser = require('cookie-parser');
+//const bodyParser = require('body-parser');
 const logger = require('morgan');
 const passport = require('passport');
 //passport before dbs-models
@@ -13,13 +13,6 @@ const dbs = require('./databases/databases');
 dbs.createConns();
 
 require('./passport'); //after db create models
-
-//debug/statistic info for Mongo DB
-//var dbInfo = require('./api/models/dbinfo');
-//dbInfo.log(mongoose.connection);
-
-// console.log(dbs.getDB('config').client.s);
-// console.log(dbs.getDB('Temp').client.s);
 
 //const restRouter = require('./routes/rest-router');
 //var usersRouter = require('./routes/users-router');
@@ -40,8 +33,13 @@ app.use((req,res,next) => {
 app.use(favicon(__dirname + './../public/favicon.ico'));
 
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({
+    limit : "5mb",
+}));
+app.use(express.urlencoded({ 
+    extended : true,
+    limit : "5mb",
+ }));
 app.use(cookieParser());
 
 //app.use(express.static(path.join(__dirname, './../public')));
@@ -73,11 +71,15 @@ app.use( (req, res, next) => {
 
 // error handler
 // eslint-disable-next-line no-unused-vars
-app.use( (err, req, res, next) => { // must be 4 args
+app.use( (err, req, res, next) => { 
+    // must be 4 args
+    const isDev = req.app.get('env') === 'development';
+    console.log(`app-server error-handler: env='${req.app.get('env')}'`);
+    console.log( isDev ? req.body : "");    
+
     // set locals, only providing error in development
     res.locals.message = err.message;
-    console.log(`app-server error-handler: env='${req.app.get('env')}'`);
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    res.locals.error = isDev ? err : {};
 
     // render the error page
     res.status(err.status || 500);

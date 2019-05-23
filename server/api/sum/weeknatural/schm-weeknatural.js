@@ -10,12 +10,28 @@ const mongoose = require('mongoose');
  * @property {Date} updatedAt - дата изменений
  * @property {Object} body - данные в зависимости от типа агента
  */
-module.exports = new mongoose.Schema({
-         id: {type: String, required: true},
-       type: {type: String, 
-              required: true,
-              lowercase: true},
-       body: {type: Object},
-       host: {type: String, required: true},
-  updatedAt: {type: Date, 'default': Date.now}
+const WeekNatural = new mongoose.Schema({
+  id : {
+    type: String, 
+    required: true, 
+    unique: true
+  },
+  type : {
+    type: String, 
+    required: true,
+    lowercase: true
+  },
+  body : {
+    type : Object
+  },
+  host : {
+    type : String, 
+    required : true
+  },
+  updatedAt : {
+    type : Date, 
+    'default' : Date.now
+  }
 });
+
+module.exports = WeekNatural;

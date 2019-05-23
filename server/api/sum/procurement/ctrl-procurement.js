@@ -39,12 +39,12 @@ const fetchDataSet = ( hostname, weekId, callback ) =>
     };
     request( 
       reqOptions,
-      ( err, res, resBody ) => {  // '[{}, ..., {}]' 
+      ( err, res, resBody ) => {  // '{..., body:[{}, ..., {}]}' 
         if(err) {
           callback( err, null);
           return;   
         }
-        console.log('body: ', resBody);
+        //console.log('body: ', resBody);
         //Преобразование в Procurement DataSet        
         callback( null, 
           resBody.body.map( item => {

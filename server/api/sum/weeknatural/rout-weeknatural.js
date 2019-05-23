@@ -11,7 +11,7 @@ module.exports = function ( router ) {
   
   router.get(routeWithWeekId, ctrlWeekNatural.readOne);
   router.post(route, ctrlWeekNatural.create);
-  router.put(routeWithWeekId, ctrlWeekNatural.updateOne);
+  router.put(route, ctrlWeekNatural.updateOne);
   router.delete(routeWithWeekId, ctrlWeekNatural.deleteOne);
   
   /* api for all records */

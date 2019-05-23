@@ -36,12 +36,18 @@ class SimpleDialog extends React.Component {
     const { classes, onClose, selectedValue, ...other } = this.props;
 
     return (
-      <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
+      <Dialog onClose={this.handleClose} 
+        aria-labelledby="simple-dialog-title" 
+        {...other}
+      >
         <DialogTitle id="simple-dialog-title">Set backup account</DialogTitle>
         <div>
           <List>
             {emails.map(email => (
-              <ListItem button onClick={() => this.handleListItemClick(email)} key={email}>
+              <ListItem button 
+                onClick={() => this.handleListItemClick(email)} 
+                key={email}
+              >
                 <ListItemAvatar>
                   <Avatar className={classes.avatar}>
                     <PersonIcon />
@@ -50,7 +56,9 @@ class SimpleDialog extends React.Component {
                 <ListItemText primary={email} />
               </ListItem>
             ))}
-            <ListItem button onClick={() => this.handleListItemClick('addAccount')}>
+            <ListItem button 
+              onClick={() => this.handleListItemClick('addAccount')}
+            >
               <ListItemAvatar>
                 <Avatar>
                   <AddIcon />

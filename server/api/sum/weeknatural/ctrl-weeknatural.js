@@ -63,19 +63,51 @@ const readOne = (req, res) =>
  **/
 const create = (req, res)  =>
 {
-  //console.log(req.body);
-  WeekNatural.create( 
-    req.body, 
-    (err, summary) => 
-    {
-      if (err) {
-        //console.log(err);
-        sendJSONresponse(res, 400, err);
-      } 
-      else {
-        sendJSONresponse(res, 201, summary);
+  console.log("sum-week-natural create: ", req.body); 
+  if (!req.body || req.body === {}) {
+    sendJSONresponse(res, 400, {
+      message : 'Bad request, body is required'
+    });
+    return;
+  }
+  const { id : weekId } = req.body;
+  if (!weekId ||  weekId === '') {
+    sendJSONresponse(res, 400, {
+      message : 'Bad request, week number is required'
+    });
+    return;
+  }  
+  
+  const finding = { id : weekId };
+
+  WeekNatural.find( finding )
+    .limit(1)
+    .exec((err, docs) => { 
+      if(err) { //console.log(err);
+        sendJSONresponse(res, 503, err);
+        return;
       }
-  });
+      if(docs && docs.length !== 0) {
+        sendJSONresponse(res, 409, {
+          message : `Summary data for week ${weekId} already exists.`});
+        return;
+      }
+      WeekNatural.create( 
+        req.body, 
+        // eslint-disable-next-line no-unused-vars
+        (err, sumDoc) => 
+        {
+          if (err) {
+            console.log('ctrl-weeknatural err: ', err);
+            sendJSONresponse(res, 503, err);
+          } 
+          else {
+            sendJSONresponse(res, 201, {
+              message : `Summary data for week ${weekId} created successfull.`});
+          }
+      });
+    }
+  );    
 };
 
 
@@ -87,7 +119,7 @@ const create = (req, res)  =>
 const updateOne = (req, res) =>
 {
   //console.log(req.body);
-  const { weekId } = req.params;
+  const { id : weekId } = req.body;
   if (!weekId) {
     sendJSONresponse(res, 400, {
       message : 'Bad request, weekId is required'
@@ -116,7 +148,7 @@ const updateOne = (req, res) =>
         return;
       }
       if (err) { //console.log(err);
-        sendJSONresponse(res, 404, err);
+        sendJSONresponse(res, 503, err);
         return;
       }
 
@@ -126,7 +158,7 @@ const updateOne = (req, res) =>
       docs[0].save( (err, result) =>
       {
         if (err) {
-          sendJSONresponse(res, 404, err);
+          sendJSONresponse(res, 503, err);
         } else {
           sendJSONresponse(res, 200, result);
         }
