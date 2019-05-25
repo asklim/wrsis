@@ -3,8 +3,6 @@ import React from 'react';
 import { FaHome } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import './css/menus.css';
 
 

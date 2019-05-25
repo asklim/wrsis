@@ -30,7 +30,13 @@ const appStyle = theme => ({
   container,
   map: {
     marginTop: "70px"
-  }
+  },
+  formControl: {
+    margin: theme.spacing.unit *3,
+  },
+  group: {
+    margin: `${theme.spacing.unit}px 0`,
+  },  
 });
 
 export default appStyle;

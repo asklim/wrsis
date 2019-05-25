@@ -7,7 +7,6 @@ import { Nav, NavItem } from 'react-bootstrap';
 react-bootstrap is added approx. 1MB and 
                 257 modules to bundle.js 
 */
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './css/menus.css';
 

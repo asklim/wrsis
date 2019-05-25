@@ -24,7 +24,7 @@ const needUnitsForPeriod = (item, period) => {
 
 const { PORT, NODE_ENV } = process.env;
 const apiServer = NODE_ENV === 'production' ?
-  'https://getting-mean-loc8r.herokuapp.com'
+  'https://rsis-webapp.herokuapp.com'
   : `http://localhost:${PORT}`;
 
 
@@ -44,19 +44,26 @@ const fetchDataSet = ( hostname, weekId, callback ) =>
           callback( err, null);
           return;   
         }
-        //console.log('body: ', resBody);
+        const maxFreqIndex = 2;
+        //console.log('week-natural-body: ', resBody);
         //Преобразование в Procurement DataSet        
         callback( null, 
-          resBody.body.map( item => {
+          resBody.body
+          .map( item => {
             item.sp = needUnitsForPeriod( item, period.short );
             item.mp = needUnitsForPeriod( item, period.middle );
             item.lp = needUnitsForPeriod( item, period.long );
-            item.xlp = needUnitsForPeriod( item, period.xtraLong );
+            item.xlp = needUnitsForPeriod( item, period.xtraLong );            
             delete item.valid;
             delete item.fqA;
             delete item.fqM;
             return item;
-        }));
+          })
+          .filter( item => item.xlp[maxFreqIndex] > 0 )             
+          // Товар на xtraLong период по максимальным продажам не нужен
+          // Не включаем в датасет.
+          // Клиент получает только те позиции которые нужны на закупку
+        );
     });
   } else {
     // Тестовый датасет если hostname=''
@@ -78,7 +85,6 @@ const readOne = (req, res) =>
   const { weekId } = req.params;  
   if (req.params && weekId) 
   {
-    //const week = weekId === 'last' ? 959 : weekId;
     fetchDataSet( apiServer, // ''
       weekId,
       (err, data) =>
