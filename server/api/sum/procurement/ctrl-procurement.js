@@ -44,19 +44,26 @@ const fetchDataSet = ( hostname, weekId, callback ) =>
           callback( err, null);
           return;   
         }
+        const maxFrequency = 2;
         //console.log('body: ', resBody);
         //Преобразование в Procurement DataSet        
         callback( null, 
-          resBody.body.map( item => {
+          resBody.body
+          .map( item => {
             item.sp = needUnitsForPeriod( item, period.short );
             item.mp = needUnitsForPeriod( item, period.middle );
             item.lp = needUnitsForPeriod( item, period.long );
-            item.xlp = needUnitsForPeriod( item, period.xtraLong );
+            item.xlp = needUnitsForPeriod( item, period.xtraLong );            
             delete item.valid;
             delete item.fqA;
             delete item.fqM;
             return item;
-        }));
+          })
+          .filter( item => item.xlp[maxFrequency] > 0 )             
+          // Товар на xtraLong период по максимальным продажам не нужен
+          // Не включаем в датасет.
+          // Клиент получает только те позиции которые нужны на закупку
+        );
     });
   } else {
     // Тестовый датасет если hostname=''
@@ -78,7 +85,6 @@ const readOne = (req, res) =>
   const { weekId } = req.params;  
   if (req.params && weekId) 
   {
-    //const week = weekId === 'last' ? 959 : weekId;
     fetchDataSet( apiServer, // ''
       weekId,
       (err, data) =>

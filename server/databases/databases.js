@@ -47,37 +47,39 @@ module.exports.createConns = function() {
   // CAPTURE APP TERMINATION / RESTART EVENTS
 
   // For nodemon restarts
-  process.once('SIGUSR2', function() {
-      gracefulShutdown('nodemon restart', function() {
-          process.kill(process.pid, 'SIGUSR2');
-      });
+  process.once('SIGUSR2', () => {
+      gracefulShutdown('nodemon restart', 
+        () => { process.kill(process.pid, 'SIGUSR2'); }
+      );
   });
   
   // For app termination
-  process.on('SIGINT', function() {
-      gracefulShutdown('app termination', function() {
-          process.exit(0);
-      });
+  process.on('SIGINT', () => {
+      gracefulShutdown( 'app termination', 
+        () => { process.exit(0); }
+      );
   });
 
   // For Heroku app termination
-  process.on('SIGTERM', function() {
-      gracefulShutdown('Heroku app termination', function() {
-          process.exit(0);
-      });
+  process.on('SIGTERM', () => {
+      gracefulShutdown( 'Heroku app termination', 
+        () => { process.exit(0); }
+      );
   });
 };
 
 // To be called when process is restarted or terminated
-gracefulShutdown = async function(msg, callback) {
+gracefulShutdown = (msg, shutdown) => {
   
-  Promise.all([dbTmp.closeConn(),
-               dbSum.closeConn(),
-               dbCfg.closeConn()])
+  Promise.all([
+    dbTmp.closeConn(),
+    dbSum.closeConn(),
+    dbCfg.closeConn()
+  ])
   .then( dbsNames => {
     console.log('dbs closed: ', dbsNames);
     console.log('Mongoose disconnected through ' + msg);
-    callback();  
+    shutdown();  
   })
   .catch( error => {
     console.log(error.message);

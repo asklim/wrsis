@@ -16,6 +16,7 @@
     "build:nm": "webpack && npm run nm",
     "bundleServerDev": "webpack --config webpack.serverdev.js",
     "bundleServerWeb": "webpack --config webpack.serverdev.js",
+    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install",
     "forever": "forever start --fifo --minUptime 1000 --spinSleepTime 1000 --killSignal=SIGINT static/server.bundle.js && forever list",
     "test": "npm run test:imports",
     "test:imports": "mocha \"./imports/**/*.spec.js\"",
@@ -37,9 +38,6 @@
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
     "@babel/runtime": "^7.4.3",
-    "@fortawesome/fontawesome-svg-core": "^1.2.12",
-    "@fortawesome/free-solid-svg-icons": "^5.6.3",
-    "@fortawesome/react-fontawesome": "^0.1.4",
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
     "@types/googlemaps": "^3.30.19",

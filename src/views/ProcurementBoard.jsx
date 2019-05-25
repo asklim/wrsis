@@ -1,14 +1,24 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-// react plugin for creating charts
-//import ChartistGraph from "react-chartist";
 
 // @material-ui/core
 import withStyles from "@material-ui/core/styles/withStyles";
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 //import Icon from "@material-ui/core/Icon";
 
 // @material-ui/icons
+import { 
+  Battery20 as ShortPeriod,
+  Battery50 as MiddlePeriod,
+  Battery80 as LongPeriod,
+  BatteryFull as XtraLongPeriod,
+  AddAlert,
+} from "@material-ui/icons";
 /*import Store from "@material-ui/icons/Store";
 import Warning from "@material-ui/icons/Warning";
 import DateRange from "@material-ui/icons/DateRange";
@@ -18,19 +28,16 @@ import ArrowUpward from "@material-ui/icons/ArrowUpward";
 import AccessTime from "@material-ui/icons/AccessTime";
 import Accessibility from "@material-ui/icons/Accessibility";
 */
-import ShortPeriod from "@material-ui/icons/Battery20";
-import MiddlePeriod from "@material-ui/icons/Battery50";
-import LongPeriod from "@material-ui/icons/Battery80";
-import XtraLongPeriod from "@material-ui/icons/BatteryFull";
-import AddAlert from "@material-ui/icons/AddAlert";
+
 
 // core components
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import Table from "components/Table/Table.jsx";
-//import Tasks from "components/Tasks/Tasks.jsx";
 import CustomTabs from "components/CustomTabs/CustomTabs.jsx";
 import SnackbarContent from "components/Snackbar/SnackbarContent.jsx";
+//import Tasks from "components/Tasks/Tasks.jsx";
+
 
 /*
 import Table from "components/Table/Table.jsx";
@@ -42,31 +49,51 @@ import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 */
 
-//import { bugs, website, server } from "variables/general.jsx";
-
 import dashboardStyle from "assets/jss/views/dashboardStyle.jsx";
-
+/*
+const styles = theme => ({
+  root: {
+    display: 'flex',
+  },
+  formControl: {
+    margin: theme.spacing.unit * 3,
+  },
+  group: {
+    margin: `${theme.spacing.unit}px 0`,
+  },
+});
+*/
 class ProcurementBoardPage extends React.Component {
   state = {
-    //value : 0,
-    loading: false,
+    filterByFreq : "last",
+    filterByFrom : "RU",
+    isLoaded : false,
+    serverDataset : [],  // Array of Hash
     shortPeriod : [],    // Array of Array
     middlePeriod : [],
     longPeriod : [],
-    xtraLongPeriod : []
+    xtraLongPeriod : [],    
   };
-  /*
-  handleChange = (event, value) => {
-    this.setState({ value });
+  
+  freqValues = ["last","avrg","max"];
+ 
+  tableHeader = ( period ) => {
+    const lineCount = {
+      sp : this.state.shortPeriod.length,
+      mp : this.state.middlePeriod.length,
+      lp : this.state.longPeriod.length,
+      xlp : this.state.xtraLongPeriod.length,
+    };
+    return [
+      "#", "La", "Av", "Mx", `Название (${lineCount[period]})`
+    ];    
   };
-  handleChangeIndex = index => {
-    this.setState({ value: index });
+  handleFilterByFreqChange = event => {
+    //console.log("filter Freq: ", event.target.value);
+    this.setState({ filterByFreq : event.target.value });
+    this.updateViewingLists( this.state );
   };
-  */
 
-  header = ["#", "La", "Av", "Mx", "Название"];
-
-  componentDidMount = () => { this.fetchLists(); }
   /*
   formatValue = ( out, curr ) => {
     return out + '   ' + curr.toString();
@@ -75,9 +102,20 @@ class ProcurementBoardPage extends React.Component {
     return needUnits.reduce(this.formatValue, '');     
   } */
 
-  convertDatasetToViewList = ( hashs, period ) => {
-    return hashs
-      .filter( item => item[period][2] > 0 )
+  // eslint-disable-next-line no-unused-vars
+  viewFilter = ( period, freq, from ) => {
+    return ( item => { item[period][freq] > 0;} );
+  };
+
+  convertToViewList = ( state, period ) => 
+  {
+    const freqId = this.freqValues.indexOf( state.filterByFreq ); // 0|1|2
+    /*const filtering = this.viewFilter( 
+      period, freqId, state.filterByFrom 
+    );*/
+    const hashs = state.serverDataset;    
+    const viewList = hashs
+      .filter( item => item[period][freqId] > 0 ) //filtering )
       .map( (item, key) => {
         return [ 
           (key+1).toString(),  
@@ -87,38 +125,61 @@ class ProcurementBoardPage extends React.Component {
           item.name
         ];
       });
+    //console.log("convertToView : ", freqId, hashs.length, viewList.length ); 
+    const p = Promise.resolve(viewList); 
+    //console.log("convertToView : ", p);
+    return p;
   }
 
-  fetchLists = () => {
-    this.setState({loading: true});
+  updateViewingLists = (oldState) => {    
+    Promise.all([
+      this.convertToViewList( oldState, 'sp' ),
+      this.convertToViewList( oldState, 'mp' ),
+      this.convertToViewList( oldState, 'lp' ),
+      this.convertToViewList( oldState, 'xlp' )
+    ])
+    .then( lists => {
+      console.log("updateViewLists ", lists.map( item => item.length ));      
+      this.setState({ 
+        shortPeriod : lists[0],
+        middlePeriod : lists[1],
+        longPeriod : lists[2],
+        xtraLongPeriod : lists[3],          
+      });
+    });
+  };
+
+  fetchLists = () => {    
     let route = window.location.origin;
     route += '/api/sum/procurement/last';
     //console.log('fetch Lists: ', route);    
     fetch(route)
       .then( response => response.json())  // '[{}, ..., {}]'      
       .then( hashs => {
-        //console.log('fetch Lists: ', hashs);
-        this.setState( {
-          shortPeriod : this.convertDatasetToViewList( hashs, 'sp'),
-          middlePeriod : this.convertDatasetToViewList( hashs, 'mp'),
-          longPeriod : this.convertDatasetToViewList( hashs, 'lp'),
-          xtraLongPeriod : this.convertDatasetToViewList( hashs, 'xlp'),
-        });
-        this.setState({loading: false}); 
+console.log('fetch Lists Length: ', hashs.length);
+        this.setState({ 
+          serverDataset : hashs,
+          isLoaded : true,
+        });        
+      })
+      .then( () => {
+        this.updateViewingLists(this.state);
       })
     .catch(err => {
+      this.setState({ isLoaded : false });
       console.log(err); 
     });    
   };
+  componentDidMount = () => { this.fetchLists(); }
 
   render() 
   {
-    //const { classes } = this.props;
-    const { loading, ...lists } = this.state;
-    //console.log('fetch Lists: ', lists.shortPeriod);
+    const { classes } = this.props;
+    const { isLoaded, ...rest } = this.state;
+    //console.log('state: ', this.state);
 
-    return loading === true
-    ?(
+    return !isLoaded ?
+    (
       <GridContainer>
         <GridItem xs={12} sm={12} md={8} lg={4}>
         <SnackbarContent
@@ -128,64 +189,93 @@ class ProcurementBoardPage extends React.Component {
         />
         </GridItem>
       </GridContainer>
-     )
-    :(
+    ):(
       <div>
-        <GridContainer>
-          <GridItem xs={12} sm={10} md={8} lg={6}>
-            <CustomTabs
-              title="Заказ на:"
-              headerColor="primary"
-              tabs={[
-                {
-                  tabName: "12 дней",
-                  tabIcon: ShortPeriod,
-                  tabContent: (
-                    <Table
-                      tableHeaderColor="danger"
-                      tableHead={this.header}
-                      tableData={lists.shortPeriod}
-                    />
-                  )
-                },
-                {
-                  tabName: "24 дня",
-                  tabIcon: MiddlePeriod,
-                  tabContent: (
-                    <Table
-                      tableHeaderColor="warning"
-                      tableHead={this.header}
-                      tableData={lists.middlePeriod}
-                    />
-                  )
-                },
-                {
-                  tabName: "36 дней",
-                  tabIcon: LongPeriod,
-                  tabContent: (
-                    <Table
-                      tableHeaderColor="primary"
-                      tableHead={this.header}
-                      tableData={lists.longPeriod}
-                    />
-                  )
-                },
-                {
-                  tabName: "96 дней",
-                  tabIcon: XtraLongPeriod,
-                  tabContent: (
-                    <Table
-                      tableHeaderColor="info"
-                      tableHead={this.header}
-                      tableData={lists.xtraLongPeriod}
-                    />
-                  )
-                }
-              ]}
+      <GridContainer>
+        <GridItem xs={12} sm={10} md={8} lg={6}> 
+          <FormControl component="fieldset" className={classes.formControl}>
+          <FormLabel component="legend">Отбор по продажам</FormLabel>
+          <RadioGroup
+            aria-label="SelectOnFreq"
+            name="FilterByFreq"
+            className={classes.group}
+            value={this.state.filterByFreq}
+            onChange={this.handleFilterByFreqChange}
+          >
+            <FormControlLabel 
+              value={this.freqValues[0]} 
+              control={<Radio />} 
+              label="Последние"
             />
-          </GridItem>
-          
-        </GridContainer>
+            <FormControlLabel 
+              value={this.freqValues[1]}  
+              control={<Radio />} 
+              label="Средние" 
+            />
+            <FormControlLabel 
+              value={this.freqValues[2]}  
+              control={<Radio />} 
+              label="Maximal" 
+            />
+          </RadioGroup>
+          </FormControl>       
+        </GridItem>
+      </GridContainer>
+      <GridContainer>  
+        <GridItem xs={12} sm={10} md={8} lg={6}>
+          <CustomTabs
+            title="Заказ на:"
+            headerColor="primary"
+            tabs={[
+              {
+                tabName: "12 дней",
+                tabIcon: ShortPeriod,
+                tabContent: (
+                  <Table
+                    tableHeaderColor="danger"
+                    tableHead={this.tableHeader('sp')}
+                    tableData={rest.shortPeriod}
+                  />
+                )
+              },
+              {
+                tabName: "24 дня",
+                tabIcon: MiddlePeriod,
+                tabContent: (
+                  <Table
+                    tableHeaderColor="warning"
+                    tableHead={this.tableHeader('mp')}
+                    tableData={rest.middlePeriod}
+                  />
+                )
+              },
+              {
+                tabName: "36 дней",
+                tabIcon: LongPeriod,
+                tabContent: (
+                  <Table
+                    tableHeaderColor="primary"
+                    tableHead={this.tableHeader('lp')}
+                    tableData={rest.longPeriod}
+                  />
+                )
+              },
+              {
+                tabName: "96 дней",
+                tabIcon: XtraLongPeriod,
+                tabContent: (
+                  <Table
+                    tableHeaderColor="info"
+                    tableHead={this.tableHeader('xlp')}
+                    tableData={rest.xtraLongPeriod}
+                  />
+                )
+              }
+            ]}
+          />
+        </GridItem>
+        
+      </GridContainer>
       </div>
     );
   }

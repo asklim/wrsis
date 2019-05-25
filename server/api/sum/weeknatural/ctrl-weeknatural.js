@@ -63,7 +63,7 @@ const readOne = (req, res) =>
  **/
 const create = (req, res)  =>
 {
-  console.log("sum-week-natural create: ", req.body); 
+  //console.log("sum-week-natural create: ", req.body); 
   if (!req.body || req.body === {}) {
     sendJSONresponse(res, 400, {
       message : 'Bad request, body is required'
@@ -152,8 +152,11 @@ const updateOne = (req, res) =>
         return;
       }
 
-      Object.assign(docs[0], req.body);
-      //agent.host = req.body.host;
+      Object.assign(docs[0], 
+        req.body,
+        { updatedAt : Date.now() }
+      );
+      //doc[0].host = req.body.host;
 
       docs[0].save( (err, result) =>
       {
