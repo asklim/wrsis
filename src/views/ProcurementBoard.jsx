@@ -68,7 +68,7 @@ class ProcurementBoardPage extends React.Component {
     filterByFreq : "last",
     filterByFrom : "RU",
     isLoaded : false,
-    serverDataset : [],  // Array of Hash
+    serverDataset : [],  // Array of Hash /server/sample-datasets/procurements.js
     shortPeriod : [],    // Array of Array
     middlePeriod : [],
     longPeriod : [],
@@ -89,11 +89,11 @@ class ProcurementBoardPage extends React.Component {
     ];    
   };
   handleFilterByFreqChange = event => {
-    //console.log("filter Freq: ", event.target.value);
-    this.setState({ filterByFreq : event.target.value });
-    this.updateViewingLists( this.state );
+    const freq = event.target.value;
+    //console.log("filter Freq: ", freq );
+    this.setState({ filterByFreq : freq });
+    this.updateViewingLists( freq );
   };
-
   /*
   formatValue = ( out, curr ) => {
     return out + '   ' + curr.toString();
@@ -103,19 +103,19 @@ class ProcurementBoardPage extends React.Component {
   } */
 
   // eslint-disable-next-line no-unused-vars
-  viewFilter = ( period, freq, from ) => {
-    return ( item => { item[period][freq] > 0;} );
+  serverDatasetFilter = ( period, freq, from ) => {
+    return ( item => item[period][freq] > 0 );
   };
 
   convertToViewList = ( state, period ) => 
   {
     const freqId = this.freqValues.indexOf( state.filterByFreq ); // 0|1|2
-    /*const filtering = this.viewFilter( 
+    const filtering = this.serverDatasetFilter( 
       period, freqId, state.filterByFrom 
-    );*/
+    );
     const hashs = state.serverDataset;    
     const viewList = hashs
-      .filter( item => item[period][freqId] > 0 ) //filtering )
+      .filter( filtering ) // item => item[period][freqId] > 0 ) 
       .map( (item, key) => {
         return [ 
           (key+1).toString(),  
@@ -125,13 +125,17 @@ class ProcurementBoardPage extends React.Component {
           item.name
         ];
       });
-    //console.log("convertToView : ", freqId, hashs.length, viewList.length ); 
+    console.log("convertToView : ", freqId, hashs.length, viewList.length ); 
     const p = Promise.resolve(viewList); 
     //console.log("convertToView : ", p);
     return p;
   }
 
-  updateViewingLists = (oldState) => {    
+  updateViewingLists = (freq) => {  
+    console.log("updateViewLists this.state ",this.state);
+    const { state : oldState } = this; 
+    oldState.filterByFreq = freq;    
+    console.log("updateViewLists oldState ", oldState);
     Promise.all([
       this.convertToViewList( oldState, 'sp' ),
       this.convertToViewList( oldState, 'mp' ),
@@ -139,7 +143,7 @@ class ProcurementBoardPage extends React.Component {
       this.convertToViewList( oldState, 'xlp' )
     ])
     .then( lists => {
-      console.log("updateViewLists ", lists.map( item => item.length ));      
+console.log("updateViewLists ", lists.map( item => item.length ));      
       this.setState({ 
         shortPeriod : lists[0],
         middlePeriod : lists[1],
@@ -160,10 +164,12 @@ console.log('fetch Lists Length: ', hashs.length);
         this.setState({ 
           serverDataset : hashs,
           isLoaded : true,
-        });        
+        });    
       })
       .then( () => {
-        this.updateViewingLists(this.state);
+        //console.log("Update ViewLists after fetch from server.");
+        //console.log(this.state);
+        this.updateViewingLists( 'last' );
       })
     .catch(err => {
       this.setState({ isLoaded : false });
@@ -194,7 +200,7 @@ console.log('fetch Lists Length: ', hashs.length);
       <GridContainer>
         <GridItem xs={12} sm={10} md={8} lg={6}> 
           <FormControl component="fieldset" className={classes.formControl}>
-          <FormLabel component="legend">Отбор по продажам</FormLabel>
+          <FormLabel component="legend">По продажам</FormLabel>
           <RadioGroup
             aria-label="SelectOnFreq"
             name="FilterByFreq"
@@ -205,7 +211,7 @@ console.log('fetch Lists Length: ', hashs.length);
             <FormControlLabel 
               value={this.freqValues[0]} 
               control={<Radio />} 
-              label="Последние"
+              label="Last"
             />
             <FormControlLabel 
               value={this.freqValues[1]}  
