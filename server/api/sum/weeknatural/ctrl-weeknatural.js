@@ -1,7 +1,7 @@
 
 const chalk = require('react-dev-utils/chalk');
 
-const icwd = process.env.INIT_CWD;
+const icwd = require('fs').realpathSync(process.cwd());
 const db = require(`${icwd}/server/databases`).getDB('sum');
 const WeekNatural = db.model('WeekNatural');
 
