@@ -2,6 +2,9 @@ const app = require('./app-server');
 const debug = require('debug')('rsisexpress:server');
 const http = require('http');
 const chalk = require('react-dev-utils/chalk');
+const icwd = require('fs').realpathSync(process.cwd());
+
+let version = require(`${icwd}/package.json`).version;
 
 // пока работает только через 'npm run compile'
 //import app from '../server/app-server';
@@ -67,7 +70,8 @@ const serverOutput = mode =>
       console.log('Express server= ',  server);
       return;
     case 'addr':
-      console.log(chalk.cyan(process.env.npm_package_version));
+      // don't work on herokuapp.com: process.env.npm_package_version
+      console.log('app version ', chalk.cyan(version));
       console.log(
         'Express server= "' + server.address().address +
         '" Family= "' + server.address().family +'"\n',
