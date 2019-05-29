@@ -1,8 +1,8 @@
 const request = require('request');
 const chalk = require('react-dev-utils/chalk');
-//const icwd = require('fs').realpathSync(process.cwd());
+const icwd = require('fs').realpathSync(process.cwd());
 
-const icwd = process.env.INIT_CWD;
+//const icwd = process.env.INIT_CWD; // НЕ РАБОТАЕТ на Heroku: undefined
 console.log(chalk.red('INIT_CWD is ', icwd));
 
 const dataset = require(`${icwd}/server/sample-datasets/procurement`);

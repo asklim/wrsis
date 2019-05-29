@@ -152,19 +152,19 @@ class ProcurementBoardPage extends React.Component {
     fetch(route,{
       cache : 'no-cache'
     })
-      .then( response => response.json())  // '[{}, ..., {}]'      
-      .then( hashs => {
+    .then( response => response.json())  // '[{}, ..., {}]'      
+    .then( hashs => {
 console.log('fetch Lists Length: ', hashs.length);
-        this.setState({ 
-          serverDataset : hashs,
-          isLoaded : true,
-        });    
-      })
-      .then( () => {
-        //console.log("Update ViewLists after fetch from server.");
-        //console.log(this.state);
-        this.updateViewingLists( 'last' );
-      })
+      this.setState({ 
+        serverDataset : hashs,
+        isLoaded : true,
+      });    
+    })
+    .then( () => {
+      //console.log("Update ViewLists after fetch from server.");
+      //console.log(this.state);
+      this.updateViewingLists( 'last' );
+    })
     .catch(err => {
       this.setState({ isLoaded : false });
       console.log(err); 
