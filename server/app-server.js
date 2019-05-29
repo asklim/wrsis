@@ -5,11 +5,11 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const cookieParser = require('cookie-parser');
 //const bodyParser = require('body-parser');
-const logger = require('morgan');
+//const logger = require('morgan');
 const passport = require('passport');
 //passport before dbs-models
 
-const dbs = require('./databases/databases');
+const dbs = require('./databases');
 dbs.createConns();
 
 require('./passport'); //after db create models
@@ -24,15 +24,16 @@ const app = express();
 app.set('views', path.join(__dirname, /*'server',*/ 'views'));
 app.set('view engine', 'ejs');
 
+/*
 app.use((req,res,next) => {
     requestInfo2console(req);
     next();
-});
+});*/
 
 // uncomment after placing your favicon in /public
 app.use(favicon(__dirname + './../public/favicon.ico'));
 
-app.use(logger('dev'));
+//app.use(logger('dev'));
 app.use(express.json({
     limit : "5mb",
 }));
@@ -59,7 +60,7 @@ app.get('*',
         '../static/index.html'
         ),
         err => {
-        if(err) { next(err); }
+          if(err) { next(err); }
         }
     );
 });
@@ -88,9 +89,9 @@ app.use( (err, req, res, next) => {
 
 module.exports = app;
 
-
+/*
 function requestInfo2console(req) {
     console.log(`Received request: ${req.method} ${req.url}`);  
     //+ ` from ${req.headers['user-agent']}`);
 }
-
+*/

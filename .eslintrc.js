@@ -3,7 +3,8 @@ module.exports = {
         "browser": true,
         "commonjs": true,
         "es6": true,
-        "node": true
+        "node": true,
+        "mocha" : true,
     },
     "extends": ["eslint:recommended",
                 "plugin:react/recommended"],
@@ -15,7 +16,9 @@ module.exports = {
             "jsx": true
         }
     },
-    "plugins": ["react"],
+    "plugins": [
+        "react",
+    ],
     "settings": {
         "react": {
           "createClass": "createReactClass", // Regex for Component Factory use,
@@ -44,5 +47,10 @@ module.exports = {
         "linebreak-style": ["error", "unix"],
         "quotes": ["off", "single"],
           "semi": ["error", "always"]
+        ,
+        "no-unused-vars": [ "error", {
+                "varsIgnorePattern" : "should|expect"
+            }
+        ]  
     }
 };

@@ -1,7 +1,7 @@
 
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const db = require('./databases/databases').getDB('config');
+const db = require('./databases').getDB('config');
 const User = db.model('User');
 
 passport.use( new LocalStrategy(

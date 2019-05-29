@@ -17,14 +17,14 @@ module.exports.createConn = function( uri, title) {
   conn.on('error', (err) => {
       console.log(title, ': connection error: ', err);
   });
+  conn.on('disconnecting', () => {
+    console.log(`${title} connection closing ...`);
+  });  
   conn.on('disconnected', () => {
-      console.log(title, ' disconnected from MongoDB.');
+      console.log(`${title} disconnected from MongoDB.`);
   });
   conn.on('close', () => {
     console.log(`${title} connection closed.`);
-  });
-  conn.on('disconnecting', () => {
-    console.log(`${title} connection closing ...`);
   });
 
   conn.closeConn = () => {    

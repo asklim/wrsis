@@ -40,7 +40,6 @@ import SnackbarContent from "components/Snackbar/SnackbarContent.jsx";
 
 
 /*
-import Table from "components/Table/Table.jsx";
 import Danger from "components/Typography/Danger.jsx";
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
@@ -50,19 +49,12 @@ import CardFooter from "components/Card/CardFooter.jsx";
 */
 
 import dashboardStyle from "assets/jss/views/dashboardStyle.jsx";
-/*
-const styles = theme => ({
-  root: {
-    display: 'flex',
-  },
-  formControl: {
-    margin: theme.spacing.unit * 3,
-  },
-  group: {
-    margin: `${theme.spacing.unit}px 0`,
-  },
-});
-*/
+import {
+  procurementPeriods as days
+} from "config/enumvalues";
+
+
+
 class ProcurementBoardPage extends React.Component {
   state = {
     filterByFreq : "last",
@@ -125,17 +117,17 @@ class ProcurementBoardPage extends React.Component {
           item.name
         ];
       });
-    console.log("convertToView : ", freqId, hashs.length, viewList.length ); 
+    //console.log("convertToView : ", freqId, hashs.length, viewList.length ); 
     const p = Promise.resolve(viewList); 
     //console.log("convertToView : ", p);
     return p;
   }
 
   updateViewingLists = (freq) => {  
-    console.log("updateViewLists this.state ",this.state);
+    //console.log("updateViewLists this.state ",this.state);
     const { state : oldState } = this; 
     oldState.filterByFreq = freq;    
-    console.log("updateViewLists oldState ", oldState);
+    //console.log("updateViewLists oldState ", oldState);
     Promise.all([
       this.convertToViewList( oldState, 'sp' ),
       this.convertToViewList( oldState, 'mp' ),
@@ -143,7 +135,7 @@ class ProcurementBoardPage extends React.Component {
       this.convertToViewList( oldState, 'xlp' )
     ])
     .then( lists => {
-console.log("updateViewLists ", lists.map( item => item.length ));      
+//console.log("updateViewLists ", lists.map( item => item.length ));      
       this.setState({ 
         shortPeriod : lists[0],
         middlePeriod : lists[1],
@@ -157,7 +149,9 @@ console.log("updateViewLists ", lists.map( item => item.length ));
     let route = window.location.origin;
     route += '/api/sum/procurement/last';
     //console.log('fetch Lists: ', route);    
-    fetch(route)
+    fetch(route,{
+      cache : 'no-cache'
+    })
       .then( response => response.json())  // '[{}, ..., {}]'      
       .then( hashs => {
 console.log('fetch Lists Length: ', hashs.length);
@@ -176,7 +170,7 @@ console.log('fetch Lists Length: ', hashs.length);
       console.log(err); 
     });    
   };
-  componentDidMount = () => { this.fetchLists(); }
+  componentDidMount = () => this.fetchLists();
 
   render() 
   {
@@ -234,7 +228,7 @@ console.log('fetch Lists Length: ', hashs.length);
             headerColor="primary"
             tabs={[
               {
-                tabName: "12 дней",
+                tabName: `${days.short} дней`,
                 tabIcon: ShortPeriod,
                 tabContent: (
                   <Table
@@ -245,7 +239,7 @@ console.log('fetch Lists Length: ', hashs.length);
                 )
               },
               {
-                tabName: "24 дня",
+                tabName: `${days.middle} дня`,
                 tabIcon: MiddlePeriod,
                 tabContent: (
                   <Table
@@ -256,7 +250,7 @@ console.log('fetch Lists Length: ', hashs.length);
                 )
               },
               {
-                tabName: "36 дней",
+                tabName: `${days.long} дней`,
                 tabIcon: LongPeriod,
                 tabContent: (
                   <Table
@@ -267,7 +261,7 @@ console.log('fetch Lists Length: ', hashs.length);
                 )
               },
               {
-                tabName: "96 дней",
+                tabName: `${days.xtraLong} дней`,
                 tabIcon: XtraLongPeriod,
                 tabContent: (
                   <Table

@@ -1,15 +1,14 @@
-"use strict";
-var db = require('../databases/databases').getDB('config');
+const db = require('../databases').getDB('config');
 //var Catalog = db.model('Catalog');
-var IdList = db.model('IdMappingExcel');
+const IdList = db.model('IdMappingExcel');
 
-var sendJSONresponse = function (res, status, content) {
+const sendJSONresponse = function (res, status, content) {
   //console.log(`catalogs for excel:`, content);  
   res.status(status);
   res.json(content);
 };
 
-var testArr = [[2019011001, 2056], [2019011002, 2046]];
+let testArr = [[2019011001, 2056], [2019011002, 2046]];
 
 
 /**

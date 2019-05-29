@@ -1,7 +1,5 @@
-/*"use strict";*/
-
 const passport = require('passport');
-const db = require('../databases/databases').getDB('config');
+const db = require('../databases').getDB('config');
 const User = db.model('User');
 
 const sendJSONresponse = function (res, status, content) {

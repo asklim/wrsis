@@ -1,7 +1,7 @@
 //'use strict';
 const util = require('util');
 
-const { dbName } = require('../../config/enumvalues');
+const { dbName } = require('../../src/config/enumvalues');
 const conn = require('./dbconnect');
 
 let title = 'rsis.tmp';

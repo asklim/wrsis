@@ -1,8 +1,8 @@
-'use strict';
-var util = require('../../../imports/utils');
-var { datesAsString,
+
+const utils = require('../utils');
+const { datesAsString,
       datesAsDate } = require('./dataset-helper');
-var expect = require('chai').expect
+const expect = require('chai').expect
   , should = require('chai').should();
 
 const assert = require('assert');
@@ -13,14 +13,14 @@ describe("function julianDay() testing ...",
   datesAsString()
   .forEach( elem => {
     it(`${elem[0]} is ${elem[2]} julian day.`, () => {
-      util.julianDay(elem[0]).should.be.equal(elem[2]);
+      utils.julianDay(elem[0]).should.be.equal(elem[2]);
     });  
   });
 
   datesAsDate()
   .forEach( elem => {
     it(`${elem[0]} is ${elem[2]} julian day.`, () => {
-      util.julianDay(elem[0]).should.be.equal(elem[2]);
+      utils.julianDay(elem[0]).should.be.equal(elem[2]);
     });  
   });
 
@@ -28,7 +28,7 @@ describe("function julianDay() testing ...",
   //console.log(firstJDN);
   //console.log(`julian day number is ${julianDay(firstJDN)}`);
   it('First Julian day (JDN=1) is Nov,23 -4713', () => {
-    util.julianDay(firstJDN).should.be.equal(1);
+    utils.julianDay(firstJDN).should.be.equal(1);
   });
   
 });

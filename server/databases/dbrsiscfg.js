@@ -1,6 +1,6 @@
 const util = require('util');
 
-const { dbName } = require('../../config/enumvalues');
+const { dbName } = require('../../src/config/enumvalues');
 const conn = require('./dbconnect');
 
 const title = 'rsis.cfg';
@@ -37,6 +37,13 @@ db.model('Agent', agentSchema, 'agents');
 const userSchema = require('../models/users');
 db.model('User', userSchema, 'users'); 
 
+const idMappingSchema = require('../models/catalogs').idMappingExcel;
+db.model('IdMappingExcel', idMappingSchema, 'catalogs'); 
+
+
+module.exports = db;
+
+
 //const salePlaceSchema = require('../models/saleplaces');
 //db.model('SalePlace', salePlaceSchema, 'salePlaces'); 
 // last arg - collection`s name in MongoDB
@@ -44,9 +51,3 @@ db.model('User', userSchema, 'users');
 //const stafferSchema = require('../models/staffers');
 //db.model('Staffer', stafferSchema, 'staffers'); 
 // last arg - collection`s name in MongoDB
-
-const idMappingSchema = require('../models/catalogs').idMappingExcel;
-db.model('IdMappingExcel', idMappingSchema, 'catalogs'); 
-
-
-module.exports = db;

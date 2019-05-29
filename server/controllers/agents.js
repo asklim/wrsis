@@ -1,6 +1,5 @@
-const db = require('../databases/databases').getDB('config');
+const db = require('../databases').getDB('config');
 const Agent = db.model('Agent');
-
 
 const sendJSONresponse = (res, status, content) =>
 {

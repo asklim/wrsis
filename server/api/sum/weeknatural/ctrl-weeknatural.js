@@ -1,6 +1,11 @@
-const db = require('../../../databases/databases').getDB('sum');
+
+const chalk = require('react-dev-utils/chalk');
+
+const icwd = process.env.INIT_CWD;
+const db = require(`${icwd}/server/databases`).getDB('sum');
 const WeekNatural = db.model('WeekNatural');
-//const workdate = require('../../../../imports/utils/workdate');
+
+//const workdate = require(`${icwd}/imports/utils/workdate`);
 
 const sendJSONresponse = (res, status, content) =>
 {
@@ -20,8 +25,10 @@ const sendJSONresponse = (res, status, content) =>
  * */
 const readOne = (req, res) =>
 {
-  console.log('ROne: Finding weekNatural`s params: ', req.params);
-  console.log('ROne: Finding weekNatural`s query: ', req.query);
+  console.log(chalk.green(
+    'ROne: Finding weekNatural`s params: ', req.params, '\n',
+    'ROne: Finding weekNatural`s query: ', req.query
+  ));
   //console.log(req.hostname);
   
   const { weekId } = req.params;

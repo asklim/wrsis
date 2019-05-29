@@ -1,25 +1,17 @@
 const request = require('request');
+const chalk = require('react-dev-utils/chalk');
+//const icwd = require('fs').realpathSync(process.cwd());
 
-const dataset = require('../../../sample-datasets/procurement');
-const {procurementPeriods: period} = require('../../../../config/enumvalues');
+const icwd = process.env.INIT_CWD;
+console.log(chalk.red('INIT_CWD is ', icwd));
 
-const sendJSONresponse = (res, status, content) =>
-{
-  //console.log('sendJSON: ', content);
-  //console.log('sendJSON: ', Object.keys(content[0]));
+const dataset = require(`${icwd}/server/sample-datasets/procurement`);
+const { procurementPeriods : period } = require(`${icwd}/src/config/enumvalues`);
+const { needUnitsForPeriod } = require(`${icwd}/src/lib/utils/rsis`);
+
+const sendJSONresponse = (res, status, content) => {
   res.status(status);
   res.json(content);
-};
-
-const needUnitsForPeriod = (item, period) => {
-  let count;
-  count = period*item.fqL - item.frAct;
-  let last = count < 0 ? 0 : 1 + Math.trunc(count/item.qpu);
-  count = period*item.fqA - item.frAct;
-  let avrg = count < 0 ? 0 : 1 + Math.trunc(count/item.qpu);
-  count = period*item.fqM - item.frAct;
-  let max = count < 0 ? 0 : 1 + Math.trunc(count/item.qpu);  
-  return [ last, avrg, max ];
 };
 
 const { PORT, NODE_ENV } = process.env;
@@ -30,22 +22,30 @@ const apiServer = NODE_ENV === 'production' ?
 
 const fetchDataSet = ( hostname, weekId, callback ) => 
 {
+  console.log(chalk.green('ctrl-procurement: fetchDataset start'));
   if( hostname && hostname !== '' ) {
     const reqOptions = {
       url : `${hostname}/api/sum/weeknatural/${weekId}`,
       method : "GET",
+      headers : {
+        "Cache-Control" : "no-cache, no-store"
+      },
       json : {},
       qs : {},
-    };
+    };    
     request( 
       reqOptions,
-      ( err, res, resBody ) => {  // '{..., body:[{}, ..., {}]}' 
+      (err, res, resBody) =>  // '{..., body:[{}, ..., {}]}' 
+      {  
+        console.log(chalk.green('ctrl-procurement: week-natural data got up.'));
         if(err) {
           callback( err, null);
           return;   
         }
         const maxFreqIndex = 2;
-        //console.log('week-natural-body: ', resBody);
+  console.log(chalk.green(
+    'ctrl-procurement: convert week-natural-body to procurement dataset.'))
+  ;
         //Преобразование в Procurement DataSet        
         callback( null, 
           resBody.body
@@ -60,7 +60,7 @@ const fetchDataSet = ( hostname, weekId, callback ) =>
             return item;
           })
           .filter( item => item.xlp[maxFreqIndex] > 0 )             
-          // Товар на xtraLong период по максимальным продажам не нужен
+          // Товар на xtraLong период по максимальным продажам не нужен, =0
           // Не включаем в датасет.
           // Клиент получает только те позиции которые нужны на закупку
         );
@@ -78,8 +78,10 @@ const fetchDataSet = ( hostname, weekId, callback ) =>
  **/
 const readOne = (req, res) =>
 {
-  console.log('ROne: Finding procurement`s params: ', req.params);
-  console.log('ROne: Finding procurement`s query: ', req.query);
+  console.log(chalk.green(
+    'ROne: Finding procurement`s params: ', req.params, '\n',
+    'ROne: Finding procurement`s query: ', req.query
+  ));
   //console.log(`hostname is ${req.hostname}`);
   
   const { weekId } = req.params;  
