@@ -34,15 +34,15 @@ const needUnitsForPeriod = (item, period) => {
     countMax
   ;
   countLast = period*item.fqL - item.frAct;
-  let unitsLast = countLast > 0.1 ? 
+  let unitsLast = countLast > 0 ? 
     1 + Math.trunc(countLast/item.qpu) 
     : 0;
   countAvrg = period*item.fqA - item.frAct;
-  let unitsAvrg = countAvrg > 0.1 ? 
+  let unitsAvrg = countAvrg > 0 ? 
     1 + Math.trunc(countAvrg/item.qpu) 
     : 0;
   countMax = period*item.fqM - item.frAct;
-  let unitsMax = countMax > 0.1 ? 
+  let unitsMax = countMax > 0 ? 
     1 + Math.trunc(countMax/item.qpu) 
     : 0;  
 /*
