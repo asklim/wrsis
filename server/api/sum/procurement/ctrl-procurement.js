@@ -3,7 +3,7 @@ const chalk = require('react-dev-utils/chalk');
 const icwd = require('fs').realpathSync(process.cwd());
 
 //const icwd = process.env.INIT_CWD; // НЕ РАБОТАЕТ на Heroku: undefined
-console.log(chalk.red('INIT_CWD is ', icwd)); // = '/app'
+console.log(chalk.red('\tINIT_CWD is ', icwd)); // = '/app'
 
 const dataset = require(`${icwd}/server/sample-datasets/procurement`);
 const { procurementPeriods : period } = require(`${icwd}/src/config/enumvalues`);
@@ -17,7 +17,7 @@ const sendJSONresponse = (res, status, content) => {
 const { PORT, NODE_ENV } = process.env;
 const apiServer = NODE_ENV === 'production' ?
   'https://rsis-webapp.herokuapp.com'
-  : `http://localhost:${PORT}`;
+  : `http://kanote:${PORT}`;
 
 
 const fetchDataSet = ( hostname, weekId, callback ) => 
@@ -37,7 +37,7 @@ const fetchDataSet = ( hostname, weekId, callback ) =>
       reqOptions,
       (err, res, resBody) =>  // '{..., body:[{}, ..., {}]}' 
       {  
-        console.log(chalk.green('ctrl-procurement: week-natural data got up.'));
+        console.log(chalk.green('ctrl-procurement: week-natural data got.'));
         if(err) {
           callback( err, null);
           return;   
@@ -71,7 +71,6 @@ const fetchDataSet = ( hostname, weekId, callback ) =>
   }
 };
 
-
 /** 
  * Read a procurement dataset by the week id 
  * GET /api/sum/procurements/:weekId 
@@ -79,16 +78,16 @@ const fetchDataSet = ( hostname, weekId, callback ) =>
 const readOne = (req, res) =>
 {
   console.log(chalk.green(
-    'ROne: Finding procurement`s params: ', req.params, '\n',
-    'ROne: Finding procurement`s query: ', req.query
+    '..... readOne: Finding procurement`s params: ', req.params, '\n',
+    '..... readOne: Finding procurement`s query: ', req.query
   ));
   //console.log(`hostname is ${req.hostname}`);
   
   const { weekId } = req.params;  
   if (req.params && weekId) 
   {
-    fetchDataSet( apiServer, // ''
-      weekId,
+    console.log('..... Procurement`s ROne: before fetchDataset ...');
+    fetchDataSet( apiServer, weekId,
       (err, data) =>
       {
         if (err) {
@@ -103,10 +102,10 @@ const readOne = (req, res) =>
           return;
         }       
         sendJSONresponse(res, 200, data);
-      });
+    });
   } 
   else {
-    console.log('No week.Id specified.');
+    console.log('\tProcurement`s readOne: No week.Id specified.');
     sendJSONresponse(res, 400, {
       message : 'No week.Id in request.'
     });

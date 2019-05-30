@@ -26,8 +26,8 @@ const sendJSONresponse = (res, status, content) =>
 const readOne = (req, res) =>
 {
   console.log(chalk.green(
-    'ROne: Finding weekNatural`s params: ', req.params, '\n',
-    'ROne: Finding weekNatural`s query: ', req.query
+    '..... readOne: Finding weekNatural`s params: ', req.params, '\n',
+    '..... readOne: Finding weekNatural`s query: ', req.query
   ));
   //console.log(req.hostname);
   
@@ -55,7 +55,7 @@ const readOne = (req, res) =>
       });
   } 
   else {
-    console.log('No week.Id specified.');
+    console.log('\tWeekNatural readOne: No week.Id specified.');
     sendJSONresponse(res, 400, {
       message : 'No week.Id in request.'
     });
