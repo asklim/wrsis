@@ -6,11 +6,13 @@ const favicon = require('serve-favicon');
 const cookieParser = require('cookie-parser');
 //const bodyParser = require('body-parser');
 //const logger = require('morgan');
-const passport = require('passport');
-//passport before dbs-models
 
-const dbs = require('./databases');
-dbs.createConns();
+const passport = require('passport');  //passport must be before dbs-models
+const { 
+  createConns,
+  databasesShutdown
+} = require('./databases');
+createConns();
 
 require('./passport'); //after db create models
 
@@ -87,7 +89,10 @@ app.use( (err, req, res, next) => {
     res.render('error');
 });
 
-module.exports = app;
+module.exports = {
+  app,
+  databasesShutdown
+};
 
 /*
 function requestInfo2console(req) {

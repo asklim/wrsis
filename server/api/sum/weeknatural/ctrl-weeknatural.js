@@ -1,5 +1,5 @@
 
-const chalk = require('react-dev-utils/chalk');
+//const chalk = require('react-dev-utils/chalk');
 
 const icwd = require('fs').realpathSync(process.cwd());
 const db = require(`${icwd}/server/databases`).getDB('sum');
@@ -25,10 +25,10 @@ const sendJSONresponse = (res, status, content) =>
  * */
 const readOne = (req, res) =>
 {
-  console.log(chalk.green(
-    '..... readOne: Finding weekNatural`s params: ', req.params, '\n',
-    '..... readOne: Finding weekNatural`s query: ', req.query
-  ));
+  console.log(
+    'readOne: Finding weekNatural\'s params: ', req.params, '\n',
+    'readOne: Finding weekNatural\'s query: ', req.query
+  );
   //console.log(req.hostname);
   
   const { weekId } = req.params;

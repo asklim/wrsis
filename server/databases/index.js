@@ -1,5 +1,3 @@
-//var mongoose = require('mongoose');
-var gracefulShutdown;
 
 var dbCfg;
 var dbTmp;
@@ -15,9 +13,9 @@ var dbSum;
  * @param {String} dbType The database type
  * @return {Mongoose.Connection} The connection to database
  */
-module.exports.getDB = function(dbType) {
-    
-  if (typeof dbType !== 'string') {
+const getDB = dbType => 
+{    
+  if(typeof dbType !== 'string') {
     console.log('dbType must be a string.');
     return;
   }
@@ -30,46 +28,16 @@ module.exports.getDB = function(dbType) {
 };
 
 
-module.exports.createConns = function() {
-
-  if (dbCfg == undefined) {
-    dbCfg = require('./dbrsiscfg');
-  }
-
-  if (dbSum == undefined) {
-    dbSum = require('./dbrsissum');
-  }
-
-  if (dbTmp == undefined) {
-    dbTmp = require('./dbrsistmp');
-  }
-
-  // CAPTURE APP TERMINATION / RESTART EVENTS
-
-  // For nodemon restarts
-  process.once('SIGUSR2', () => {
-      gracefulShutdown('nodemon restart', 
-        () => { process.kill(process.pid, 'SIGUSR2'); }
-      );
-  });
-  
-  // For app termination
-  process.on('SIGINT', () => {
-      gracefulShutdown( 'app termination', 
-        () => { process.exit(0); }
-      );
-  });
-
-  // For Heroku app termination
-  process.on('SIGTERM', () => {
-      gracefulShutdown( 'Heroku app termination', 
-        () => { process.exit(0); }
-      );
-  });
+const createConns = () => 
+{
+  if(!dbCfg) { dbCfg = require('./dbrsiscfg'); }
+  if(!dbSum) { dbSum = require('./dbrsissum'); }
+  if(!dbTmp) { dbTmp = require('./dbrsistmp'); }
 };
 
-// To be called when process is restarted or terminated
-gracefulShutdown = (msg, shutdown) => {
+
+// To be called when process is restarted Nodemon or terminated
+const databasesShutdown = (msg, next) => {
   
   Promise.all([
     dbTmp.closeConn(),
@@ -79,9 +47,15 @@ gracefulShutdown = (msg, shutdown) => {
   .then( dbsNames => {
     console.log('dbs closed: ', dbsNames);
     console.log('Mongoose disconnected through ' + msg);
-    shutdown();  
+    next();  
   })
   .catch( error => {
     console.log(error.message);
   });
+};
+
+module.exports = {
+  getDB,
+  createConns,
+  databasesShutdown
 };

@@ -22,7 +22,7 @@ const apiServer = NODE_ENV === 'production' ?
 
 const fetchDataSet = ( hostname, weekId, callback ) => 
 {
-  console.log(chalk.green('ctrl-procurement: fetchDataset start'));
+  //console.log(chalk.green('ctrl-procurement: fetchDataset start'));
   if( hostname && hostname !== '' ) {
     const reqOptions = {
       url : `${hostname}/api/sum/weeknatural/${weekId}`,
@@ -37,7 +37,7 @@ const fetchDataSet = ( hostname, weekId, callback ) =>
       reqOptions,
       (err, res, resBody) =>  // '{..., body:[{}, ..., {}]}' 
       {  
-        console.log(chalk.green('ctrl-procurement: week-natural data got.'));
+        //console.log(chalk.green('ctrl-procurement: week-natural data got.'));
         if(err) {
           callback( err, null);
           return;   
@@ -77,16 +77,16 @@ const fetchDataSet = ( hostname, weekId, callback ) =>
  **/
 const readOne = (req, res) =>
 {
-  console.log(chalk.green(
-    '..... readOne: Finding procurement`s params: ', req.params, '\n',
-    '..... readOne: Finding procurement`s query: ', req.query
-  ));
+  console.log(
+    'readOne: Finding procurement\'s params: ', req.params, '\n',
+    'readOne: Finding procurement\'s query: ', req.query
+  );
   //console.log(`hostname is ${req.hostname}`);
   
   const { weekId } = req.params;  
   if (req.params && weekId) 
   {
-    console.log('..... Procurement`s ROne: before fetchDataset ...');
+    //console.log('..... Procurement\'s ROne: before fetchDataset ...');
     fetchDataSet( apiServer, weekId,
       (err, data) =>
       {

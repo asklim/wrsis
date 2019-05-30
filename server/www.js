@@ -1,4 +1,7 @@
-const app = require('./app-server');
+const {
+  app,
+  databasesShutdown
+} = require('./app-server');
 const debug = require('debug')('rsisexpress:server');
 const http = require('http');
 const chalk = require('react-dev-utils/chalk');
@@ -71,7 +74,7 @@ const serverOutput = mode =>
       return;
     case 'addr':
       // don't work on herokuapp.com: process.env.npm_package_version
-      console.log('app version ', chalk.cyan(version));
+      console.log('\tapp version ', chalk.cyan(version));
       console.log(
         'Express server= "' + server.address().address +
         '" Family= "' + server.address().family +'"\n',
@@ -95,12 +98,61 @@ app.set('port', port);
  * Create HTTP server.
  */
 const server = http.createServer(app);
-
+server.on('error', onError);
+server.on('listening', onListening);
+server.on('clientError', (err, socket) => {
+  socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
+});
+server.on('close', () => {
+  console.log('http-server closing ....');
+  }
+);
 /**
  * Listen on provided port, on all network interfaces.
  */
 server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
 
 serverOutput('addr');//'full');
+
+
+// CAPTURE APP TERMINATION / RESTART EVENTS
+
+const serverClose = () => {
+  // eslint-disable-next-line no-unused-vars
+  return new Promise( (resolve, reject ) => {  
+    server.close( () => {
+      console.log('http-server closed now.');
+      resolve();
+    });
+  });
+};
+
+// For nodemon restarts
+process.once('SIGUSR2', () => {
+    databasesShutdown('nodemon restart', 
+      () => { 
+        serverClose()
+        .then( () => {
+          process.kill( process.pid, 'SIGUSR2'); 
+        });
+    });
+});
+
+// For app termination
+process.on('SIGINT', () => {
+    databasesShutdown( 'app termination', 
+      () => { 
+        serverClose()
+        .then( () => { process.exit(0); });
+    });
+});
+
+// For Heroku app termination
+process.on('SIGTERM', () => {
+    databasesShutdown( 'Heroku app termination', 
+      () => {
+        serverClose()
+        .then( () => { process.exit(0); });
+    });
+});
+
