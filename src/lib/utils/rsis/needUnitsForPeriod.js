@@ -33,20 +33,22 @@ const needUnitsForPeriod = (item, period) => {
     countAvrg, 
     countMax
   ;
+  const base = 10;
+  //rounding to 1 digit after decimal period
   countLast = period*item.fqL - item.frAct;
-  let unitsLast = countLast > 0 ? 
+  let unitsLast = Math.round(base*(countLast))/base > 0 ? 
     1 + Math.trunc(countLast/item.qpu) 
     : 0;
   countAvrg = period*item.fqA - item.frAct;
-  let unitsAvrg = countAvrg > 0 ? 
+  let unitsAvrg = Math.round(base*(countAvrg))/base > 0 ? 
     1 + Math.trunc(countAvrg/item.qpu) 
     : 0;
   countMax = period*item.fqM - item.frAct;
-  let unitsMax = countMax > 0 ? 
+  let unitsMax = Math.round(base*(countMax))/base > 0 ? 
     1 + Math.trunc(countMax/item.qpu) 
     : 0;  
-/*
-  if(item.gid == '2012030106') {
+
+  if(item.gid == '2017030704') {
     console.log( '\ncounts in function : ', 
       [countLast, countAvrg, countMax ])
     ;
@@ -54,7 +56,7 @@ const needUnitsForPeriod = (item, period) => {
       [ unitsLast, unitsAvrg, unitsMax ])
     ;
   }
-*/  
+  
   return [ unitsLast, unitsAvrg, unitsMax ];
 };
 

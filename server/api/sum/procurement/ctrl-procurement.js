@@ -42,7 +42,7 @@ const fetchDataSet = ( hostname, weekId, callback ) =>
           callback( err, null);
           return;   
         }
-        const maxFreqIndex = 2;
+        //const maxFreqIndex = 2;
   console.log(chalk.green(
     'ctrl-procurement: convert week-natural-body to procurement dataset.'))
   ;
@@ -59,10 +59,16 @@ const fetchDataSet = ( hostname, weekId, callback ) =>
             delete item.fqM;
             return item;
           })
-          .filter( item => item.xlp[maxFreqIndex] > 0 )             
-          // Товар на xtraLong период по максимальным продажам не нужен, =0
-          // Не включаем в датасет.
           // Клиент получает только те позиции которые нужны на закупку
+          // на xtraLong период
+          // т.e. хотя-бы один элемент больше 0, => их сумма >0, а не [0,0,0]
+          .filter( item => item.xlp.reduce(
+            (accum, current) => accum + current ) 
+            >0
+          )            
+          //  item => item.xlp[maxFreqIndex] > 0 )             
+          // Товар на xtraLong период по максимальным продажам не нужен, =0
+          // Не включаем в датасет.          
         );
     });
   } else {
