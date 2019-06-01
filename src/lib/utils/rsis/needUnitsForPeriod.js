@@ -47,7 +47,7 @@ const needUnitsForPeriod = (item, period) => {
   let unitsMax = Math.round(base*(countMax))/base > 0 ? 
     1 + Math.trunc(countMax/item.qpu) 
     : 0;  
-
+/*
   if(item.gid == '2017030704') {
     console.log( '\ncounts in function : ', 
       [countLast, countAvrg, countMax ])
@@ -56,7 +56,7 @@ const needUnitsForPeriod = (item, period) => {
       [ unitsLast, unitsAvrg, unitsMax ])
     ;
   }
-  
+*/  
   return [ unitsLast, unitsAvrg, unitsMax ];
 };
 

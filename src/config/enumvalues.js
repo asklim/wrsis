@@ -56,8 +56,8 @@ const staffStatus = {
 };
  
 const procurementPeriods = {
-  short : 12,
-  middle : 24,
+  short : 6,
+  middle : 12,
   long : 36,
   xtraLong : 96,
 };
