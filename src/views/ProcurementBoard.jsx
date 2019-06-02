@@ -6,14 +6,14 @@ import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { 
   Checkbox,
-  Radio, //from '@material-ui/core/Radio';
-  RadioGroup, //from '@material-ui/core/RadioGroup';
-  FormControlLabel, // from '@material-ui/core/FormControlLabel';
-  FormControl,  //from '@material-ui/core/FormControl';
+  Radio, 
+  RadioGroup,
+  FormControlLabel, 
+  FormControl,
   FormLabel,
   FormGroup,
+  //Icon,
 } from '@material-ui/core';
-//import Icon from "@material-ui/core/Icon";
 
 // @material-ui/icons
 import { 
@@ -23,17 +23,9 @@ import {
   BatteryFull as XtraLongPeriod,
   AddAlert,
   Check,
+  //Store, Warning, DateRange, LocalOffer,
+  //Update, ArrowUpward, AccessTime,  Accessibility
 } from "@material-ui/icons";
-/*import Store from "@material-ui/icons/Store";
-import Warning from "@material-ui/icons/Warning";
-import DateRange from "@material-ui/icons/DateRange";
-import LocalOffer from "@material-ui/icons/LocalOffer";
-import Update from "@material-ui/icons/Update";
-import ArrowUpward from "@material-ui/icons/ArrowUpward";
-import AccessTime from "@material-ui/icons/AccessTime";
-import Accessibility from "@material-ui/icons/Accessibility";
-*/
-
 
 // core components
 import GridItem from "components/Grid/GridItem.jsx";
@@ -54,7 +46,8 @@ import CardFooter from "components/Card/CardFooter.jsx";
 */
 
 import dashboardStyle from "assets/jss/views/dashboardStyle.jsx";
-import checkboxAdnRadioStyle from "assets/jss/material-dashboard-react/checkboxAdnRadioStyle.jsx";
+import checkboxAdnRadioStyle 
+  from "assets/jss/material-dashboard-react/checkboxAdnRadioStyle.jsx";
 
 const procurementBoardStyle = {
   ...dashboardStyle,
