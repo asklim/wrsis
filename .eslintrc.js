@@ -18,6 +18,7 @@ module.exports = {
     },
     "plugins": [
         "react",
+        "react-hooks",
     ],
     "settings": {
         "react": {
@@ -41,7 +42,6 @@ module.exports = {
       },
     "rules": {
         "strict" : "warn",
-        "react/jsx-uses-react": "warn",
         "no-console": "off",
         //"indent": ["error", 2],
         "linebreak-style": ["error", "unix"],
@@ -51,6 +51,9 @@ module.exports = {
         "no-unused-vars": [ "error", {
                 "varsIgnorePattern" : "should|expect"
             }
-        ]  
+        ],
+        "react/jsx-uses-react" : "warn",
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
     }
 };
