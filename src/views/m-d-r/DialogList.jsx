@@ -24,9 +24,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 */
 
-import SimpleDialogDemoRC from "components/SimpleDialog/SimpleDialogDemo.RC.jsx";
-// SimpleDialogDemoHOF from "components/SimpleDialog/SimpleDialogDemo.HOF.jsx";
-//import SimpleDialog from 'components/SimpleDialog/SimpleDialog.jsx';
+import SimpleDialogDemoCC from "components/SimpleDialog/SimpleDialogDemo.CC.jsx";
+import SimpleDialogDemoRFC from "components/SimpleDialog/SimpleDialogDemo.RFC.jsx";
 
 const styles = {
   cardCategoryWhite: {
@@ -68,34 +67,30 @@ function DialogList(props)
   return (
     <GridContainer>
 
-      <GridItem xs={12} sm={12} md={12}>
+      <GridItem xs={12} sm={8} md={6}>
         <Card>
           <CardHeader color="warning">
             <h4 className={classes.cardTitleWhite}>Simple Dialog Demo</h4>
             <p className={classes.cardCategoryWhite}>
-              Simple dialog w/React class (component)
+              Simple dialog w/React Class Component.
             </p>
           </CardHeader>
           <CardBody>
-
-            <SimpleDialogDemoRC />
-
+            <SimpleDialogDemoCC />
           </CardBody>
         </Card>
       </GridItem>
 
-      <GridItem xs={12} sm={12} md={12}>
+      <GridItem xs={12} sm={8} md={6}>
         <Card>
           <CardHeader color="rose">
             <h4 className={classes.cardTitleWhite}>Simple Dialog Demo</h4>
             <p className={classes.cardCategoryWhite}
-              >nothing
+              >Simple dialog w/React Functional Component (Hooks)
             </p>
           </CardHeader>
           <CardBody>
-            
-
-
+            <SimpleDialogDemoRFC />
           </CardBody>
         </Card>
       </GridItem>
