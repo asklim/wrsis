@@ -1,4 +1,9 @@
-import React from "react";
+import 
+  React, {
+  useState,
+  useEffect,
+ // useCallback,
+} from "react";
 import PropTypes from "prop-types";
 
 
@@ -60,55 +65,54 @@ import {
 
 
 
-class ProcurementBoardPage extends React.Component {
-  state = {
-    filterByFreq : 'last',
-    filterByFrom : ['ru','by','eu'],
-    isLoaded : false,
-    serverDataset : [],  // Array of Hash /server/sample-datasets/procurements.js
-    shortPeriod : [],    // Array of Array
-    middlePeriod : [],
-    longPeriod : [],
-    xtraLongPeriod : [],    
-  };
+const ProcurementBoardPage = (props) => {
   
-  freqValues = ['last','avrg','max'];
-  fromValues = ['ru','by','eu'];
+  const freqValues = ['last','avrg','max'];
+  const fromValues = ['ru','by','eu'];
 
-  tableHeader = ( period ) => {
+  const [filterByFreq, setFilterByFreq] = useState(freqValues[0]);
+  const [filterByFrom, setFilterByFrom] = useState(fromValues);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [serverDataset, setServerDataset] = useState([]);           // Array of Hash 
+  //  /server/sample-datasets/procurements.js
+  // Viewing lists for Table
+  const [shortPeriod, setShortPeriod] = useState([]);  // Array of Array
+  const [middlePeriod, setMiddlePeriod] = useState([]);
+  const [longPeriod, setLongPeriod] = useState([]);
+  const [xtraLongPeriod, setXtraLongPeriod] = useState([]);
+
+
+  const tableHeader = ( period ) => {
     const lineCount = {
-      sp : this.state.shortPeriod.length,
-      mp : this.state.middlePeriod.length,
-      lp : this.state.longPeriod.length,
-      xlp : this.state.xtraLongPeriod.length,
+      sp : shortPeriod.length,
+      mp : middlePeriod.length,
+      lp : longPeriod.length,
+      xlp : xtraLongPeriod.length,
     };
     return [
       '#', 'La', 'Av', 'Mx', `Название (${lineCount[period]})`
     ];    
   };
 
-  handleFilterByFreqChange = event => {
+  const handleFilterByFreqChange = (event /*, value*/) => {
     const freq = event.target.value;
-    //console.log("filter Freq: ", freq );
-    this.setState({ filterByFreq : freq });
-    this.updateViewingLists( freq, null );
+    //console.log("filter Freq: ", freq, value ); // is Equal
+    updateViewingLists( freq, null );    
+    setFilterByFreq( freq );
   };
 
-  handleFromFilterClick = from => 
+  const handleFromFilterClick = from => 
     (/*event,oldValue?*/) => {
-      const { filterByFrom : checked } = this.state;
-      const currentIndex = checked.indexOf(from);
-      const newChecked = [...checked];
+      const currentIndex = filterByFrom.indexOf(from);
+      const newChecked = [...filterByFrom];
 
       if (currentIndex === -1) {
           newChecked.push(from);
       } else {
           newChecked.splice(currentIndex, 1);
       }
-      this.setState({
-          filterByFrom : newChecked,
-      });
-      this.updateViewingLists( null, newChecked );
+      updateViewingLists( null, newChecked );
+      setFilterByFrom( newChecked );
       //console.log('FromFilter Click:', newChecked);
   };
   /*
@@ -119,68 +123,63 @@ class ProcurementBoardPage extends React.Component {
     return needUnits.reduce(this.formatValue, '');     
   } */
 
-  isFromIntersected = (item, fromFilter) => { 
-    const itemFroms = item.from.split(',').map(x => x.toLowerCase());
-    //console.log('isIntersected : ', itemFroms);
-    const result = fromFilter.filter(x => itemFroms.includes(x));
-    return result.length !== 0;
-  };
+      const isFromIntersected = (item, fromFilter) => { 
+        const itemFroms = item.from.split(',').map(x => x.toLowerCase());
+        //console.log('isIntersected : ', itemFroms);
+        const result = fromFilter.filter(x => itemFroms.includes(x));
+        return result.length !== 0;
+      };
   
-  serverDatasetFilter = ( period, freqId, fromFilter ) => {
-    return ( 
-      item => item[period][freqId] > 0 &&
-      this.isFromIntersected( item, fromFilter )
-    );
-  };
+      const serverDatasetFilter = ( period, freqId, fromFilter ) => {
+        return ( 
+          item => item[period][freqId] > 0 &&
+          isFromIntersected( item, fromFilter )
+        );
+      };
 
-  convertToViewList = ( state, period ) => 
-  {
-    const freqId = this.freqValues.indexOf( state.filterByFreq ); // 0|1|2
-    const filtering = this.serverDatasetFilter( 
-      period, freqId, state.filterByFrom 
-    );
-    const hashs = state.serverDataset;    
-    const viewList = hashs
-      .filter( filtering ) // item => item[period][freqId] > 0 ) 
-      .map( (item, key) => {
-        return [ 
-          (key+1).toString(),  
-          item[period][0].toString(), // last 
-          item[period][1].toString(), // average 
-          item[period][2].toString(), // max
-          item.name
-        ];
-      });
-    //console.log("convertToView : ", freqId, hashs.length, viewList.length ); 
-    const p = Promise.resolve(viewList); 
-    //console.log("convertToView : ", p);
-    return p;
-  }
+    const convertToViewList = ( period, freq, from ) => 
+    {
+      const freqId = freqValues.indexOf( freq ); // 0|1|2
+      const filtering = serverDatasetFilter( period, freqId, from );  
+      const viewList = serverDataset
+        .filter( filtering ) // item => item[period][freqId] > 0 ) 
+        .map( (item, key) => {
+          return [ 
+            (key+1).toString(),  
+            item[period][0].toString(), // last 
+            item[period][1].toString(), // average 
+            item[period][2].toString(), // max
+            item.name
+          ];
+        });
+      //console.log("convertToView : ", freqId, hashs.length, viewList.length ); 
+      const p = Promise.resolve(viewList); 
+      //console.log("convertToView : ", p);
+      return p;
+    };
 
-  updateViewingLists = (freq, from) => {  
-    //console.log("updateViewLists this.state ",this.state);
-    const { state : oldState } = this; 
-    if(freq) { oldState.filterByFreq = freq; }
-    if(from) { oldState.filterByFrom = from; } 
+  const updateViewingLists = ( freq, from ) => {  
+    //console.log("updateViewLists freq, from ", freq, from);
+    if(!freq) { freq = filterByFreq; }
+    if(!from) { from = filterByFrom; } 
     //console.log("updateViewLists oldState ", oldState);
     Promise.all([
-      this.convertToViewList( oldState, 'sp' ),
-      this.convertToViewList( oldState, 'mp' ),
-      this.convertToViewList( oldState, 'lp' ),
-      this.convertToViewList( oldState, 'xlp' )
+      convertToViewList( 'sp', freq, from ),
+      convertToViewList( 'mp', freq, from ),
+      convertToViewList( 'lp', freq, from ),
+      convertToViewList( 'xlp', freq, from )
     ])
-    .then( lists => {
-//console.log("updateViewLists ", lists.map( item => item.length ));      
-      this.setState({ 
-        shortPeriod : lists[0],
-        middlePeriod : lists[1],
-        longPeriod : lists[2],
-        xtraLongPeriod : lists[3],          
-      });
+    .then( lists => {     
+      setShortPeriod( lists[0] );
+      setMiddlePeriod( lists[1] );
+      setLongPeriod( lists[2] );
+      setXtraLongPeriod( lists[3] );
+    //console.log("updateViewLists ", lists.map( item => item.length ));       
     });
   };
 
-  fetchLists = () => {    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const fetchLists = () => {    
     let route = window.location.origin;
     route += '/api/sum/procurement/last';
     //console.log('ProcurementBoard.fetchLists route: ', route);    
@@ -193,190 +192,191 @@ class ProcurementBoardPage extends React.Component {
     })
     .then( response => response.json())  // '[{}, ..., {}]'      
     .then( hashs => {
-      //console.log('fetch Lists Length: ', hashs.length);
-      this.setState({ 
-        serverDataset : hashs,
-        isLoaded : true,
-      });    
-    })
-    .then( () => {
-      //console.log("Update ViewLists after fetch from server.");
-      //console.log(this.state);
-      this.updateViewingLists( 'last' );
-    })
+      //console.log('fetch Lists hash Length: ', hashs.length); //is Ok: 444
+      //return Promise.resolve( 
+      setServerDataset( hashs );
+      //console.log(filterByFreq, filterByFrom);
+      setIsLoaded( true );      
+    }) /*
+    .then( () => {        
+      // =0 ???????????
+      console.log('fetch Lists serverDataset Length: ', serverDataset.length);
+      console.log("Update ViewLists after fetch from server.");
+      return Promise.resolve(
+        updateViewingLists( filterByFreq, filterByFrom )
+      );      
+    })*/
     .catch(err => {
-      this.setState({ isLoaded : false });
+      setIsLoaded( false );
       console.log(err); 
     });    
   };
-  componentDidMount = () => this.fetchLists();
 
-  isFilterByFromChecked = index =>
-    this.state.filterByFrom.includes(this.fromValues[index])
+  //Эффект применяется после рендеринга и только 1 раз
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => fetchLists(), []);
+  useEffect(
+    () => {
+      updateViewingLists( filterByFreq, filterByFrom );
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [serverDataset]
+  );
+  
+  const isFilterByFromChecked = index =>
+    filterByFrom.includes(fromValues[index]);
 
-  render() 
-  {
-    const { classes } = this.props;
-    const { isLoaded, ...rest } = this.state;
-    //console.log('state: ', this.state);
+  const { classes } = props;
 
-    return !isLoaded ?
-    (
-      <GridContainer>
-        <GridItem xs={12} sm={12} md={8} lg={4}>
-        <SnackbarContent
-          message = {'Loading ...'}
-          color="info"
-          icon={AddAlert}
-        />
-        </GridItem>
-      </GridContainer>
-    ):(
-      <div>
-      <GridContainer>
-        <GridItem xs={5} sm={4} md={3} lg={2}> 
-          <FormControl component="fieldset" className={classes.formControl}>
-          <FormLabel component="legend">По продажам</FormLabel>
-          <RadioGroup
-            aria-label="SelectOnFreq"
-            name="FilterByFreq"
-            className={classes.group}
-            value={this.state.filterByFreq}
-            onChange={this.handleFilterByFreqChange}
-          >
-            <FormControlLabel 
-              value={this.freqValues[0]} 
-              control={<Radio />} 
-              label="Last"
-            />
-            <FormControlLabel 
-              value={this.freqValues[1]}  
-              control={<Radio />} 
-              label="Средние" 
-            />
-            <FormControlLabel 
-              value={this.freqValues[2]}  
-              control={<Radio />} 
-              label="Maximal" 
-            />
-          </RadioGroup>
-          </FormControl>       
-        </GridItem>
-        <GridItem xs={5} sm={4} md={3} lg={2}> 
+  return !isLoaded ?
+  (
+    <GridContainer>
+      <GridItem xs={12} sm={12} md={8} lg={4}>
+      <SnackbarContent
+        message = {'Loading ...'}
+        color="info"
+        icon={AddAlert}
+      />
+      </GridItem>
+    </GridContainer>
+  ):(
+    <div>
+    <GridContainer>
+      <GridItem xs={5} sm={4} md={3} lg={2}> 
         <FormControl component="fieldset" className={classes.formControl}>
-        <FormLabel component="legend">Откуда</FormLabel>
-        <FormGroup>
-            <FormControlLabel
-              control = {
-                <Checkbox
-                  checked={this.isFilterByFromChecked(0)}
-                  tabIndex={-1}
-                  onClick={this.handleFromFilterClick(this.fromValues[0])}
-                  checkedIcon={<Check className={classes.checkedIcon}/>}
-                  icon={<Check className={classes.uncheckedIcon}/>}
-                  classes={{ checked: classes.checked }}
-                />
-              }
-              label="RU"
-            />
-            <FormControlLabel
-              control = {
-                <Checkbox
-                  checked={this.isFilterByFromChecked(1)}
-                  tabIndex={-1}
-                  onClick={this.handleFromFilterClick(this.fromValues[1])}
-                  checkedIcon={<Check className={classes.checkedIcon}/>}
-                  icon={<Check className={classes.uncheckedIcon}/>}
-                  classes={{ checked: classes.checked }}
-                />
-              }
-              label="BY"
-            />
-            <FormControlLabel
-              control = {
-                <Checkbox
-                  checked={this.isFilterByFromChecked(2)}
-                  tabIndex={-1}
-                  onClick={this.handleFromFilterClick(this.fromValues[2])}
-                  checkedIcon={<Check className={classes.checkedIcon}/>}
-                  icon={<Check className={classes.uncheckedIcon}/>}
-                  classes={{ checked: classes.checked }}
-                />
-              }
-              label="EU"
-            />            
-          </FormGroup>
-          </FormControl>  
-        {/*  <Checkbox
-            tabIndex={-1}
-            onClick={this.handleFromFilterClick('ua')}
-            checkedIcon={<Check className={classes.checkedIcon}/>}
-            icon={<Check className={classes.uncheckedIcon}/>}
-            classes={{ checked: classes.checked }}
-          />*/}    
-        </GridItem>
-      </GridContainer>
-
-
-      <GridContainer>  
-        <GridItem xs={12} sm={10} md={8} lg={6}>
-          <CustomTabs
-            title="Заказ на:"
-            headerColor="primary"
-            tabs={[
-              {
-                tabName: `${days.short} дней`,
-                tabIcon: ShortPeriod,
-                tabContent: (
-                  <Table
-                    tableHeaderColor="danger"
-                    tableHead={this.tableHeader('sp')}
-                    tableData={rest.shortPeriod}
-                  />
-                )
-              },
-              {
-                tabName: `${days.middle} дня`,
-                tabIcon: MiddlePeriod,
-                tabContent: (
-                  <Table
-                    tableHeaderColor="warning"
-                    tableHead={this.tableHeader('mp')}
-                    tableData={rest.middlePeriod}
-                  />
-                )
-              },
-              {
-                tabName: `${days.long} дней`,
-                tabIcon: LongPeriod,
-                tabContent: (
-                  <Table
-                    tableHeaderColor="primary"
-                    tableHead={this.tableHeader('lp')}
-                    tableData={rest.longPeriod}
-                  />
-                )
-              },
-              {
-                tabName: `${days.xtraLong} дней`,
-                tabIcon: XtraLongPeriod,
-                tabContent: (
-                  <Table
-                    tableHeaderColor="info"
-                    tableHead={this.tableHeader('xlp')}
-                    tableData={rest.xtraLongPeriod}
-                  />
-                )
-              }
-            ]}
+        <FormLabel component="legend">По продажам</FormLabel>
+        <RadioGroup
+          aria-label="SelectOnFreq"
+          name="FilterByFreq"
+          className={classes.group}
+          value={filterByFreq}
+          onChange={handleFilterByFreqChange}
+        >
+          <FormControlLabel 
+            value={freqValues[0]} 
+            control={<Radio />} 
+            label="Last"
           />
-        </GridItem>
-        
-      </GridContainer>
-      </div>
-    );
-  }
-}
+          <FormControlLabel 
+            value={freqValues[1]}  
+            control={<Radio />} 
+            label="Средние" 
+          />
+          <FormControlLabel 
+            value={freqValues[2]}  
+            control={<Radio />} 
+            label="Maximal" 
+          />
+        </RadioGroup>
+        </FormControl>       
+      </GridItem>
+      <GridItem xs={5} sm={4} md={3} lg={2}> 
+      <FormControl component="fieldset" className={classes.formControl}>
+      <FormLabel component="legend">Откуда</FormLabel>
+      <FormGroup>
+          <FormControlLabel
+            control = {
+              <Checkbox
+                checked={isFilterByFromChecked(0)}
+                tabIndex={-1}
+                onClick={handleFromFilterClick(fromValues[0])}
+                checkedIcon={<Check className={classes.checkedIcon}/>}
+                icon={<Check className={classes.uncheckedIcon}/>}
+                classes={{ checked: classes.checked }}
+              />
+            }
+            label="RU"
+          />
+          <FormControlLabel
+            control = {
+              <Checkbox
+                checked={isFilterByFromChecked(1)}
+                tabIndex={-1}
+                onClick={handleFromFilterClick(fromValues[1])}
+                checkedIcon={<Check className={classes.checkedIcon}/>}
+                icon={<Check className={classes.uncheckedIcon}/>}
+                classes={{ checked: classes.checked }}
+              />
+            }
+            label="BY"
+          />
+          <FormControlLabel
+            control = {
+              <Checkbox
+                checked={isFilterByFromChecked(2)}
+                tabIndex={-1}
+                onClick={handleFromFilterClick(fromValues[2])}
+                checkedIcon={<Check className={classes.checkedIcon}/>}
+                icon={<Check className={classes.uncheckedIcon}/>}
+                classes={{ checked: classes.checked }}
+              />
+            }
+            label="EU"
+          />            
+        </FormGroup>
+        </FormControl>    
+      </GridItem>
+    </GridContainer>
+
+
+    <GridContainer>  
+      <GridItem xs={12} sm={10} md={8} lg={6}>
+        <CustomTabs
+          title="Заказ на:"
+          headerColor="primary"
+          tabs={[
+            {
+              tabName: `${days.short} дней`,
+              tabIcon: ShortPeriod,
+              tabContent: (
+                <Table
+                  tableHeaderColor="danger"
+                  tableHead={tableHeader('sp')}
+                  tableData={shortPeriod}
+                />
+              )
+            },
+            {
+              tabName: `${days.middle} дня`,
+              tabIcon: MiddlePeriod,
+              tabContent: (
+                <Table
+                  tableHeaderColor="warning"
+                  tableHead={tableHeader('mp')}
+                  tableData={middlePeriod}
+                />
+              )
+            },
+            {
+              tabName: `${days.long} дней`,
+              tabIcon: LongPeriod,
+              tabContent: (
+                <Table
+                  tableHeaderColor="primary"
+                  tableHead={tableHeader('lp')}
+                  tableData={longPeriod}
+                />
+              )
+            },
+            {
+              tabName: `${days.xtraLong} дней`,
+              tabIcon: XtraLongPeriod,
+              tabContent: (
+                <Table
+                  tableHeaderColor="info"
+                  tableHead={tableHeader('xlp')}
+                  tableData={xtraLongPeriod}
+                />
+              )
+            }
+          ]}
+        />
+      </GridItem>
+      
+    </GridContainer>
+    </div>
+  );
+};
 
 ProcurementBoardPage.propTypes = {
   classes: PropTypes.object.isRequired
