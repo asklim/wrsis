@@ -4,13 +4,15 @@
 
 const router = require('express').Router();
 
-require('./config/processenv')( router );
-
 require('./auth')( router );
 
 require('./config/catalogs')( router );
 
 require('./config/agents')( router );
+
+require('../api/config/ping/rout-ping')( router );
+
+require('../api/config/rout-processenv')( router );
 
 require('../api/sum/procurement/rout-procurement')( router );
 

@@ -12,7 +12,7 @@ const response400 = (res, msg) => {
 
 /** 
  * Read a env variable from process.env by name
- * GET /api/config/env?name=<var_name> 
+ * GET /api/config/processenv?name=<var_name> 
  **/
 module.exports.readOne = (req, res) =>
 {

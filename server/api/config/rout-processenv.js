@@ -1,5 +1,5 @@
 
-const ctrlEnvVariable = require('../../controllers/processenv');
+const ctrlEnvVariable = require('./ctrl-processenv');
 
 const sendError405 = (req, res) => {
   // Метод запроса не разрешен к использованию для данного URL
@@ -9,7 +9,8 @@ const sendError405 = (req, res) => {
 
 
 /**  
- * api for 1 agent: /api/config/agents/<agentId>. 
+ * Read a env variable from process.env by name
+ * GET /api/config/processenv?name=<var_name> 
  */
 module.exports = function ( router ) {
 
