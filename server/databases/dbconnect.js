@@ -7,7 +7,8 @@ module.exports.createConn = function( uri, title) {
 
   const conn = mongoose.createConnection(uri, 
                   { useNewUrlParser: true,
-                    useCreateIndex : true });
+                    useCreateIndex : true,
+                    useUnifiedTopology : true, });
 
   // CONNECTION EVENTS
   conn.on('connected', () => {
