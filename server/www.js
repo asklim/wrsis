@@ -66,19 +66,25 @@ const onListening = () => {
 };
 
 
-const serverOutput = mode => 
+const serverAppOutput = (outputMode, appVersion, httpServer) => 
 {  
-  switch (mode.toLowerCase()) {
+  let addr = httpServer.address();
+  let { address, family, port } = addr;
+  let bind = typeof addr === 'string' 
+    ? 'pipe ' + addr
+    : 'port ' + port;
+
+  switch (outputMode.toLowerCase()) {
     case 'full': 
-      console.log('Express server= ',  server);
+      console.log('Express server= ',  httpServer);
       return;
+
     case 'addr':
       // don't work on herokuapp.com: process.env.npm_package_version
-      console.log('\tapp version ', chalk.cyan(version));
+      console.log('\tapp version ', chalk.cyan(appVersion));
       console.log(
-        'Express server= "' + server.address().address +
-        '" Family= "' + server.address().family +'"\n',
-        ' listening on port ' + server.address().port
+        '\tExpress server = "' + address + '" Family= "' + family +'"\n',
+        '\tlistening on ' + bind
       );       
       return;
     default:
@@ -112,7 +118,7 @@ server.on('close', () => {
  */
 server.listen(port);
 
-serverOutput('addr');//'full');
+serverAppOutput('addr'/*'full'*/, version, server);
 
 
 // CAPTURE APP TERMINATION / RESTART EVENTS
