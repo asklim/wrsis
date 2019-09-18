@@ -24,7 +24,7 @@ switch (process.env.NODE_ENV) {
     break;
 */
   default:
-    uri = process.env.MONGO_DEV1_URI+'/'+dbName.rsistmp;
+    uri = process.env.MONGO_DEV2_URI+'/'+dbName.rsistmp;
      //var dbURI = 'mongodb://localhost:27016/rsistmp';    
 }      
 
