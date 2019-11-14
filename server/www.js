@@ -2,7 +2,7 @@ const {
   app,
   databasesShutdown
 } = require('./app-server');
-const debug = require('debug')('rsisexpress:server');
+const debug = require('debug')('rsis:server');
 const http = require('http');
 const chalk = require('react-dev-utils/chalk');
 const icwd = require('fs').realpathSync(process.cwd());
@@ -11,9 +11,10 @@ let version = require(`${icwd}/package.json`).version;
 
 // пока работает только через 'npm run compile'
 //import app from '../server/app-server';
-//var debug = require('debug')('rsisexpress:server');
+//var debug = require('debug')('rsis:server');
 //import http from 'http';
 
+console.log(chalk.red('\tINIT_CWD is ', icwd)); // = '/app'
 /**
  * Normalize a port into a number, string, or false.
  */

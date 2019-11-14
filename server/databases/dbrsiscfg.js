@@ -1,44 +1,37 @@
-const util = require('util');
+const util = require( 'util' );
+const connection = require( './createConn' );
+const { 
+  dbName,
+  mongoURI } = require( '../helpers/serverconfig' );
 
-const { dbName } = require('../../src/config/enumvalues');
-const conn = require('./dbconnect');
-
+const { rsiscfg : databaseName } = dbName;
 const title = 'rsis.cfg';
+
 let uri;
-
-switch (process.env.NODE_ENV) {
-  
-  case 'production': 
-    //uri = process.env.CLOUDDB_CFG_URI;
-    uri = util.format(process.env.CLOUDDB_URI_TEMPLATE,
-      process.env.ATLAS_CREDENTIALS,
-      dbName.rsiscfg
-    );
-    break;
-/*
-  case 'intranet':
-    uri = process.env.MONGO_STANDALONE_URI+'/'+dbName.rsiscfg;
-    //var dbURI = 'mongodb://localhost:36667/rsiscfg';      
-    break;
-*/
-  default:
-    uri = process.env.MONGO_DEV1_URI+'/'+dbName.rsiscfg;
-     //var dbURI = 'mongodb://localhost:27017/rsiscfg';    
-}      
-
-const db = conn.createConn(uri, title);    
+if( process.env.NODE_ENV === 'production' ) { 
+  uri = util.format( 
+    mongoURI.CLOUDDB_TEMPLATE,
+    process.env.ATLAS_CREDENTIALS,
+    databaseName );
+} else {  
+  uri = ( !process.env.MONGO_DEV2 )
+    ? mongoURI.DEV2 + '/' + databaseName
+    : process.env.MONGO_DEV2 + '/' + databaseName;
+    //'mongodb://hp8710w:27016/rsiscfg';     
+}
+const db = connection.createConn( uri, title );    
       
 
 // BRING IN YOUR SCHEMAS & MODELS
 
-const agentSchema = require('../models/agents');
-db.model('Agent', agentSchema, 'agents'); 
+const agentSchema = require( '../models/agents' );
+db.model( 'Agent', agentSchema, 'agents' ); 
 
-const userSchema = require('../models/users');
-db.model('User', userSchema, 'users'); 
+const userSchema = require( '../models/users' );
+db.model( 'User', userSchema, 'users' ); 
 
-const idMappingSchema = require('../models/catalogs').idMappingExcel;
-db.model('IdMappingExcel', idMappingSchema, 'catalogs'); 
+const idMappingSchema = require( '../models/catalogs' ).idMappingExcel;
+db.model( 'IdMappingExcel', idMappingSchema, 'catalogs' ); 
 
 
 module.exports = db;

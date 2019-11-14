@@ -1,5 +1,3 @@
-"use strict";
-
 /**
  * iDb - mongoose.connection to MongoDB
  */
@@ -20,25 +18,17 @@ module.exports.log = function(iDb) {
   let models = iDb.modelNames(); //массив имен моделей
 
   models
-  .forEach( mdlName => {   
-    let mdl = iDb.model(mdlName);
+  .forEach( modelName => {   
+    let mdl = iDb.model(modelName);
     callArr.push( mdl.countDocuments({}, 
                   (err, count) => { count; }));  
   });
 
   Promise.all( callArr )
   .then( docsCounts => {  
-    console.log(`${title}: `, models, docsCounts);
+    console.log( `${title}: `, models, docsCounts );
   })
   .catch( error => {
-    console.log(error.message);
+    console.log( error.message );
   });
-
-/*  Object.keys(iDb.collections).forEach(key => {
-    let coll = iDb.collection(key);
-    coll.countDocuments({}, function(err, count) {
-      console.log(`${title}: In ${key} collection ${count} items.`);
-    });     
-  });
-*/
 };

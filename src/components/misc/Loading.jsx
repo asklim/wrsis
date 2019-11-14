@@ -1,14 +1,14 @@
 import React from "react";
 
 // core components
-import GridItem from "components/Grid/GridItem.jsx";
-import GridContainer from "components/Grid/GridContainer.jsx";
-import SnackbarContent from "components/Snackbar/SnackbarContent.jsx";
+import GridItem from "components/m-d-r/Grid/GridItem.jsx";
+import GridContainer from "components/m-d-r/Grid/GridContainer.jsx";
+import SnackbarContent from "components/m-d-r/Snackbar/SnackbarContent.jsx";
 
 // @material-ui/icons
 import AddAlert from "@material-ui/icons/AddAlert";
 
-function Loading() 
+const Loading = () => 
 {
   //const { classes } = props;
   return (
@@ -24,6 +24,6 @@ function Loading()
       </GridItem>
     </GridContainer>
   );
-}
+};
 
 export default Loading;

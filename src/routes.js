@@ -12,20 +12,19 @@ import Fingerprint from '@material-ui/icons/Fingerprint';
 
 // core components/views for Admin layout
 import DashboardPage from "./views/m-d-r/Dashboard.jsx";
-import ProcurementBoardPage from "./views/ProcurementBoard.jsx";
 import UserProfile from "./views/m-d-r/UserProfile.jsx";
-import DialogList from "./views/m-d-r/DialogList.jsx";
 import TableList from "./views/m-d-r/TableList.jsx";
 import Typography from "./views/m-d-r/Typography.jsx";
 import Icons from "./views/m-d-r/Icons.jsx";
 import Maps from "./views/m-d-r/Maps.jsx";
 import NotificationsPage from "./views/m-d-r/Notifications.jsx";
 import UpgradeToPro from "./views/m-d-r/UpgradeToPro.jsx";
-
-import Level0 from "layouts/Level0.jsx";
-
 // core components/views for RTL layout
 import RTLPage from "./views/m-d-r/RTLPage.jsx";
+
+
+import ProcurementBoardPage from "./views/ProcurementBoard.jsx";
+import DialogList from "./views/DialogList.jsx";
 
 const dashboardRoutes = [
   {
@@ -115,15 +114,7 @@ const dashboardRoutes = [
     icon: Language,
     component: RTLPage,
     layout: "/rtl"
-  },
-  {
-    path: "/",
-    name: "Old version",
-    rtlName: "rtl_oldversion",
-    icon: Language,
-    component: Level0,
-    layout: "/level0"
-  },  
+  }, 
 ];
 
 export default dashboardRoutes;

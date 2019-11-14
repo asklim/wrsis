@@ -2,12 +2,12 @@ import React from "react";
 import PropTypes from 'prop-types';
 
 // core components
-import GridItem from "components/Grid/GridItem.jsx";
-import GridContainer from "components/Grid/GridContainer.jsx";
-import SnackbarContent from "components/Snackbar/SnackbarContent.jsx";
+import GridItem from "components/m-d-r/Grid/GridItem.jsx";
+import GridContainer from "components/m-d-r/Grid/GridContainer.jsx";
+import SnackbarContent from "components/m-d-r/Snackbar/SnackbarContent.jsx";
 
 // @material-ui/icons
-import AddAlert from "@material-ui/icons/AddAlert";
+import { MoodBad as WhoopsIcon } from "@material-ui/icons";
 
 const Whoops404 = ({ location }) => 
 {
@@ -20,7 +20,7 @@ const Whoops404 = ({ location }) =>
           `Resource not found at '${location.pathname}'`
         }
         color="info"
-        icon={AddAlert}
+        icon={WhoopsIcon}
       />
       </GridItem>
     </GridContainer>

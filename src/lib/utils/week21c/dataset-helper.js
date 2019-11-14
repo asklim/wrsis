@@ -1,4 +1,4 @@
-
+// date      week21c  Julian-day
 const dataSet = [
   ['2019-02-27', 948, 2458542],
   ['2001-01-08', 2, 2451918, 'Mon'],
@@ -33,6 +33,7 @@ const dataSet = [
 // Данные раньше 1901 года
 // Требуется доработка функции и правильности данных
 
+// eslint-disable-next-line no-unused-vars
 const dataSet19c = [ 
 
   ['1900-01-02', -5269, 2415021, 'Tue'],
