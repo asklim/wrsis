@@ -7,7 +7,7 @@ const ONE_DAY = 86400000;
  * Дата смещенная на +-offset дней от сейчас
  * и до 14:00 является предыдущим днём (задаётся delta)
  */
-const theWorkDay = (unixTime, offset=0) => {
+const theWorkDay = ( unixTime, offset = 0 ) => {
   return new Date( 
     unixTime + offset*ONE_DAY - nextWorkDayTime.delta 
   );
@@ -21,12 +21,11 @@ const theWorkDay = (unixTime, offset=0) => {
  * Если Sun + 1 день то = Tue
  * Если Tue - 1 день то = Sun
  * */
-const date = (offset=0) =>
-{  
+const date = ( offset = 0 ) => {  
   let ofsForMonday;
-  if( offset === 0 ) { ofsForMonday = -ONE_DAY; // Mon -> Sun
+  if(offset === 0) { ofsForMonday = -ONE_DAY; // Mon -> Sun
   } else {
-    if( offset > 0 ) { ofsForMonday = ONE_DAY;  // Mon -> Tue
+    if(offset > 0) { ofsForMonday = ONE_DAY;  // Mon -> Tue
     } else { 
       ofsForMonday = -2*ONE_DAY; // Mon -> Sat
     }
@@ -50,7 +49,7 @@ const today = () => {
   );  
 };
 
-const week = (offset=0) => { return week21c( today()) + offset; };
+const week = ( offset = 0 ) => { return week21c( today()) + offset; };
 
 module.exports = {
   week,

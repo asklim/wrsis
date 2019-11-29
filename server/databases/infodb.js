@@ -19,16 +19,15 @@ module.exports.log = function(iDb) {
 
   models
   .forEach( modelName => {   
-    let mdl = iDb.model(modelName);
-    callArr.push( mdl.countDocuments({}, 
-                  (err, count) => { count; }));  
+    let mdl = iDb.model( modelName );
+    callArr.push( 
+      mdl.countDocuments( {}, (err, count) => count )
+    );  
   });
 
   Promise.all( callArr )
   .then( docsCounts => {  
     console.log( `${title}: `, models, docsCounts );
   })
-  .catch( error => {
-    console.log( error.message );
-  });
+  .catch( error => console.log( error.message ));
 };

@@ -50,6 +50,11 @@ const dashboardStyle = {
     marginBottom: "0"
   },*/
   cardCategoryWhite: {
+    color: "rgba(" + hexToRgb(whiteColor) + ",.62)",
+    margin: "0",
+    fontSize: "14px",
+    marginTop: "0",
+    marginBottom: "0",  
     "&,& a,& a:hover,& a:focus": {
       color: "rgba(" + hexToRgb(whiteColor) + ",.62)",
       margin: "0",

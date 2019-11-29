@@ -8,8 +8,8 @@
  * 2г до н.э. = -1
  * 4714г до н.э = -4713
  */
-module.exports.julianDay = ( gregorianDate ) => 
-{
+function julianDay( gregorianDate ) {
+
   const gDate = (typeof gregorianDate == 'object')
               ? gregorianDate 
               : new Date( gregorianDate );
@@ -25,8 +25,11 @@ module.exports.julianDay = ( gregorianDate ) =>
   return day + Math.trunc((153*m + 2) / 5)  
          + 365*y - 32045 - Math.trunc(y/100)  
          + Math.trunc(y/4) + Math.trunc(y/400);
-};
+}
 
+module.exports = {
+  julianDay
+};
 // TODO
 // Надо уточнять правильность работы функции
 // раньше 1901 года.

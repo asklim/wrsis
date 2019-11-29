@@ -26,7 +26,8 @@ item = {
 }
 */
 
-module.exports.needUnitsForPeriod = (item, period) => {
+ 
+const needUnitsForPeriod = (item, period) => {
   let 
     countLast, 
     countAvrg, 
@@ -34,43 +35,35 @@ module.exports.needUnitsForPeriod = (item, period) => {
   ;
   const base = 10;
   //rounding to 1 digit after decimal period
-
-  const {
-    fqL: daySalesRateLast,
-    fqA: daySalesRateAvrg,
-    fqM: daySalesRateMax,
-    qpu: quantityPerUnit,
-    frAct: firmaRemainsActual, //remnants
-  } = item;
-
-  countLast = period*daySalesRateLast - firmaRemainsActual;
-  let unitsLast = Math.round(base*(countLast))/base > 0 
-    ? 1 + Math.trunc(countLast/quantityPerUnit) 
+  countLast = period*item.fqL - item.frAct;
+  let unitsLast = Math.round(base*(countLast))/base > 0 ? 
+    1 + Math.trunc(countLast/item.qpu) 
     : 0;
-
-  countAvrg = period*daySalesRateAvrg - firmaRemainsActual;
-  let unitsAvrg = Math.round(base*(countAvrg))/base > 0 
-    ? 1 + Math.trunc(countAvrg/quantityPerUnit) 
+  countAvrg = period*item.fqA - item.frAct;
+  let unitsAvrg = Math.round(base*(countAvrg))/base > 0 ? 
+    1 + Math.trunc(countAvrg/item.qpu) 
     : 0;
-
-  countMax = period*daySalesRateMax - firmaRemainsActual;
-  let unitsMax = Math.round(base*(countMax))/base > 0 
-    ? 1 + Math.trunc(countMax/quantityPerUnit) 
+  countMax = period*item.fqM - item.frAct;
+  let unitsMax = Math.round(base*(countMax))/base > 0 ? 
+    1 + Math.trunc(countMax/item.qpu) 
     : 0;  
-
 /*
-  if( process.env.NODE_ENV == 'test') 
-  {
-    console.log( '\n', 
-      [ period, 
-      daySalesRateLast, 
-      daySalesRateAvrg,
-      daySalesRateMax,
-      firmaRemainsActual, ]
-    );
-    console.log( 'counts in function : ', [countLast, countAvrg, countMax ]);
-    console.log( 'units in function : ', [ unitsLast, unitsAvrg, unitsMax ]);
+  if(item.gid == '2017030704') {
+    console.log( '\ncounts in function : ', 
+      [countLast, countAvrg, countMax ])
+    ;
+    console.log( 'units in function : ', 
+      [ unitsLast, unitsAvrg, unitsMax ])
+    ;
   }
 */  
   return [ unitsLast, unitsAvrg, unitsMax ];
+};
+
+
+
+
+
+module.exports = {
+  needUnitsForPeriod,
 };
