@@ -3,8 +3,8 @@ const request = require('request');
 const icwd = require('fs').realpathSync(process.cwd());
 
 
-const HTTP = require(`${icwd}/src/config/httpResponseCodes`);
-const { procurementPeriods: period } = require(`${icwd}/src/config/enumValues`);
+const HTTP = require(`${icwd}/src/config/http-response-codes`);
+const { procurementPeriods: period } = require(`${icwd}/src/config/enum-values`);
 const { needUnitsForPeriod } = require(`${icwd}/src/lib/rsis`);
 
 

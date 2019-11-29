@@ -1,5 +1,5 @@
 const icwd = require( 'fs' ).realpathSync( process.cwd() );
-const HTTP = require(`${icwd}/src/config/httpResponseCodes`);
+const HTTP = require(`${icwd}/src/config/http-response-codes`);
 let db;
 db = require( `${icwd}/server/databases` ).getDB( 'config' );
 const Agent = db.model( 'Agent' );
