@@ -53,7 +53,7 @@ import DataLoadError from "components/misc/DataLoadError.js";
 
 import {
   procurementPeriods as days,
-} from "config/enumValues";
+} from "config/enumValues.js";
 
 import dashboardStyle from "assets/jss/m-d-r/views/dashboardStyle.js";
 import checkboxAdnRadioStyle from "assets/jss/m-d-r/checkboxAdnRadioStyle.js";
