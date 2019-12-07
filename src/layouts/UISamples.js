@@ -11,9 +11,9 @@ import { makeStyles } from "@material-ui/core/styles";
 // core components
 import Navbar from "components/m-d-r/Navbars/Navbar.js";
 import Footer from "components/m-d-r/Footer/Footer.js";
-import Sidebar from "components/m-d-r/Sidebar/Sidebar.js";
 import FixedPlugin from "components/m-d-r/FixedPlugin/FixedPlugin.js";
 
+import Sidebar from "components/wrsis/Sidebar/Sidebar.js";
 import Whoops404 from "components/misc/Whoops404.js";
 import routes from "./UISamplesRoutes.js";
 
@@ -72,7 +72,7 @@ export default function Admin({ ...rest }) {
     setMobileOpen(!mobileOpen);
   };
   const getRoute = () => {
-    return window.location.pathname !== "/admin/maps";
+    return window.location.pathname !== "/uisamples/maps";
   };
   const resizeFunction = () => {
     if (window.innerWidth >= 960) {

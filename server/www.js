@@ -1,15 +1,17 @@
+require( 'dotenv' ).config();
 const {
   app: rsisWebApp,
   databasesShutdown,
   viberBot
-} = require('./app-server');
-const debug = require('debug')('rsis:www');
-const http = require('http');
+} = require( './app-server' );
+const debug = require( 'debug' )('sapp:www');
+const http = require( 'http' );
 const util = require( 'util' );
-const chalk = require('react-dev-utils/chalk');
+const os = require( 'os' );
+const chalk = require( 'react-dev-utils/chalk' );
 
-const icwd = require('fs').realpathSync(process.cwd());
-let version = require(`${icwd}/package.json`).version;
+const icwd = require('fs').realpathSync( process.cwd());
+let version = require( `${icwd}/package.json` ).version;
 
 /**
  * Normalize a port into a number, string, or false.
@@ -71,25 +73,31 @@ const serverAppOutput = (outputMode, appVersion, httpServer) =>
     : 'port ' + port;
 
   const outputs = {
-    full: () => console.log( 'Express server = ',  httpServer ),
-    addr: () => {
-            console.log( '\tapp version ', chalk.cyan( appVersion ));
-            console.log(
-              '\tExpress server = "' + address + '" Family= "' + family +'"\n',
-              '\tlistening on ' + bind );
-          },
+    full: 
+    () => console.log( 'Express server = ',  httpServer ),
+    addr: 
+    () => {
+      console.log( '\tapp version ', chalk.cyan( appVersion ));
+      console.log(
+        '\tExpress server = "' + address + '" Family= "' + family +'"\n',
+        '\tlistening on ' + bind );
+    },
     default: () => console.log( '\n' )
   };  
   (outputs[ outputMode.toLowerCase() ] || outputs[ 'default' ])();
 };
 
+console.log( process.env );
 let {
   PWD, USER, NAME,
 } = process.env;
-console.log( chalk.red( '\tINIT_CWD is ', icwd )); // = '/app'
-console.log( chalk.red( '\tPWD is ', PWD ));
-console.log( chalk.red( util.format( '\tUSER@NAME is %s@%s', USER, NAME )));
-console.log( process.env );
+let userInfo = util.format('%O', os.userInfo());
+console.log( chalk.red( 'package.json dir is ', icwd )); // = '/app'
+console.log( chalk.red( `PWD (${__filename}) is ${PWD}` ));
+console.log( chalk.red( `USER @ NAME is ${USER} @ ${NAME}` ));
+console.log( chalk.cyan( `platform is ${os.platform()}, hostname is ${os.hostname()}` ));
+console.log( chalk.yellow( 'User Info : ', userInfo ));
+
 
 
 /*******************************************************
@@ -121,7 +129,9 @@ server.on( 'close', () => {
 /**
  * Listen on provided port, on all network interfaces.
  */
-server.listen( port, () => {
+server.listen( port, 
+() => {
+  serverAppOutput( 'addr'/*'full'*/, version, server );  
   console.log( `Set webhook for Viber Application running on port: ${port}` );
   viberBot.setWebhook( `${process.env.API_SERVER}/viber/webhook` )
   .catch( error => {
@@ -130,7 +140,6 @@ server.listen( port, () => {
   });
 });
 
-serverAppOutput( 'addr'/*'full'*/, version, server );
 
 
 // CAPTURE APP TERMINATION / RESTART EVENTS

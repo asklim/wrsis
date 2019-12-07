@@ -11,11 +11,11 @@ import { makeStyles } from "@material-ui/core/styles";
 // core components
 import Navbar from "components/m-d-r/Navbars/Navbar.js";
 import Footer from "components/m-d-r/Footer/Footer.js";
-import Sidebar from "components/m-d-r/Sidebar/Sidebar.js";
 import FixedPlugin from "components/m-d-r/FixedPlugin/FixedPlugin.js";
 
-import routes from "./AdminRoutes.js";
+import routes from "./UISamplesRoutes.js";
 
+import Sidebar from "components/wrsis/Sidebar/Sidebar.js";
 import styles from "assets/jss/m-d-r/layouts/rtlStyle.js";
 
 import bgImage from "assets/img/sidebar-2.jpg";
@@ -70,7 +70,7 @@ export default function RTL({ ...rest }) {
     setMobileOpen(!mobileOpen);
   };
   const getRoute = () => {
-    return window.location.pathname !== "/admin/maps";
+    return window.location.pathname !== "/uisamples/maps";
   };
   const resizeFunction = () => {
     if (window.innerWidth >= 960) {

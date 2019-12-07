@@ -39,8 +39,8 @@ const adminRoutes = [
     layout: "/admin"
   },
   {
-    path: "/dashboard",
-    name: "Upgrade To PRO",
+    path: "/uis-dash",
+    name: "CREATIVE TIM",
     rtlName: "التطور للاحترافية",
     icon: Unarchive,
     component: UpgradeToPro,

@@ -44,7 +44,7 @@ const uisamplesRoutes = [
     layout: "/admin"
   },
   {
-    path: "/dashboard",
+    path: "/uis-dash",
     name: "Dashboard",
     rtlName: "لوحة القيادة",
     icon: Dashboard,

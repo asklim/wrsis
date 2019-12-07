@@ -1,4 +1,3 @@
-require( 'dotenv' ).config();
 const createError = require( 'http-errors' );
 const express = require( 'express' );
 const path = require( 'path' );
@@ -8,6 +7,7 @@ const cookieParser = require( 'cookie-parser' );
 //const bodyParser = require( 'body-parser' );
 const morganLogger = require( 'morgan' );
 const icwd = require( 'fs' ).realpathSync( process.cwd());
+const chalk = require( 'react-dev-utils/chalk' );
 
 const isProduction = process.env.NODE_ENV === 'production';
 const webpack = isProduction ? null : require( 'webpack' );
@@ -22,8 +22,11 @@ const {
   databasesShutdown,
 } = require( './databases' );
 createConns();
-
 require( './passport.js' ); //after db create models
+
+let { PWD, } = process.env;
+console.log( chalk.red( 'package.json dir is ', icwd )); // = '/app'
+console.log( chalk.red( `PWD (${__filename}) is ${PWD}` ));
 
 const app = express();
 const apiRouter = require( './routes/api-router.js' );
