@@ -85,7 +85,7 @@
     "jsonwebtoken": "^8.5.1",
     "messaging-api-viber": "^0.8.2",
     "mini-css-extract-plugin": "^0.6.0",
-    "mongoose": "^5.7.12",
+    "mongoose": "^5.9.3",
     "morgan": "^1.9.1",
     "node-sass": "^4.13.1",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
