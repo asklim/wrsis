@@ -1,19 +1,22 @@
 const util = require( 'util' );
-const connection = require( './createConn' );
-const { 
-  dbName,
-  mongoURI,
-} = require( '../helpers/serverconfig' );
-const { rsiscfg: databaseName } = dbName;
+const connection = require( './create-conn' );
 
-const title = 'rsis.cfg';
+const { 
+    dbName,
+    mongoURI,
+} = require( '../helpers/serverconfig' );
+
+const { rsiscfg :databaseName } = dbName;
+
+let title = `config-db [${databaseName}]`;
+
 let uri = ( process.env.NODE_ENV === 'production' ) ?
-  util.format( mongoURI.CLOUDDB_TEMPLATE,
-    process.env.ATLAS_CREDENTIALS,
-    databaseName 
-  )
-  : `${ process.env.MONGO_DEV2 || mongoURI.DEV2 }/${databaseName}`;    
-  //'mongodb://hp8710w:27016/rsiscfg';     
+    util.format( mongoURI.CLOUDDB_TEMPLATE,
+        process.env.ATLAS_CREDENTIALS,
+        databaseName 
+    )
+    : `${ process.env.MONGO_DEV2 || mongoURI.DEV2 }/${databaseName}`;    
+    //'mongodb://hp8710w:27016/rsiscfg';     
 
 const db = connection.createConn( uri, title );    
       

@@ -9,7 +9,10 @@ const bot = new ViberBot({
 });
 
 bot.on( BotEvents.SUBSCRIBED, response => {
-  response.send( new TextMessage( `Hi there ${response.userProfile.name}. I am ${bot.name}!` ));
+  response.send( 
+    new TextMessage( 
+      `Hi there ${response.userProfile.name}. I am ${bot.name}!` 
+  ));
 });
 
 bot.on( BotEvents.MESSAGE_RECEIVED, (message, response) => {

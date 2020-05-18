@@ -7,7 +7,7 @@ const cookieParser = require( 'cookie-parser' );
 //const bodyParser = require( 'body-parser' );
 const morganLogger = require( 'morgan' );
 const icwd = require( 'fs' ).realpathSync( process.cwd());
-const chalk = require( 'react-dev-utils/chalk' );
+const colors = require( 'colors' );
 
 const isProduction = process.env.NODE_ENV === 'production';
 const webpack = isProduction ? null : require( 'webpack' );
@@ -17,16 +17,18 @@ const webpackDevMiddleware = isProduction ? null : require('webpack-dev-middlewa
 const viberBot = require('./viber-bot');
 
 const passport = require( 'passport' );  //passport must be before dbs-models
+
 const { 
-  createConns,
-  databasesShutdown,
-} = require( './databases' );
+    createConns,
+    databasesShutdown, } = require( './databases' );
+
 createConns();
+
 require( './passport.js' ); //after db create models
 
 let { PWD, } = process.env;
-console.log( chalk.red( 'package.json dir is ', icwd )); // = '/app'
-console.log( chalk.red( `PWD (${__filename}) is ${PWD}` ));
+console.log( colors.red( 'package.json dir is ', icwd )); // = '/app'
+console.log( colors.red( `PWD (${__filename}) is ${PWD}` ));
 
 const app = express();
 const apiRouter = require( './routes/api-router.js' );
@@ -46,10 +48,12 @@ app.use( morganLogger( 'dev' ));
 app.use( express.json( {
     limit: "5mb",
 }));
+
 app.use( express.urlencoded( { 
     extended: true,
     limit: "5mb",
- }));
+}));
+
 app.use( cookieParser() );
 
 app.use( express.static( `${icwd}/static` ));
@@ -59,26 +63,26 @@ app.use('/api', apiRouter);
 app.use('/viber/webhook', viberBot.middleware());
 
 if( !isProduction ) {
-  const webpackConfig = configFactory( 'development' );
-  const compiler = webpack( webpackConfig );
-  const wdmOption = {
+const webpackConfig = configFactory( 'development' );
+const compiler = webpack( webpackConfig );
+const wdmOption = {
     loglevel: 'debug', //'info' - default
     publicPath: webpackConfig.output.publicPath,
-  };
-  console.log( 'webpack-dev-middleware (wdm) config: ', wdmOption );
-  app.use( webpackDevMiddleware( compiler, wdmOption ));
-  app.use( require( 'webpack-hot-middleware' )( compiler, {
+};
+console.log( 'webpack-dev-middleware (wdm) config: ', wdmOption );
+app.use( webpackDevMiddleware( compiler, wdmOption ));
+app.use( require( 'webpack-hot-middleware' )( compiler, {
     path: '/__webpack_hmr',
     heartbeat: 10 * 1000,
-  }));
+}));
 }
 
-app.get('*', 
-  (req, res, next) => {
+app.get('*', (req, res, next) => {
+
     console.log( `server-app dirname is ${__dirname}` );
     res.sendFile( 
-      path.resolve( `${icwd}/static/index.html` ),
-      err => { if( err ) next( err ); }      
+    path.resolve( `${icwd}/static/index.html` ),
+    err => { if( err ) next( err ); }      
     );
 });
 
@@ -87,10 +91,12 @@ app.use( (req, res, next) => {
     next(createError(404), req, res);
 });
 
-// error handler
+// ***************   error handler   **************************
+
 // eslint-disable-next-line no-unused-vars
-app.use( (err, req, res, next) => { 
-    // must be 4 args
+app.use( (err, req, res, next) => {     
+            // must be 4 args
+
     let runMode = req.app.get( 'env' );
     const isDev = runMode === 'development';
     console.log(`app-server error-handler: env='${runMode}'`);
@@ -106,7 +112,8 @@ app.use( (err, req, res, next) => {
 });
 
 module.exports = {
-  app,
-  databasesShutdown,
-  viberBot,
+
+    app,
+    databasesShutdown,
+    viberBot,
 };

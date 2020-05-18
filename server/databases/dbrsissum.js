@@ -1,12 +1,15 @@
-const util = require('util');
-const connection = require( './createConn' );
+const util = require( 'util' );
+const connection = require( './create-conn' );
+
 const { 
   dbName,
   mongoURI,
 } = require( '../helpers/serverconfig' );
-const { rsissum: databaseName } = dbName;  
 
-const title = 'rsis.sum';
+const { rsissum :databaseName } = dbName;  
+
+let title = `summary-db [${databaseName}]`;
+
 let uri = ( process.env.NODE_ENV === 'production' ) ?
   util.format( mongoURI.CLOUDDB_TEMPLATE,
     process.env.ATLAS_CREDENTIALS,

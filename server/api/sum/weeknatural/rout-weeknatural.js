@@ -1,8 +1,8 @@
 const {
-  readOne,
-  create,
-  updateOne,
-  deleteOne
+    readOne,
+    create,
+    updateOne,
+    deleteOne
 } = require('./ctrl-weeknatural');
 
 /**  
