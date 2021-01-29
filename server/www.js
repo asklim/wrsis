@@ -1,9 +1,9 @@
 require( 'dotenv' ).config();
 
 const {
-  app: rsisWebApp,
-  databasesShutdown,
-  viberBot
+    app: rsisWebApp,
+    databasesShutdown,
+    viberBot
 } = require( './app-server' );
 
 const debug = require( 'debug' )( 'sapp:www' );
@@ -12,8 +12,10 @@ const util = require( 'util' );
 const os = require( 'os' );
 const colors = require( 'colors' );
 
-const icwd = require('fs').realpathSync( process.cwd() );
-let version = require( `${icwd}/package.json` ).version;
+
+//const log = require( './helpers/logger')('wwwSrvr:');
+const icwd = require( './helpers/serverconfig' );
+const version = require( `${icwd}/package.json` ).version;
 
 
 
@@ -35,13 +37,11 @@ let version = require( `${icwd}/package.json` ).version;
     console.log( envWithoutNpm );
 })();
 
-let {
-    PWD, USER, NAME,
-} = process.env;
+const { PWD, USER, NAME, } = process.env;
 
-let userInfo = util.format('%O', os.userInfo());
+const userInfo = util.format( '%O', os.userInfo() );
 
-console.log( colors.red( 'package.json dir is ', icwd )); // = '/app'
+console.log( colors.red( `package.json dir is ${icwd.cyan}` )); // = '/app'
 console.log( `PWD (${__filename}) is ${PWD}`.red );
 console.log( `USER @ NAME is ${USER} @ ${NAME}`.red );
 console.log( `platform is ${os.platform()}, hostname is ${os.hostname()}`.cyan );
@@ -55,79 +55,83 @@ console.log( 'User Info : ', userInfo.yellow );
 const port = normalizePort( process.env.PORT || '3666' );
 rsisWebApp.set( 'port', port );
 
+
+
 /**
  * Create HTTP server.
  */
 const server = http.createServer( rsisWebApp );
 
 
-    const shutdownTheServer = () => new Promise(
-    resolve => {
-        
+const shutdownTheServer = () => new Promise(
+
+    (resolve) => {
+    
         server.close( () => {
             console.log( 'http-server closed now.' );
             resolve();
         });
-    });
+    }
+);
 
 
-    /**
-     * Event listener for HTTP server "error" event.
-     */
-    const handleOnError = error => {
+/**
+ * Event listener for HTTP server "error" event.
+ */
+const handleOnError = error => {
 
-        if( error.syscall !== 'listen' ) {
+    if( error.syscall !== 'listen' ) {
+        throw error;
+    }
+
+    let bind = typeof port === 'string' 
+        ? 'Pipe ' + port
+        : 'Port ' + port
+    ;
+
+    // handle specific listen errors with friendly messages
+    switch( error.code ) {
+
+        case 'EACCES':
+            console.error( bind + ' requires elevated privileges' );
+            process.exit(1);
+            break;
+        
+        case 'EADDRINUSE':
+            console.error( bind + ' is already in use' );
+            process.exit(1);
+            break;
+        
+        default:
             throw error;
-        }
+    }
+};
 
-        let bind = typeof port === 'string' 
-            ? 'Pipe ' + port
-            : 'Port ' + port
-        ;
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+const handleOnListening = () => {
 
-        // handle specific listen errors with friendly messages
-        switch( error.code ) {
-
-            case 'EACCES':
-                console.error( bind + ' requires elevated privileges' );
-                process.exit(1);
-                break;
-            
-            case 'EADDRINUSE':
-                console.error( bind + ' is already in use' );
-                process.exit(1);
-                break;
-            
-            default:
-                throw error;
-        }
-    };
-
-    /**
-     * Event listener for HTTP server "listening" event.
-     */
-    const handleOnListening = () => {
-
-        let addr = server.address();
-        let bind = typeof addr === 'string' 
-            ? 'pipe ' + addr
-            : 'port ' + addr.port
-        ;
-        debug('Listening on ' + bind);
-    };
+    const addr = server.address();
+    const bind = typeof addr === 'string' 
+        ? 'pipe ' + addr
+        : 'port ' + addr.port
+    ;
+    debug( 'Listening on ' + bind );
+};
 
 server.on( 'error', handleOnError );
 
 server.on( 'listening', handleOnListening );
 
-server.on( 'clientError', (err, socket) => {
+server.on( 'clientError', (_err, socket) => {
 
     socket.end( 'HTTP/1.1 400 Bad Request\r\n\r\n' );
 });
 
 server.on( 'close', () => {
 
-    console.log( 'http-server closing ....' );
+    console.log( 'http-server closing ...' );
 });
 
 
@@ -140,10 +144,11 @@ server.listen( port, () => {
     serverAppOutput( 'addr'/*'full'*/, version, server );
 
     console.log( `Set webhook for Viber Application running on port: ${port}` );
-    viberBot.setWebhook( `${process.env.API_SERVER}/viber/webhook` )
+    viberBot
+    .setWebhook( `${process.env.API_SERVER}/viber/webhook` )
     .catch( error => {
         console.log( 'Can not set webhook on following server.' );
-        console.error(error);
+        console.error( error );
     });
 });
 
@@ -155,8 +160,10 @@ server.listen( port, () => {
 process.once( 'SIGUSR2', () => {
 
     databasesShutdown( 'nodemon restart', () => {
-        shutdownTheServer().then( () => {
-        process.kill( process.pid, 'SIGUSR2' );
+
+        shutdownTheServer()
+        .then( () => {
+            process.kill( process.pid, 'SIGUSR2' );
         });
     });
 });
@@ -166,7 +173,16 @@ process.once( 'SIGUSR2', () => {
 process.on( 'SIGINT', () => {
 
     databasesShutdown( 'app termination', () => {
-        shutdownTheServer().then( () => { process.exit(0); });
+
+        shutdownTheServer()
+        .then( 
+            function () {
+                setTimeout(
+                    () => { process.exit(0); },
+                    1000
+                );
+            }
+        );
     });
 });
 
@@ -175,7 +191,16 @@ process.on( 'SIGINT', () => {
 process.on('SIGTERM', () => {
 
     databasesShutdown( 'Heroku app termination', () => {
-        shutdownTheServer().then( () => { process.exit(0); });
+
+        shutdownTheServer()
+        .then( 
+            function () {
+                setTimeout(
+                    () => { process.exit(0); },
+                    1000
+                );
+            }
+        );
     });
 });
 
@@ -187,21 +212,16 @@ process.on('SIGTERM', () => {
  *  Normalize a port into a number, string, or false.
  * 
  */
-function normalizePort( val ) {
+function normalizePort (val) {
 
+    let port = parseInt( val, 10 );
 
-    let port = parseInt(val, 10);
-
-    if( isNaN(port) ) {  // named pipe
-
-        return val;
-    }
-    if( port >= 0 ) {    // port number
-        
-        return port;
-    }
-
-    return false;
+    return isNaN( port )
+        ? val       // named pipe
+        : port >= 0
+            ? port  // port number
+            : false
+    ;
 }
 
 
@@ -224,8 +244,9 @@ function serverAppOutput( outputMode, appVersion, httpServer ) {
         addr: () => {
             console.log( 'app version ', appVersion.cyan );
             console.log(
-            'Express server = "' + address.cyan + '" Family= "' + family.cyan,
-            '" listening on ' + bind.cyan );
+                'Express server = "' + address.cyan 
+                + '" Family= "' + family.cyan
+                + '" listening on ' + bind.cyan );
         },
         default: () => console.log( '\n' )
     };
