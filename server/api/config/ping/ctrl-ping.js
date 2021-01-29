@@ -1,6 +1,12 @@
-const log = require( '../../helpers/logger')('ctrl-PING:');
-const icwd = require( '../../helpers/serverconfig' );
-const HTTP = require(`${icwd}/src/config/http-response-codes`);
+
+const { 
+    icwd ,
+    sendError400,
+    sendJSONresponse,
+} = require( '../../../helpers/serverconfig' );
+
+const log = require( `${icwd}/server/helpers/logger` )('ctrl-PING:');
+const HTTP = require( `${icwd}/src/config/http-response-codes` );
 
 let db;
 
@@ -9,19 +15,6 @@ const Agent = db.model( 'Agent' );
 db = require( `${icwd}/server/databases` ).getDB( 'sum' );
 const WeekNatural = db.model( 'WeekNatural' );
 
-
-const sendJSONresponse = (res, status, content) => {
-    res.status( status );
-    res.json( content );
-};
-
-
-const response400 = (res, msg = 'Bad Request (invalid syntax)') => 
-    sendJSONresponse( res, 
-        HTTP.BAD_REQUEST, 
-        { message: msg } 
-    )
-;
 
 
 /** 
@@ -44,16 +37,16 @@ module.exports.readOne = (req, res) => {
     );
 
     if( !req || !req.params ) { 
-        return response400( res, 'No .params in request.' );        
+        return sendError400( res, 'No .params in request.' );        
     }
     if( Object.keys( req.params ).length === 0) { // должно быть    
-        return response400( res, ".params is empty." );        
+        return sendError400( res, ".params is empty." );        
     }
 
     const { pingId } = req.params;
 
     if( !pingId ) {  // req.params.* должен быть    
-        return response400( res, ".pingId not present" );             
+        return sendError400( res, ".pingId not present" );             
     }
 
     const ticker = pingId.toLowerCase();
@@ -101,5 +94,5 @@ module.exports.readOne = (req, res) => {
         );        
     }
 
-    response400( res );
+    sendError400( res );
 };

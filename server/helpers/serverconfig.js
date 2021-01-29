@@ -1,4 +1,7 @@
 /* */
+const icwd = require( 'fs' ).realpathSync( process.cwd() );
+const HTTP = require( `${icwd}/src/config/http-response-codes` );
+
 const dbName = {
 
     rsiscfg: "rsiscfg",
@@ -19,12 +22,40 @@ const mongoURI = {
 let { PWD, DYNO } = process.env;
 const isHeroku = DYNO && (PWD === '/app');
 
-const icwd = require( 'fs' ).realpathSync( process.cwd() );
 
+
+const sendJSONresponse = (res, status, content) => {
+    res.status( status );
+    res.json( content );
+};
+
+
+const sendError400 = (res, msg = 'Bad Request (invalid syntax)') => 
+    sendJSONresponse( res, 
+        HTTP.BAD_REQUEST, 
+        { message: msg } 
+    )
+;
+
+// Метод запроса не разрешен к использованию для данного URL
+const sendError405 = (res, msg = 'METHOD_NOT_ALLOWED') =>    
+    sendJSONresponse( res, 
+        HTTP.METHOD_NOT_ALLOWED, 
+        { message: msg } 
+    )
+;
+
+const callbackError400 = (req, res) => sendError400( res );
+const callbackError405 = (req, res) => sendError405( res );
 
 module.exports = {
     dbName,
     mongoURI,
     isHeroku,
     icwd,
+    sendJSONresponse,
+    sendError400,
+    sendError405,
+    callbackError400,
+    callbackError405,
 };

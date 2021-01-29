@@ -6,7 +6,7 @@ const favicon = require( 'serve-favicon' );
 const cookieParser = require( 'cookie-parser' );
 //const bodyParser = require( 'body-parser' );
 const morganLogger = require( 'morgan' );
-const icwd = require( './helpers/serverconfig' );
+const { icwd } = require( './helpers/serverconfig' );
 const colors = require( 'colors' );
 
 const isProduction = process.env.NODE_ENV === 'production';

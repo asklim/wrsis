@@ -1,6 +1,6 @@
-const icwd = require( '../../helpers/serverconfig' );
-const log = require( '../../helpers/logger')('ctrl-ENV:');
-const HTTP = require(`${icwd}/src/config/http-response-codes`);
+const { icwd } = require( '../../helpers/serverconfig' );
+const log = require( `${icwd}/server/helpers/logger` )('ctrl-ENV:');
+const HTTP = require( `${icwd}/src/config/http-response-codes` );
 
 const sendJSONresponse = (res, status, content) => {
     res.status( status );
@@ -15,6 +15,7 @@ const response400 = (res, msg) => {
 /** 
  * Read a env variable from process.env by name
  * GET /api/config/processenv?name=<var_name> 
+ * GET /api/config/processenv/?name=<var_name> 
  **/
 module.exports.readOne = (req, res) => {
 

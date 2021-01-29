@@ -14,7 +14,7 @@ const colors = require( 'colors' );
 
 
 //const log = require( './helpers/logger')('wwwSrvr:');
-const icwd = require( './helpers/serverconfig' );
+const { icwd } = require( './helpers/serverconfig' );
 const version = require( `${icwd}/package.json` ).version;
 
 
@@ -28,9 +28,24 @@ const version = require( `${icwd}/package.json` ).version;
 **/
 (function () {
     
-    let envWithoutNpm = {};
-    Object.keys( process.env ).forEach( (key) => {
-        if( !key.startsWith('npm_') ) {
+    function isSecretEnvVar( varName ) {
+        
+        const secretKeys = [
+            'JWT_SECRET', 
+            'ATLAS_CREDENTIALS', 'VIBER_CHAT_TOKEN',
+            'GOOGLE_MAP_API_KEY', 'RSIS_GOOGLE_API_KEY'
+        ];
+        return secretKeys.includes( varName );
+    }
+    
+    const envWithoutNpm = {};
+
+    Object.keys( process.env )
+    .forEach( (key) => {
+        if( isSecretEnvVar( key )) {
+            envWithoutNpm[ key ] = '***';
+        }
+        else if( !key.startsWith('npm_') ) {
             envWithoutNpm[ key ] = process.env[ key ];
         }
     });     
@@ -42,9 +57,9 @@ const { PWD, USER, NAME, } = process.env;
 const userInfo = util.format( '%O', os.userInfo() );
 
 console.log( colors.red( `package.json dir is ${icwd.cyan}` )); // = '/app'
-console.log( `PWD (${__filename}) is ${PWD}`.red );
-console.log( `USER @ NAME is ${USER} @ ${NAME}`.red );
-console.log( `platform is ${os.platform()}, hostname is ${os.hostname()}`.cyan );
+console.log( `PWD (${__filename}) is ${PWD.cyan}`.red );
+console.log( `USER @ NAME is ${USER.cyan} @ ${NAME.cyan}`.red );
+console.log( `platform is ${os.platform().cyan}, hostname is ${os.hostname().cyan}`.red );
 console.log( 'User Info : ', userInfo.yellow );
 
 
@@ -242,7 +257,9 @@ function serverAppOutput( outputMode, appVersion, httpServer ) {
     const outputs = {
         full: () => console.log( 'Express server = ',  httpServer ),
         addr: () => {
+            const { NODE_ENV } = process.env;
             console.log( 'app version ', appVersion.cyan );
+            console.log( 'NODE Environment is ', NODE_ENV.cyan );
             console.log(
                 'Express server = "' + address.cyan 
                 + '" Family= "' + family.cyan
