@@ -37,7 +37,7 @@
     "rsis web app"
   ],
   "engines": {
-    "node": "12.13.x",
+    "node": "14.x",
     "npm": "6.x"
   },
   "dependencies": {
@@ -61,7 +61,6 @@
     "body-parser": "^1.19.0",
     "browserslist": "^4.7.2",
     "camelcase": "^5.3.1",
-    "caniuse-lite": "^1.0.30001008",
     "case-sensitive-paths-webpack-plugin": "^2.2.0",
     "chartist": "^0.10.1",
     "classnames": "^2.2.6",

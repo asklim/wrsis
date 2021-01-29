@@ -56,10 +56,10 @@ const { PWD, USER, NAME, } = process.env;
 
 const userInfo = util.format( '%O', os.userInfo() );
 
-console.log( colors.red( `package.json dir is ${icwd.cyan}` )); // = '/app'
-console.log( `PWD (${__filename}) is ${PWD.cyan}`.red );
-console.log( `USER @ NAME is ${USER.cyan} @ ${NAME.cyan}`.red );
-console.log( `platform is ${os.platform().cyan}, hostname is ${os.hostname().cyan}`.red );
+console.log( colors.red( `package.json dir is ${icwd}` )); // = '/app'
+console.log( `PWD (${__filename}) is ${PWD}`.red );
+console.log( `USER @ NAME is ${USER} @ ${NAME}`.red );
+console.log( `platform is ${os.platform()}, hostname is ${os.hostname()}`.red );
 console.log( 'User Info : ', userInfo.yellow );
 
 
@@ -259,7 +259,7 @@ function serverAppOutput( outputMode, appVersion, httpServer ) {
         addr: () => {
             const { NODE_ENV } = process.env;
             console.log( 'app version ', appVersion.cyan );
-            console.log( 'NODE Environment is ', NODE_ENV.cyan );
+            console.log( 'NODE Environment is ', NODE_ENV );
             console.log(
                 'Express server = "' + address.cyan 
                 + '" Family= "' + family.cyan
