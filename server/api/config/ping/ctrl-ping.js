@@ -1,31 +1,31 @@
 
 const { 
-    icwd ,
-    sendError400,
-    sendJSONresponse,
-} = require( '../../../helpers/serverconfig' );
+    icwd,
+    consoleLogger ,
+    send200Ok,
+    send400BadRequest,
+    send503ServiceUnavailable,
+} = require( '../../../helpers' );
 
-const log = require( `${icwd}/server/helpers/logger` )('ctrl-PING:');
-const HTTP = require( `${icwd}/src/config/http-response-codes` );
+const log = consoleLogger( 'ctrl-PING:' );
 
-let db;
+let dbcfg = require( `${icwd}/server/databases` ).getDB( 'config' );
+const Agent = dbcfg.model( 'Agent' );
 
-db = require( `${icwd}/server/databases` ).getDB( 'config' );
-const Agent = db.model( 'Agent' );
-db = require( `${icwd}/server/databases` ).getDB( 'sum' );
-const WeekNatural = db.model( 'WeekNatural' );
+let dbsum = require( `${icwd}/server/databases` ).getDB( 'sum' );
+const WeekNatural = dbsum.model( 'WeekNatural' );
 
 
 
 /** 
  * Read a env variable from process.env by name
  * GET /api/config/ping/app
- * return 200 {message : 'app'} - is Ok or nothing if app doesn't work  
+ * @returns send 200 {message : 'app'} - is Ok or nothing if app doesn't work  
  * 
  * GET /api/config/ping/mongocfg
  * GET /api/config/ping/mongosum
- * return 200 {message : 'nn'} - count of docs.   
- * return 404 {message : '-1'} - no Mongo
+ * @returns send 200 {message : 'nn'} - count of docs.   
+ * @returns send 404 {message : '-1'} - no Mongo
  **/
 
 module.exports.readOne = (req, res) => {
@@ -37,25 +37,22 @@ module.exports.readOne = (req, res) => {
     );
 
     if( !req || !req.params ) { 
-        return sendError400( res, 'No .params in request.' );        
+        return send400BadRequest( res, 'No .params in request.' );        
     }
     if( Object.keys( req.params ).length === 0) { // должно быть    
-        return sendError400( res, ".params is empty." );        
+        return send400BadRequest( res, ".params is empty." );        
     }
 
     const { pingId } = req.params;
 
     if( !pingId ) {  // req.params.* должен быть    
-        return sendError400( res, ".pingId not present" );             
+        return send400BadRequest( res, ".pingId not present" );             
     }
 
     const ticker = pingId.toLowerCase();
 
     if( ticker === 'app' ) {  
-        return sendJSONresponse( res, 
-            HTTP.OK, 
-            { message: 'app' } 
-        );        
+        return send200Ok( res, 'app' );        
     }
 
     if( ticker === 'mongocfg' ) {
@@ -63,15 +60,9 @@ module.exports.readOne = (req, res) => {
         .countDocuments( {}, 
             (err,count) => {
                 if( err ) {
-                    return sendJSONresponse( res, 
-                        HTTP.SERVICE_UNAVAILABLE,
-                        { message: '-1' }
-                    );                
+                    return send503ServiceUnavailable( res, '-1' );                
                 }            
-                return sendJSONresponse( res, 
-                    HTTP.OK, 
-                    { message: count.toString() }
-                );                  
+                return send200Ok( res, count.toString() );                  
             }
         );        
     }
@@ -81,18 +72,12 @@ module.exports.readOne = (req, res) => {
         .countDocuments( {}, 
             (err,count) => {
                 if( err ) {
-                    return sendJSONresponse( res, 
-                        HTTP.SERVICE_UNAVAILABLE,
-                        { message: '-1' }
-                    );                    
+                    return send503ServiceUnavailable( res, '-1' );                   
                 }            
-                return sendJSONresponse( res, 
-                    HTTP.OK, 
-                    { message: count.toString() }
-                );                      
+                return send200Ok( res, count.toString() );                      
             }
         );        
     }
 
-    sendError400( res );
+    send400BadRequest( res );
 };

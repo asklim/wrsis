@@ -1,12 +1,10 @@
 
-const { 
-    //icwd ,
+const {
     callbackError400,
     callbackError405,
-    //sendJSONresponse,
-} = require( '../../../helpers/serverconfig' );
+} = require( '../../../helpers' );
 
-const ctrlPing = require( './ctrl-ping' );
+const { readOne } = require( './ctrl-ping' );
 
 
 /**  
@@ -21,7 +19,7 @@ module.exports = function ( router ) {
 
     let pingPath = '/config/ping/:pingId';
     
-    router.get( pingPath, ctrlPing.readOne );
+    router.get( pingPath, readOne );
     router.post( pingPath, callbackError405 );
     router.put( pingPath, callbackError405 );
     router.delete( pingPath, callbackError405 );

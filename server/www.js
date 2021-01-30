@@ -158,7 +158,7 @@ server.listen( port, () => {
 
     serverAppOutput( 'addr'/*'full'*/, version, server );
 
-    console.log( `Set webhook for Viber Application running on port: ${port}` );
+    console.log( `Try set webhook for Viber Application on port: ${port}` );
     viberBot
     .setWebhook( `${process.env.API_SERVER}/viber/webhook` )
     .catch( error => {
