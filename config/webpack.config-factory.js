@@ -1,4 +1,7 @@
 
+const rootDir = require( 'fs' ).realpathSync( process.cwd() );
+const appVersion = require( `${rootDir}/package.json` ).version;
+
 const path = require( 'path' );
 const webpack = require( 'webpack' );
 
@@ -523,6 +526,7 @@ module.exports = function( webpackEnv ) {
                             ? 'web rsis'
                             : 'web rsis dev-mode',
                         template: paths.appHtmlTemplate,
+                        appVersion,
                     },
                     isEnvProduction
                         ? {

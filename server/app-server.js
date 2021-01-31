@@ -61,11 +61,12 @@ app.use( express.static( `${icwd}/static` ));
 
 app.use( '/api', apiRouter );
 
-const mikaVitebskViberMiddleware = require( './viber-bot' ).middleware();
+const mikaVitebskViberBot = require( './viber-bot' );
+const viberBotMiddleware = mikaVitebskViberBot.middleware();
 app.use( '/viber/mikavitebsk', 
     function (req, res, next) {
         console.log( 'viber-bot-middleware request:\n', req );
-        mikaVitebskViberMiddleware( req, res, next ); 
+        viberBotMiddleware( req, res, next ); 
     }
 );
 
