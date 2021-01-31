@@ -159,10 +159,12 @@ server.listen( port, () => {
     serverAppOutput( 'addr'/*'full'*/, version, server );
 
     console.log( `Try set webhook for Viber Application on port: ${port}` );
+    const viberHookURL = `${process.env.API_SERVER}/viber/mikavitebsk`;
+    
     viberBot
-    .setWebhook( `${process.env.API_SERVER}/viber/webhook` )
+    .setWebhook( viberHookURL )
     .catch( error => {
-        console.log( 'Can not set webhook on following server.' );
+        console.log( `Can not set webhook on ${viberHookURL}.` );
         console.error( error );
     });
 });

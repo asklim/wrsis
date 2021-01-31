@@ -61,8 +61,13 @@ app.use( express.static( `${icwd}/static` ));
 
 app.use( '/api', apiRouter );
 
-const viberBot = require( './viber-bot' );
-app.use( '/viber/webhook', viberBot.middleware() );
+const mikaVitebskViberMiddleware = require( './viber-bot' ).middleware();
+app.use( '/viber/mikavitebsk', 
+    function (req, res, next) {
+        console.log( 'viber-bot-middleware request:\n', req );
+        mikaVitebskViberMiddleware( req, res, next ); 
+    }
+);
 
 if( !isProduction ) {
     const webpackConfig = configFactory( 'development' );
@@ -115,12 +120,15 @@ app.use( (err, req, res, _next) => {
 
     // render the error page
     res.status( err.status || 500 );
-    res.render( 'error' );
+    res.render( 'error', { 
+        message: 'Last Error Handler',
+        error: err,
+    });
 });
 
 module.exports = {
 
     app,
     databasesShutdown,
-    viberBot,
+    viberBot: mikaVitebskViberBot,
 };

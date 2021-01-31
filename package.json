@@ -1,6 +1,6 @@
 {
   "name": "rsis-web",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "rsis (R Stock-In System) (on MERN)",
   "private": true,
   "homepage": "https://rsis-webapp.herokuapp.com",
