@@ -6,21 +6,28 @@ const favicon = require( 'serve-favicon' );
 const cookieParser = require( 'cookie-parser' );
 //const bodyParser = require( 'body-parser' );
 const morganLogger = require( 'morgan' );
-const { icwd } = require( './helpers/serverconfig' );
 const colors = require( 'colors' );
+//const inspect = require( 'object-inspect' );
 
-const isProduction = process.env.NODE_ENV === 'production';
-const webpack = isProduction ? null : require( 'webpack' );
-const configFactory = isProduction ? null : require(`${icwd}/config/wdmNodeHMR.config`);
-const webpackDevMiddleware = isProduction ? null : require('webpack-dev-middleware');
+const { 
+    icwd, 
+    consoleLogger 
+} = require( './helpers' );
 
-const log = require( './helpers/logger')('appSrvr:');
+const log = consoleLogger( 'appSrvr:' );
+
+const { NODE_ENV, DEV_MODE, } = process.env;
+
+
+const isProduction = NODE_ENV === 'production';
+const isHMR = DEV_MODE === 'HotModuleReplacement';
 
 const passport = require( 'passport' );  //passport must be before dbs-models
 
 const { 
     createConns,
-    databasesShutdown, } = require( './databases' );
+    databasesShutdown, 
+} = require( './databases' );
 
 createConns();
 
@@ -37,14 +44,46 @@ const apiRouter = require( './routes/api-router.js' );
 app.set( 'views', path.join( `${icwd}/server/views` ));
 app.set( 'view engine', 'ejs');
 
+app.use( '*', cors() );
+
 app.use( passport.initialize() );
 
 // uncomment after placing your favicon in /public
 app.use( favicon( `${icwd}/public/favicon.ico` ));
 
-app.use( cors() );
+let loggerTemplate = [
+    '[:date[web]]', ':status',  
+    //':remote-addr', ':remote-user',
+    ':method :url :response-time[0] ms - :res[content-length]'
+].join(' ');
+app.use( morganLogger( loggerTemplate ));
 
-app.use( morganLogger( 'dev' ));
+// IMPORTANT!!! Должен быть перед express.json()
+const mikaVitebskViberBot = require( './viber-bot' );
+const viberBotMiddleware = mikaVitebskViberBot.middleware();
+app.use( '/viber/mikavitebsk', 
+    function (req, res, next) {
+
+        let originalSig = req.headers[ 'x-viber-content-signature' ];
+        //req.query.sig = originalSig;
+        req.headers.X_Viber_Content_Signature = originalSig;
+
+        console.log( 
+            'viber-bot-middleware request:', 
+            '\nreq.query', req.query,
+            '\nreq.headers', req.headers,
+            '\nreq.body', req.body
+            //inspect( req, { depth: 2, indent: 4 } ) 
+        );
+        try {
+            viberBotMiddleware( req, res, next ); 
+        }
+        catch (err) {
+            console.log( 'viberBotMiddleware error:\n', err );
+        }
+    }
+);
+
 app.use( express.json( {
     limit: "5mb",
 }));
@@ -61,23 +100,20 @@ app.use( express.static( `${icwd}/static` ));
 
 app.use( '/api', apiRouter );
 
-const mikaVitebskViberBot = require( './viber-bot' );
-const viberBotMiddleware = mikaVitebskViberBot.middleware();
-app.use( '/viber/mikavitebsk', 
-    function (req, res, next) {
-        console.log( 'viber-bot-middleware request:\n', req );
-        viberBotMiddleware( req, res, next ); 
-    }
-);
 
-if( !isProduction ) {
-    const webpackConfig = configFactory( 'development' );
+if( !isProduction && isHMR ) {
+        
+    const webpack = require( 'webpack' );
+    const webpackConfig = require( `${icwd}/config/webpack.devhmr` );
+    const webpackDevMiddleware = require( 'webpack-dev-middleware' );
+
     const compiler = webpack( webpackConfig );
+    
     const wdmOption = {
-        loglevel: 'debug', //'info' - default
         publicPath: webpackConfig.output.publicPath,
     };
     console.log( 'webpack-dev-middleware (wdm) config: ', wdmOption );
+
     app.use( webpackDevMiddleware( compiler, wdmOption ));
     app.use( require( 'webpack-hot-middleware' )( compiler, {
         path: '/__webpack_hmr',
@@ -86,6 +122,8 @@ if( !isProduction ) {
 }
 
 app.get('*', (_req, res, next) => {
+    
+    //console.log( inspect( _req, { depth: 2, indent: 4 } ));
 
     log.info( `server-app dirname is ${__dirname}` );
     res.sendFile( 
@@ -119,17 +157,13 @@ app.use( (err, req, res, _next) => {
     res.locals.message = err.message;
     res.locals.error = isDev ? err : {};
 
-    // render the error page
     res.status( err.status || 500 );
-    res.render( 'error', { 
-        message: 'Last Error Handler',
-        error: err,
-    });
 });
 
 module.exports = {
 
     app,
     databasesShutdown,
+    isProduction,
     viberBot: mikaVitebskViberBot,
 };

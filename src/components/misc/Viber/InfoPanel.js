@@ -16,24 +16,31 @@ import CardBody from "components/m-d-r/Card/CardBody.js";
 
 const InfoPanel 
 = ({ title ='Info panel', info, classes }) => (
-  <Card>
+    <Card>
 
-    <CardHeader color="primary">
-      <h4 className ={classes.cardTitleWhite}>{title}</h4>
-    </CardHeader>
+        <CardHeader color="primary">
+            <h4 className ={classes.cardTitleWhite}>{title}</h4>
+        </CardHeader>
 
-    <CardBody>
-        <div className ={classes.typo}>
-          <h5>{JSON.stringify( info, null, ' ')}</h5>
-        </div>
-    </CardBody>
+        <CardBody>
+            <div className ={classes.typo}>
+                {JSON.stringify( info, null, 4 )
+                .split('\n')
+                .map( (line, key) => {
+                    return (
+                        <h5 key={key}>{line}</h5>
+                    );
+                }
+                )}
+            </div>
+        </CardBody>
 
-  </Card>
+    </Card>
 );
 InfoPanel.propTypes = {  
-  title: PropTypes.string,
-  info: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired,
+    title: PropTypes.string,
+    info: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
 };
 
 export default InfoPanel;

@@ -3,7 +3,8 @@ require( 'dotenv' ).config();
 const {
     app: rsisWebApp,
     databasesShutdown,
-    viberBot
+    viberBot,
+    isProduction,
 } = require( './app-server' );
 
 const debug = require( 'debug' )( 'sapp:www' );
@@ -12,6 +13,7 @@ const util = require( 'util' );
 const os = require( 'os' );
 const colors = require( 'colors' );
 
+const ngrok = isProduction ? null : require( 'ngrok' );
 
 //const log = require( './helpers/logger')('wwwSrvr:');
 const { icwd } = require( './helpers/serverconfig' );
@@ -31,9 +33,10 @@ const version = require( `${icwd}/package.json` ).version;
     function isSecretEnvVar( varName ) {
         
         const secretKeys = [
-            'JWT_SECRET', 
-            'ATLAS_CREDENTIALS', 'VIBER_CHAT_TOKEN',
-            'GOOGLE_MAP_API_KEY', 'RSIS_GOOGLE_API_KEY'
+            'JWT_SECRET', 'ATLAS_CREDENTIALS',
+            'GOOGLE_MAP_API_KEY', 'RSIS_GOOGLE_API_KEY',
+            'NGROK_AUTH_TOKEN', 'VIBER_CHAT_TOKEN',
+            'AVANGARD_V_VIBER_CHAT_TOKEN'
         ];
         return secretKeys.includes( varName );
     }
@@ -78,7 +81,7 @@ rsisWebApp.set( 'port', port );
 const server = http.createServer( rsisWebApp );
 
 
-const shutdownTheServer = () => new Promise(
+/*const shutdownTheServer = () => new Promise(
 
     (resolve) => {
     
@@ -87,7 +90,16 @@ const shutdownTheServer = () => new Promise(
             resolve();
         });
     }
-);
+);*/
+
+const shutdownTheServer = () => {
+    
+    return Promise.resolve( 
+        server.close( () => {
+            console.log( 'http-server closed now.' );        
+        })
+    );
+};
 
 
 /**
@@ -144,9 +156,18 @@ server.on( 'clientError', (_err, socket) => {
     socket.end( 'HTTP/1.1 400 Bad Request\r\n\r\n' );
 });
 
-server.on( 'close', () => {
+server.on( 'close', async () => {
 
     console.log( 'http-server closing ...' );
+    if( ngrok ) {
+        try {
+            await ngrok.kill();
+            console.log( 'ngrok disconnected.' );
+        }
+        catch (err) {
+            console.log( err );
+        }
+    }
 });
 
 
@@ -154,19 +175,34 @@ server.on( 'close', () => {
 /**
  * Listen on provided port, on all network interfaces.
 **/
-server.listen( port, () => {
+server.listen( port, async () => {
 
     serverAppOutput( 'addr'/*'full'*/, version, server );
 
+    let viberHookURL;
     console.log( `Try set webhook for Viber Application on port: ${port}` );
-    const viberHookURL = `${process.env.API_SERVER}/viber/mikavitebsk`;
+    try {
+        if( isProduction ) {
+            viberHookURL = `${process.env.API_SERVER}/viber/mikavitebsk`;
+        }
+        else if( ngrok ) {
+            const ngrokURL = await ngrok.connect({
+                addr: port,
+                authtoken: process.env.NGROK_AUTH_TOKEN
+            });
+            viberHookURL = `${ngrokURL}/viber/mikavitebsk`;
+        }
     
-    viberBot
-    .setWebhook( viberHookURL )
-    .catch( error => {
+        if( viberHookURL ) {
+            await viberBot.setWebhook( viberHookURL /*, true*/ );
+            let response = await viberBot.getBotProfile();
+            console.log( 'Viber Profile:\n', response );
+        }
+    }
+    catch (err) {
         console.log( `Can not set webhook on ${viberHookURL}.` );
-        console.error( error );
-    });
+        console.log( err );
+    }
 });
 
 

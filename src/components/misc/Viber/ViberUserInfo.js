@@ -16,6 +16,7 @@ const {
 } = viewStyle;
 
 import styles from "assets/jss/misc/todosInputListStyle.js";
+
 const useStyles = makeStyles( {
     ... styles(),
     ... cardCategoryWhite,
@@ -30,9 +31,7 @@ const useStyles = makeStyles( {
 const { ViberClient } = require( 'messaging-api-viber' );
 const client = new ViberClient ({
     accessToken: process.env.VIBER_CHAT_TOKEN,
-    sender: {
-        name: "mikavBot"
-    }
+    sender: "mikavitebsk"
 });
 
 
@@ -50,16 +49,24 @@ const ViberUserInfo = () => {
             setUserId( id );
         }
     };
-    const getAccountInfo = () => {
-        client.getAccountInfo()
-        .then( info => setAccountInfo( info ))
-        .catch( error => setAccountInfo( error ));
+    
+    const getAccountInfo = async () => {
+        try {
+            let info = await client.getAccountInfo();
+            console.log( 'get Account Info\n', info );
+            setAccountInfo( info );
+        }
+        catch (error) {
+            console.log( 'CATCH: get Account Info\n', error );
+            setAccountInfo( error );
+        }
     };
+
     const getUserDetails = (id) => { 
         //console.log('get User Details.');
         client.getUserDetails( id )
-        .then( details => setUserDetails( details ))
-        .catch( error => setUserDetails( error ));
+            .then( details => setUserDetails( details ))
+            .catch( error => setUserDetails( error ));
     };
 
     //Эффект применяется после рендеринга и только 1 раз

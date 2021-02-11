@@ -13,6 +13,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
  */
+
 .ct-grid {
   stroke: rgba(255, 255, 255, 0.2);
   stroke-width: 1px;
@@ -59,7 +60,7 @@
 }
 html * {
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /*-moz-osx-font-smoothing: grayscale;*/
 }
 body {
   background-color: #eeeeee;
@@ -144,12 +145,12 @@ a:focus {
 }
 
 legend {
-  border-bottom: 0;
+    border-bottom: 0;
 }
 
 * {
-  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-  -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    -webkit-tap-highlight-color: transparent;
 }
 
 *:focus {
@@ -250,7 +251,7 @@ footer ul li a:hover {
   z-index: 1031;
   border-radius: 8px 0 0 8px;
   text-align: center;
-  top: 120px;
+  /*top: 120px;*/
   /*.badge-primary-background-color: #9c27b0;*/
 }
 
@@ -278,7 +279,7 @@ footer ul li a:hover {
   right: 80px;
   left: auto;
   width: 290px;
-  border-radius: 0.1875rem;
+  /*border-radius: 0.1875rem;*/
   padding: 0 10px;
   position: absolute;
   color: rgba(0, 0, 0, 0.87);

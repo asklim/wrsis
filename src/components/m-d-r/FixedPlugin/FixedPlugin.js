@@ -35,7 +35,15 @@ export default function FixedPlugin(props) {
       <div id="fixedPluginClasses" className={props.fixedClasses}>
         <div onClick={handleClick}>
           <SettingsIcon fontSize="large"></SettingsIcon>
-          <i className="fa fa-cog">AK</i>
+          {/*<i className="fa fa-cog">AK</i>*/}
+          <Button
+              color="info"
+              fullWidth
+              href=""
+              target="_blank"
+          >
+              AK
+          </Button>
         </div>
         <ul className="dropdown-menu">
           <li className="header-title">SIDEBAR FILTERS</li>

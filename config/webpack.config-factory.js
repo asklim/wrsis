@@ -115,9 +115,7 @@ module.exports = function( webpackEnv ) {
                         plugins: [
                             require( 'postcss-flexbugs-fixes' ),
                             require( 'postcss-preset-env' )({
-                                autoprefixer: {
-                                    flexbox: 'no-2009',
-                                },
+                                //autoprefixer: { flexbox: 'no-2009', },
                                 stage: 3,
                             }),
                             // Adds PostCSS Normalize as the reset css with default options,
@@ -293,7 +291,7 @@ module.exports = function( webpackEnv ) {
                 new ModuleScopePlugin( paths.appSrc, [ paths.appPackageJson ]),
             ],
             fallback: {
-                "buffer": false, // require.resolve("buffer"),
+                buffer: false,
                 "stream": require.resolve( 'stream-browserify' ),
                 "crypto": false, // require.resolve("crypto-browserify"),
                 "https": require.resolve( 'https-browserify' ),
@@ -517,6 +515,11 @@ module.exports = function( webpackEnv ) {
                     },
                 ],
             }),
+            // for Axios - it`s work !!!
+            new webpack.ProvidePlugin({
+                Buffer: ['buffer', 'Buffer'],
+                process: 'process/browser'
+            }),
             // Generates an `index.html` file with the <script> injected.
             new HtmlWebpackPlugin(
                 Object.assign(
@@ -651,7 +654,7 @@ module.exports = function( webpackEnv ) {
         // Tell Webpack to provide empty mocks for them so importing them works.
         // Uncaught ReferenceError: global is not defined, 
         // if: node: false,
-        node : {}, // it`s Ok
+        //node : {}, // it`s Ok
         // Turn off performance processing because we utilize
         // our own hints via the FileSizeReporter
         performance: isEnvProduction

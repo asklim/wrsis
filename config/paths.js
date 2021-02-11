@@ -46,7 +46,7 @@ function getServedPath (appPackageJson) {
 
     const publicUrl = getPublicUrl( appPackageJson );
     const servedUrl = envPublicUrl 
-        || ( publicUrl 
+        || ( publicUrl && publicUrl.startsWith( 'http' )
             ? (new URL( publicUrl )).pathname 
             : '/' );
     

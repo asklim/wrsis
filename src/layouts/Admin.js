@@ -16,8 +16,8 @@ import routes from "./AdminRoutes.js";
 
 import Footer from "components/wrsis/Footer/Footer.js";
 import Sidebar from "components/wrsis/Sidebar/Sidebar.js";
-import styles from "assets/jss/m-d-r/layouts/adminStyle.js";
 
+import styles from "assets/jss/m-d-r/layouts/adminStyle.js";
 import bgImage from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
 

@@ -10,6 +10,8 @@ import Invoice from "layouts/Invoice.js";
 import RTL from "layouts/RTL.js";
 import UISamples from "layouts/UISamples.js";
 
+//import "assets/font-awesome-4/css/font-awesome.css";
+import "assets/css/rsis-chartist.scss";
 import "assets/css/material-dashboard-react.css?v=1.8.0";
 
 const browserHistory = createBrowserHistory();
