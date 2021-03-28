@@ -77,5 +77,6 @@ module.exports = {
         "react/jsx-uses-react" : "warn",
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
+        "react/no-children-prop": "warn",
     }
 };

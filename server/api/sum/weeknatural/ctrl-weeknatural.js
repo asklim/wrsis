@@ -1,26 +1,25 @@
 //var debug = require( 'debug' )( 'api:sum:weeknatural' );
-//const colors = require( 'colors' );
-const icwd = require( 'fs' ).realpathSync( process.cwd() );
+const { 
+    icwd, 
+    consoleLogger,
+    //sendJSONresponse,
+    send200Ok,
+    send201Created,
+    send204NoContent,
+    send400BadRequest,
+    send404NotFound,
+    send409Conflict,
+    send500ServerError,
+} = require( '../../../helpers' );
 
-const HTTPCODE = require( `${icwd}/src/config/http-response-codes` );
+const log = consoleLogger( 'ctrl-SUM:' );
+
+//const HTTP = require( `${icwd}/src/config/http-response-codes` );
 
 const db = require( `${icwd}/server/databases` ).getDB( 'sum' );
 const WeekNatural = db.model( 'WeekNatural' );
 
 //const workdate = require( `${icwd}/imports/utils/workdate` );
-
-
-
-const sendJSONresponse = (res, status, content) => {
-
-    //console.log('sendJSON: ', content);
-    //console.log('sendJSON: ', Object.keys(content[0]));
-
-    res.status( status );
-    res.json( content );
-};
-
-
 
 
 /** 
@@ -31,7 +30,7 @@ const sendJSONresponse = (res, status, content) => {
  * @fires 200 OK          & document
  * @fires 400 Bad Request & message
  * @fires 404 Not Found   & message
- * @fires 503 Service Unavailable & error object
+ * @fires 500 Server Error & error object
  * @returns {} undefined
  * @example 
  * GET /api/sum/weeknatural/:weekId
@@ -44,9 +43,10 @@ const sendJSONresponse = (res, status, content) => {
 const readOne = ( req, res ) => {
 
 
-    console.log( `I: try readOne sum-week-natural document`,
-               '\nI: finding weekNatural\'s params: ', req.params,
-               '\nI: finding weekNatural\'s query: ', req.query
+    console.log( 
+        `I: try readOne sum-week-natural document`,
+        `\nI: finding weekNatural's params:`, req.params,
+        `\nI: finding weekNatural's query :`, req.query
     );
     //console.log(req.hostname);
     
@@ -54,11 +54,8 @@ const readOne = ( req, res ) => {
 
     if( !req.params || !weekId ) {
 
-        console.log( 'W: weekNatural readOne: No weekId specified.' );
-        sendJSONresponse( res, HTTPCODE.BAD_REQUEST, {
-            message: 'No weekId in request.'
-        });
-        return;
+        log.warn( 'weekNatural.readOne: No weekId specified.' );
+        return send400BadRequest( res, 'No weekId in request.' );        
     }
 
     let finding, sorting, weekNumber;
@@ -73,44 +70,37 @@ const readOne = ( req, res ) => {
         weekNumber = Number.parseInt( weekId, 10 );
         if( !weekNumber ) {
 
-            console.log( 'W: weekNatural readOne: wrong weekId specified.' );
-            sendJSONresponse( res, HTTPCODE.BAD_REQUEST, {
-                message: 'Wrong weekId in request.'
-            });
-            return;            
+            log.warn( 'weekNatural.readOne: wrong weekId specified.' );
+            return send400BadRequest( res, 'Wrong weekId in request.' );            
         }
+
         finding =  { id: weekNumber };
         sorting =  {};            
     }
 
 
-    WeekNatural.find( finding )
-    .sort( sorting )
-    .limit(1)
-    .exec( (err, docs) => {
+    WeekNatural
+        .find( finding )
+        .sort( sorting )
+        .limit(1)
+        .exec( (err, docs) => {
 
-        if( !docs || docs.length < 1 ) {
+            if( !docs || docs.length < 1 ) {
 
-            let msg = `Summary data for week ${weekId}/${weekNumber} not found.`;
-            console.log(`W: weekNatural ${msg}`);
+                let msg = `Summary data for week ${weekId}/${weekNumber} not found.`;
+                log.warn( `weekNatural ${msg}` );
 
-            sendJSONresponse( res, HTTPCODE.NOT_FOUND, {
-                message: `WeekNatural ${msg}`
-            });
-            return;
-        }
+                return send404NotFound( res, `WeekNatural ${msg}` );                
+            }
 
-        if( err ) { 
+            if( err ) {                 
+                //console.log(err);                
+                return send500ServerError( res, err );
+            } 
 
-            sendJSONresponse( res, HTTPCODE.SERVICE_UNAVAILABLE, err );
-            //console.log(err);                
-            return;
-        } 
-
-        console.log( `SUCCESS: weekNatural ${docs[0].id} readOne is Ok.`);
-        sendJSONresponse( res, HTTPCODE.OK, docs[0] );
-    });
-
+            log.info( `SUCCESS: weekNatural ${docs[0].id} readOne is Ok.`);
+            return send200Ok( res, docs[0] );
+        });
 };
 
 
@@ -121,7 +111,7 @@ const readOne = ( req, res ) => {
  * @fires 201 Created     & message
  * @fires 400 Bad Request & message
  * @fires 409 Conflict    & message
- * @fires 503 Service Unavailable & error object
+ * @fires 500 Server Error & error object
  * @returns {} undefined
  * @example
  * POST /api/sum/weeknatural
@@ -131,63 +121,55 @@ const readOne = ( req, res ) => {
 const create = ( req, res )  => {
 
 
-    console.log( `I: try create, sum-week-natural body.id: ${req.body.id}` ); 
+    log.info( `try create, sum-week-natural body.id: ${req.body.id}` ); 
     
     if( !req.body || req.body === {} ) {
-
-        sendJSONresponse( res, HTTPCODE.BAD_REQUEST, {
-            message: 'Bad request, body is required'
-        });
-        return;
+        
+        return send400BadRequest( res, 'Bad request, body is required' );        
     }
+
     const { id } = req.body;
 
     if( !id /*|| weekId === ''*/ ) {
 
-        sendJSONresponse( res, HTTPCODE.BAD_REQUEST, {
-            message: 'Bad request, body.id number is required'
-        });
-        return;
+        return send400BadRequest( res, 'Bad request, body.id number is required' );        
     }  
   
     const finding = { id };
 
-    WeekNatural.find( finding )
-    .limit( 1 )
-    .exec( (err, docs) => { 
+    WeekNatural
+        .find( finding )
+        .limit( 1 )
+        .exec( (err, docs) => { 
 
-        if( err ) { 
+            if( err ) {                 
+                //console.log(err);
+                return send500ServerError( res, err );
+            }
 
-            sendJSONresponse( res, HTTPCODE.SERVICE_UNAVAILABLE, err );
-            //console.log(err);
-            return;
-        }
+            if( docs && docs.length !== 0 ) {
 
-        if( docs && docs.length !== 0 ) {
+                return send409Conflict( res, 
+                    `Summary data for week ${id} already exists.` 
+                );                
+            }
 
-            sendJSONresponse( res, HTTPCODE.CONFLICT, {
-                message: `Summary data for week ${id} already exists.`
-            });
-            return;
-        }
+            WeekNatural.create( 
+                req.body, 
+                (err, doc) => {
 
-        WeekNatural.create( req.body, 
-        (err, doc) => {
+                    if( err ) {
 
-            if( err ) {
+                        log.error( 'weekNatural.create err: ', err );
+                        return send500ServerError( res, err );                        
+                    } 
 
-                console.log( 'E: weekNatural create err: ', err );
-                sendJSONresponse( res, HTTPCODE.SERVICE_UNAVAILABLE, err );
-                return;
-            } 
-
-            console.log( `SUCCESS: weekNatural ${doc.id} created.`);
-            sendJSONresponse( res, HTTPCODE.CREATED, {
-                message: `Summary data for week ${doc.id} created successfull.`
-            });
-            
-        });
-    });    
+                    log.info( `SUCCESS: weekNatural ${doc.id} created.`);
+                    return send201Created( res, 
+                        `Summary data for week ${doc.id} created successfull.`
+                    );                    
+                });
+        });    
 };
 
 
@@ -198,7 +180,7 @@ const create = ( req, res )  => {
  * @fires 200 OK          & updated document
  * @fires 400 Bad Request & message
  * @fires 404 Not Found   & message
- * @fires 503 Service Unavailable & error object
+ * @fires 500 Server Error & error object
  * @returns {} undefined
  * @example
  * PUT /api/sum/weeknatural
@@ -210,61 +192,50 @@ const updateOne = ( req, res ) => {
 
     //console.log(req.body);
 
-    if( !req.body || req.body === {} ) {
-    
-        sendJSONresponse( res, HTTPCODE.BAD_REQUEST, {
-            message: 'Bad request, body is required'
-        });
-        return;
+    if( !req.body || req.body === {} ) {    
+        return send400BadRequest( res, 'Bad request, body is required' );        
     }
 
     const weekNumber  = Number.parseInt( req.body.id, 10 );
 
-    if( !weekNumber ) {
-    
-        sendJSONresponse( res, HTTPCODE.BAD_REQUEST, {
-            message: 'Bad request, body.id is required or wrong.'
-        });
-        return;
+    if( !weekNumber ) {    
+        return send400BadRequest( res, 'Bad request, body.id is required or wrong.' );        
     }
 
-    WeekNatural.find( { id: weekNumber } )
-    .limit( 1 )
-    .exec( (err, docs) => {
+    WeekNatural
+        .find( { id: weekNumber } )
+        .limit( 1 )
+        .exec( (err, docs) => {
 
-        if (!docs || docs.length < 1) {
-
-            sendJSONresponse( res, HTTPCODE.NOT_FOUND, {
-                message: `Summary data for week ${weekNumber} not found.`
-            });
-            return;
-        }
-
-        if( err ) {             
-
-            sendJSONresponse( res, HTTPCODE.SERVICE_UNAVAILABLE, err);
-            //console.log(err);
-            return;
-        }
- 
-        Object.assign( docs[0], req.body,
-            { updatedAt: Date.now() }
-        );
-        //doc[0].host = req.body.host;
-        //debug( `weekNatural doc.isNew: ${docs[0].isNew}.`);//false
-
-        docs[0].save( (err, saved) => {
-
-            if( err ) {
-                sendJSONresponse( res, HTTPCODE.SERVICE_UNAVAILABLE, err );
-            } 
-            else {
-
-                console.log( `SUCCESS: weekNatural ${saved.id} updated.`);
-                sendJSONresponse( res, HTTPCODE.OK, saved );
+            if( !docs || docs.length < 1 ) {
+                return send404NotFound( res, 
+                    `Summary data for week ${weekNumber} not found.` 
+                );
             }
+
+            if( err ) {                
+                //console.log(err);
+                return send500ServerError( res, err );
+            }
+    
+            Object.assign( 
+                docs[0], 
+                req.body,
+                { updatedAt: Date.now() }
+            );
+            //doc[0].host = req.body.host;
+            //debug( `weekNatural doc.isNew: ${docs[0].isNew}.`);//false
+
+            docs[0].save( (err, savedDoc) => {
+
+                if( err ) {
+                    return send500ServerError( res, err );
+                }
+
+                log.info( `SUCCESS: weekNatural ${savedDoc.id} updated.` );
+                return send200Ok( res, savedDoc );                
+            });
         });
-    });
 };   
 
 
@@ -274,7 +245,7 @@ const updateOne = ( req, res ) => {
  * @fires 204 No Content  & deleted document
  * @fires 400 Bad Request & message
  * @fires 404 Not Found   & null
- * @fires 503 Service Unavailable & error object
+ * @fires 500 Server Error & error object
  * @returns {} undefined
  * @example
  * DELETE /api/sum/weeknatural/:weekId 
@@ -289,43 +260,32 @@ const deleteOne = ( req, res ) => {
     const { weekId } = req.params;
 
     if( !weekId || weekId === '' ) {
-
-        sendJSONresponse( res, HTTPCODE.BAD_REQUEST, {
-            message: 'Bad request, weekId is required.'
-        });    
-        return;
-    }   
+        return send400BadRequest( res, 'Bad request, weekId is required.' );
+    }
 
     const weekNumber  = Number.parseInt( weekId, 10 );
     
     if( !weekNumber ) {
-
-        console.log( 'W: [weekNatural deleteOne] wrong :weekId specified.' );
-        sendJSONresponse( res, HTTPCODE.BAD_REQUEST, {
-            message: 'Wrong :weekId in request.'
-        });
-        return;            
+        log.warn( `weekNatural.deleteOne: bad parameter <:weekId> specified.` );
+        return send400BadRequest( res, 'Bad parameter <:weekId> in request.' );        
     }
 
-    WeekNatural.findOneAndDelete( { id: weekNumber },
-    ( err, doc ) => { 
+    WeekNatural.findOneAndDelete( 
+        { id: weekNumber },
+        (err, doc) => { 
 
-        if( err ) {
+            if( err ) {
+                log.error( err );
+                return send500ServerError( res, err );
+            }
+            
+            if( !doc ) {
+                return send404NotFound( res, doc );
+            }
 
-            console.log( err );
-            sendJSONresponse( res, HTTPCODE.SERVICE_UNAVAILABLE, err );
-            return;
-        }
-        
-        if( !doc ) {
-
-            sendJSONresponse( res, HTTPCODE.NOT_FOUND, doc );
-            return;
-        }
-
-        console.log( `I: Week ${weekId} natural summary deleted.` );
-        sendJSONresponse( res, HTTPCODE.NO_CONTENT, doc );
-    });  
+            log.info( `Week ${weekId} natural summary deleted.` );
+            return send204NoContent( res, doc );
+        });  
 };
 
 

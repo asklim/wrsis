@@ -1,22 +1,30 @@
-/* eslint-disable react/prop-types*/
+const debug = require( "debug" )( 'view:INVOICE' );
+
 import React from "react";
 //import PropTypes from "prop-types";
-import { Switch, Route /*, Redirect*/ } from "react-router-dom";
+import { 
+    Switch, 
+    Route, 
+    Redirect,
+    useLocation,
+    useRouteMatch,
+} from "react-router-dom";
 
 // creates a beautiful scrollbar
-import PerfectScrollbar from "perfect-scrollbar";
-import "perfect-scrollbar/css/perfect-scrollbar.css";
+//import PerfectScrollbar from "perfect-scrollbar";
+//import "perfect-scrollbar/css/perfect-scrollbar.css";
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 
 // core components
-import Navbar from "components/m-d-r/Navbars/Navbar.js";
 import FixedPlugin from "components/m-d-r/FixedPlugin/FixedPlugin.js";
 
+import Navbar from "components/wrsis/Navbars/Navbar.js";
 import Footer from "components/wrsis/Footer/Footer.js";
 import Sidebar from "components/wrsis/Sidebar/Sidebar.js";
-import Whoops404 from "components/misc/Whoops404.js";
+
+import Whoops404 from "views/Whoops404.js";
 import routes from "./InvoiceRoutes.js";
 
 import styles from "assets/jss/m-d-r/layouts/adminStyle.js";
@@ -24,36 +32,51 @@ import styles from "assets/jss/m-d-r/layouts/adminStyle.js";
 import bgImage from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png"; // must be an image
 
-let ps;
+//let ps;
 
 const switchRoutes = (
     <Switch>
         {routes
-        .map( (prop, key) => {
+        .map( (prop, index) => {
             if( prop.layout === "/invoice" ) {
                 return (
-                    <Route key = {key}
-                        path = {prop.layout + prop.path}
-                        component = {prop.component}            
+                    <Route 
+                        path={prop.layout + prop.path}
+                        component={prop.component}
+                        key={index}
                     />
                 );
-            }
+            }            
             return null;
-        })}
-        <Route component = {Whoops404} />
+        })
+        .filter( Boolean )}
+        
+        <Redirect exact from="/invoice" to="/invoice/procurement" />
+        <Route>
+            <Whoops404 callFrom="Invoice layout" />
+        </Route> 
     </Switch>
 );
 
+debug( 'init layout' );
 const useStyles = makeStyles( styles );
 
-export default function InvoiceBoard ({ ...rest }) {
+
+export default function InvoiceBoard ({ ...props }) {
 
     // styles
     const classes = useStyles();
-    
+    debug( 'layout`s props:', Object.keys( props ), props );
+
+    const routeMatch = useRouteMatch();
+    debug( 'useRouteMatch:', routeMatch );
+    const viewLocation = useLocation();    
+    debug( 'useLocation:', viewLocation );
+
     // ref to help us initialize PerfectScrollbar on windows devices
-    const mainPanel = React.createRef();
-    
+    const mainPanel = React.useRef( null );
+    debug( 'mainPanel ref:', mainPanel );
+
     // states and functions
     const [ image, setImage ] = React.useState( bgImage );
     const [ color, setColor ] = React.useState( "blue" );
@@ -77,21 +100,23 @@ export default function InvoiceBoard ({ ...rest }) {
     };
 
     // initialize and destroy the PerfectScrollbar plugin
-    React.useEffect(() => {
-        if( navigator.platform.indexOf( "Win" ) > -1) {
+    React.useEffect( () => {
+
+        /*if( navigator.platform.indexOf( "Win" ) > -1) {
             ps = new PerfectScrollbar( mainPanel.current, {
                 suppressScrollX: true,
                 suppressScrollY: false
             });
             document.body.style.overflow = "hidden";
-        }
+        }*/
+
         window.addEventListener( "resize", resizeFunction );
         
         // Specify how to clean up after this effect:
         return function cleanup() {
-            if( navigator.platform.indexOf( "Win" ) > -1) {
+            /*if( navigator.platform.indexOf( "Win" ) > -1) {
                 ps.destroy();
-            }
+            }*/
             window.removeEventListener( "resize", resizeFunction );
         };  
     }, [ mainPanel ]);
@@ -107,7 +132,7 @@ export default function InvoiceBoard ({ ...rest }) {
             handleDrawerToggle ={handleDrawerToggle}
             open ={mobileOpen}
             color ={color}
-            {...rest}
+            {...props}
         />
 
         {/* eslint-disable-next-line react/no-string-refs */}
@@ -115,7 +140,7 @@ export default function InvoiceBoard ({ ...rest }) {
             <Navbar
                 routes ={routes}
                 handleDrawerToggle ={handleDrawerToggle}
-                {...rest}
+                {...props}
             />
 
             <div className ={classes.content}>
@@ -125,7 +150,7 @@ export default function InvoiceBoard ({ ...rest }) {
             </div>
         
             <Footer 
-                appVersion ={window.document.appVersion}
+                appVersion ={window.document.wrsis.appVersion}
             />
             
             <FixedPlugin

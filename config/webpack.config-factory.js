@@ -24,7 +24,7 @@ const getCSSModuleLocalIdent = require( 'react-dev-utils/getCSSModuleLocalIdent'
 const InlineChunkHtmlPlugin = require( 'react-dev-utils/InlineChunkHtmlPlugin' );
 
 
-const getClientEnvironment = require( './env' );
+const getClientEnvironment = require( './env.js' );
 
 const PnpWebpackPlugin = require( 'pnp-webpack-plugin' );
 const CaseSensitivePathsPlugin = require( 'case-sensitive-paths-webpack-plugin' );
@@ -36,6 +36,7 @@ const WatchMissingNodeModulesPlugin =
       require( 'react-dev-utils/WatchMissingNodeModulesPlugin');
 const { WebpackManifestPlugin } = require( 'webpack-manifest-plugin' );
 
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 // Source maps are resource heavy 
 // and can cause out of memory issue
@@ -49,6 +50,8 @@ const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP === 'true';
 const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK === 'true';
 //!== 'false';
 
+const jstsRegex = /\.(js|mjs|jsx|ts|tsx)$/;
+
 // style files regexes
 const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
@@ -57,12 +60,20 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
 
 // This is the production and development configuration.
 // It is focused on developer experience, 
-//fast rebuilds, and a minimal bundle.
+// fast rebuilds, and a minimal bundle.
 
 module.exports = function( webpackEnv ) {
 
+    const debugModeBrowserTabTitle = 'web rsis dev-mode';
+
     const isEnvDevelopment = webpackEnv === 'development';
     const isEnvProduction = webpackEnv === 'production';
+
+    const { PWD, DYNO, DEV_MODE, NO_WEBPACK_BUNDLE_ANALIZER } = process.env;
+    const isHeroku = DYNO && (PWD === '/app');
+    const isHMR = DEV_MODE === 'HotModuleReplacement';
+
+    const isWebpackBundleAnalizer = !NO_WEBPACK_BUNDLE_ANALIZER;
 
     // Variable used for enabling profiling in Production
     // passed into alias object. Uses a flag if passed into the build command
@@ -159,7 +170,7 @@ module.exports = function( webpackEnv ) {
             ? shouldUseSourceMap
                 ? 'source-map'
                 : false
-            : isEnvDevelopment && 'inline-source-map',
+            : isEnvDevelopment && 'eval-cheap-source-map',
 
         // These are the "entry points" to our application.
         // This means they will be the "root" imports that are included in JS bundle.
@@ -220,9 +231,9 @@ module.exports = function( webpackEnv ) {
             // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
             splitChunks: {
                 chunks: 'all',
-                //minSize : 524288,
-                //maxSize : 1048576,
-                //name: false,
+                minSize : 51200,
+                maxSize : 512000,
+                name: false,
             },
 
             // Keep the runtime chunk separated to enable long term caching
@@ -315,7 +326,7 @@ module.exports = function( webpackEnv ) {
                 // First, run the linter.
                 // It's important to do this before Babel processes the JS.
                 /*{
-                    test: /\.(js|mjs|jsx|ts|tsx)$/,
+                    test: jstsRegex,
                     enforce: 'pre',
                     loader: require.resolve('eslint-loader'),
                     options: {
@@ -357,7 +368,7 @@ module.exports = function( webpackEnv ) {
                         // Process application JS with Babel.
                         // The preset includes JSX, Flow, TypeScript, and some ESnext features.
                         {
-                            test: /\.(js|mjs|jsx|ts|tsx)$/,
+                            test: jstsRegex,
                             include: paths.appSrc,
                             exclude: /node_modules/,
                             loader: require.resolve( 'babel-loader' ),
@@ -478,7 +489,7 @@ module.exports = function( webpackEnv ) {
                             // Also exclude `html` and `json` extensions so they
                             // get processed by webpacks internal loaders.
                             exclude: [
-                                /\.(js|mjs|jsx|ts|tsx)$/, 
+                                jstsRegex, 
                                 /\.html$/, 
                                 /\.json$/,
                             ],
@@ -493,9 +504,17 @@ module.exports = function( webpackEnv ) {
             ],
         },
         plugins: [
+            isWebpackBundleAnalizer && isEnvDevelopment && !isHMR && !isHeroku &&
+                new BundleAnalyzerPlugin({
+                    //analyzerMode: 'server',    //default
+                    //analyzerHost: '127.0.0.1', //default
+                    //analyzerPort: '8888',      //default
+                    openAnalyzer: false,
+                }),
             // The ProgressPlugin provides a way to customize how progress is 
             // reported during a compilation.
-            // new webpack.ProgressPlugin(),
+            isEnvDevelopment && !isHMR &&
+                new webpack.ProgressPlugin(),
             
             // By default, this plugin will remove all files inside webpack's 
             // output.path directory, as well as all unused webpack assets after 
@@ -527,7 +546,7 @@ module.exports = function( webpackEnv ) {
                     {
                         title: isEnvProduction
                             ? 'web rsis'
-                            : 'web rsis dev-mode',
+                            : debugModeBrowserTabTitle,
                         template: paths.appHtmlTemplate,
                         appVersion,
                     },

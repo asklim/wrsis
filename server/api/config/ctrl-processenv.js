@@ -1,5 +1,5 @@
 const { 
-    icwd, 
+    //icwd, 
     consoleLogger,
     sendJSONresponse,
     send400BadRequest,
@@ -7,7 +7,6 @@ const {
 } = require( '../../helpers' );
 
 const log = consoleLogger( 'ctrl-ENV:' );
-const HTTP = require( `${icwd}/src/config/http-response-codes` );
 
 
 /** 
@@ -43,17 +42,14 @@ module.exports.readOne = (req, res) => {
         return send400BadRequest( res, ".name not present" );        
     }
     
-    const value = process.env[ name ];
+    const envVarValue = process.env[ name ];
     
-    log.info( `name: ${name} value:`, value );
+    log.info( `name: ${name} value:`, envVarValue );
 
-    if( !value ) { // Нет такой переменной в окружении
+    if( !envVarValue ) { // Нет такой переменной в окружении
     
         return send404NotFound( res, "invalid .name" );             
     }
     
-    sendJSONresponse( res, 
-        HTTP.OK, 
-        { value, }
-    );
+    sendJSONresponse( res, 200, { 'value': envVarValue });
 };

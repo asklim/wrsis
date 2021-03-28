@@ -59,7 +59,7 @@ let loggerTemplate = [
 app.use( morganLogger( loggerTemplate ));
 
 // IMPORTANT!!! Должен быть перед express.json()
-const mikaVitebskViberBot = require( './viber-bot' );
+const { bot: mikaVitebskViberBot } = require( './viber-bot' );
 const viberBotMiddleware = mikaVitebskViberBot.middleware();
 app.use( '/viber/mikavitebsk', 
     function (req, res, next) {

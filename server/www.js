@@ -296,8 +296,9 @@ function serverAppOutput( outputMode, appVersion, httpServer ) {
         full: () => console.log( 'Express server = ',  httpServer ),
         addr: () => {
             const { NODE_ENV } = process.env;
+            const node_env = NODE_ENV ? NODE_ENV : 'undefined';
             console.log( 'app version ', appVersion.cyan );
-            console.log( 'NODE Environment is ', NODE_ENV );
+            console.log( 'NODE Environment is ', node_env.cyan );
             console.log(
                 'Express server = "' + address.cyan 
                 + '" Family= "' + family.cyan

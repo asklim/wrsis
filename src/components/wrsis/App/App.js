@@ -1,36 +1,95 @@
-
-import { createBrowserHistory } from "history";
-import { Router, Route, Switch, Redirect } from "react-router-dom";
-
 import React from "react";
+//import { createBrowserHistory } from "history";
+import { 
+    BrowserRouter,
+    Route, 
+    Switch, 
+    Redirect 
+} from "react-router-dom";
 
-// core components
-import Admin from "layouts/Admin.js";
-import Invoice from "layouts/Invoice.js";
-import RTL from "layouts/RTL.js";
-import UISamples from "layouts/UISamples.js";
+//import * as m from "layouts/index.mjs";
+//console.log( m );
 
-//import "assets/font-awesome-4/css/font-awesome.css";
-import "assets/css/rsis-chartist.scss";
-import "assets/css/material-dashboard-react.css?v=1.8.0";
+if( window.document.title.includes( 'dev-mode' )) {
+    //title setted in <root>/config/webpack.config-factory.js
+    //by htmlWebpackPlugin
+    localStorage.setItem( 'debug', 'view:*, component:*' );
+    //localStorage.setItem( 'rsismode', 'development' );
+}
+else {
+    localStorage.removeItem( 'debug' );
+}
 
-const browserHistory = createBrowserHistory();
+// core layouts
+//import layouts from "layouts/index.js";
+import { 
+    Admin,
+    Invoice,
+    RightToLeft,
+    UISamples 
+} from "layouts/index.mjs";
+
+/*const {
+    loadableAdmin: Admin,
+    loadableInvoice: Invoice,
+    loadableRTL: RightToLeft,
+    loadableUISamples: UISamples 
+} = layouts;*/
+
+import Whoops404 from "views/Whoops404.js";
+
+//const browserHistory = createBrowserHistory();
 
 //console.log('running ReactApp');
-const App = () =>
-    <Router history ={browserHistory}>
-        <Switch>
-            <Route path ="/admin" component ={Admin} />
-            <Route path ="/invoice" component ={Invoice} />       
-            <Route path ="/rtl" component ={RTL} />       
-            <Route path ="/uisamples" component ={UISamples} />     
+export default function App () {
+    return (
+        <BrowserRouter
+            keyLength={12}
+        >
+            <Switch> 
+                {/*<Redirect exact from ="/" to ="/admin" />*/}
+                {/*<Redirect from ="/admin" to ="/admin/dashboard" />*/}
 
-            <Redirect from ="/i" to ="/invoice/dashboard" />
-            <Redirect from ="/s" to ="/uisamples/dashboard" />
-            <Redirect from ="/" to ="/admin/dashboard" />     
+                <Redirect from="/i" to="/invoice" />
+                <Redirect from="/s" to="/uisamples" />
 
-        </Switch>
-    </Router>
-;
+                <Route exact path="/">
+                    <Admin />
+                </Route>
 
-export default App;
+                <Route exact path="/admin">
+                    <Admin />
+                </Route>
+
+                <Route path="/admin/:viewId">
+                    <Admin />
+                </Route>
+
+                <Route exact path="/invoice">
+                    <Invoice />       
+                </Route>
+
+                <Route path="/invoice/:viewId">
+                    <Invoice />       
+                </Route> 
+
+                <Route exact path="/uisamples">
+                    <UISamples />
+                </Route>     
+
+                <Route path="/uisamples/:viewId">
+                    <UISamples />
+                </Route>
+
+                <Route path="/rtl/rtl-page">
+                    <RightToLeft />
+                </Route>
+                                
+                <Route path="*">
+                    <Whoops404 callFrom="App.js" />
+                </Route> 
+
+            </Switch>
+        </BrowserRouter>
+    );
+}

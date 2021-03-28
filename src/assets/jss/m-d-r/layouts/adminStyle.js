@@ -4,14 +4,14 @@ import {
     container
 } from "../material-dashboard-react.js";
 
-const appStyle = theme => ({
+const appStyle = (theme) => ({
     wrapper: {
         position: "relative",
         top: "0",
         height: "100vh"
     },
     mainPanel: {
-        [theme.breakpoints.up("md")]: {
+        [theme.breakpoints.up( "md" )]: {
             width: `calc(100vw - ${drawerWidth}px)`
         },
         overflow: "auto",
@@ -27,10 +27,10 @@ const appStyle = theme => ({
         padding: "30px 15px",
         minHeight: "calc(100vh - 123px)"
     },
-    container,
     map: {
         marginTop: "70px"
-    }
+    },
+    container,
 });
 
 export default appStyle;

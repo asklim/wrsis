@@ -22,7 +22,7 @@ const hmrConfig = {
         hot: true,
     },
     entry: [
-        // MUST BE 2 entrypoints
+        // MUST BE 2 ?? entrypoints
         'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true',
         'react-hot-loader/patch',
         paths.appIndexJs

@@ -3,15 +3,19 @@ import {
     AddBox,
     Dashboard,
     Unarchive,
-    Fingerprint 
+    Fingerprint,
+    MoodBad,
+    PhoneInTalk,
 } from '@material-ui/icons';
 
-// core components/views for Admin layout
+//views for Admin layout
 import MainDashboardPage from "../views/MainDashboard.js";
-import UpgradeToPro from "../views/m-d-r/UpgradeToPro.js";
-
-import ProcurementBoardPage from "../views/ProcurementBoard.js";
 import DialogList from "../views/DialogList.js";
+import ViberInfo from "../views/ViberInfo.js";
+
+import InvoiceBoard from './Invoice.js';
+import UISamples from "./UISamples.js";
+
 
 const adminRoutes = [
     {
@@ -23,11 +27,11 @@ const adminRoutes = [
         layout: "/admin"
     },
     {
-        path: "/procurement",
-        name: "Procurement",
-        rtlName: "rtl_procurement",
+        path: "",
+        name: "Invoice Board",
+        rtlName: "rtl_InvoiceBoard",
         icon: AddBox,
-        component: ProcurementBoardPage,
+        component: InvoiceBoard,
         layout: "/invoice"
     },  
     {
@@ -37,13 +41,29 @@ const adminRoutes = [
         icon: Fingerprint,
         component: DialogList,
         layout: "/admin"
+    },  
+    {
+        path: "/viberinfo",
+        name: "Viber Info",
+        rtlName: "قائمة الجدول",
+        icon: PhoneInTalk,
+        component: ViberInfo,
+        layout: "/admin"
     },
     {
-        path: "/uis-dash",
+        path: "/bad-link",
+        name: "Bad Link",
+        rtlName: "قائمة الجدول",
+        icon: MoodBad,
+        component: DialogList,
+        layout: "/inv"
+    },
+    {
+        path: "", //Use & check in <Sidebar />
         name: "CREATIVE TIM",
         rtlName: "التطور للاحترافية",
         icon: Unarchive,
-        component: UpgradeToPro,
+        component: UISamples,
         layout: "/uisamples"
     },
 ];

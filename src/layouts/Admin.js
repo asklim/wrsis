@@ -1,5 +1,14 @@
+const debug = require( "debug" )( 'view:ADMIN' );
+
 import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { 
+    Switch, 
+    Route, 
+    Redirect,
+    useParams,
+    useRouteMatch,
+    useLocation,
+} from "react-router-dom";
 
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
@@ -9,13 +18,14 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 import { makeStyles } from "@material-ui/core/styles";
 
 // core components
-import Navbar from "components/m-d-r/Navbars/Navbar.js";
 import FixedPlugin from "components/m-d-r/FixedPlugin/FixedPlugin.js";
 
-import routes from "./AdminRoutes.js";
-
+import Navbar from "components/wrsis/Navbars/Navbar.js";
 import Footer from "components/wrsis/Footer/Footer.js";
 import Sidebar from "components/wrsis/Sidebar/Sidebar.js";
+
+import Whoops404 from "views/Whoops404.js";
+import routes from "./AdminRoutes.js";
 
 import styles from "assets/jss/m-d-r/layouts/adminStyle.js";
 import bgImage from "assets/img/sidebar-2.jpg";
@@ -23,81 +33,105 @@ import logo from "assets/img/reactlogo.png";
 
 let ps;
 
-const switchRoutes = (
-    <Switch>
-        {routes
-        .map( (prop, key) => {
-            if( prop.layout === "/admin" ) {
-                return (
-                    <Route
-                        path ={prop.layout + prop.path}
-                        component ={prop.component}
-                        key ={key}
-                    />
-                );
-            }
-            return null;
-        })}
-        <Redirect from="/admin" to="/admin/dashboard" />
-    </Switch>
-);
 
-const useStyles = makeStyles(styles);
+const SwitchRoutes = () => {
+
+    const { viewId } = useParams();
+        
+    return (
+        <Switch>
+            {routes
+            .map( (route, index) => {
+                if( route.layout === "/admin" ) {
+                    return (
+                        <Route
+                            path={route.layout + route.path}
+                            component={route.component}
+                            key={index}
+                        />
+                    );
+                }          
+                return null;
+            })
+            .filter( Boolean )}
+
+            <Redirect exact from="/" to="/admin/dashboard" />
+            <Redirect exact from="/admin" to="/admin/dashboard" />
+            <Route
+                key={404}
+            >
+                <Whoops404 callFrom={`Admin layout / View: ${viewId}`} />            
+            </Route> 
+        </Switch>
+    );
+};
+
+debug( 'init layout' );
+const useStyles = makeStyles( styles );
 
 
-export default function Admin({ ...rest }) {
+export default function Admin({ ...props }) {
+
+    const MOBILE_OPEN_WIDTH = 960;
     // styles
     const classes = useStyles();
+    debug( 'layout`s props:', Object.keys( props ), props );
+
+    const routeMatch = useRouteMatch();
+    const adminLocation = useLocation();
+    debug( 'useRouteMatch:', routeMatch );
+    debug( 'useLocation:', adminLocation );
+
     // ref to help us initialize PerfectScrollbar on windows devices
     const mainPanel = React.createRef();
-    // states and functions
-    const [image, setImage] = React.useState(bgImage);
-    const [color, setColor] = React.useState("blue");
-    const [fixedClasses, setFixedClasses] = React.useState("dropdown");
-    const [mobileOpen, setMobileOpen] = React.useState(false);
+    debug( 'mainPanel ref:', mainPanel );
 
-    const handleImageClick = image => {
-        setImage(image);
-    };
-    const handleColorClick = color => {
-        setColor(color);
-    };
+    // states and functions
+    const [ image, setImage ] = React.useState( bgImage );
+    const [ color, setColor ] = React.useState( "blue" );
+    const [ fixedClasses, setFixedClasses ] = React.useState( "dropdown" );
+    const [ mobileOpen, setMobileOpen ] = React.useState( false );
+
+    const handleImageClick = (image) => setImage( image );
+
+    const handleColorClick = (color) => setColor( color );
+
     const handleFixedClick = () => {
-        if (fixedClasses === "dropdown") {
-            setFixedClasses("dropdown show");
-        } else {
-            setFixedClasses("dropdown");
-        }
+        setFixedClasses( fixedClasses === "dropdown"
+            ? "dropdown show"
+            : "dropdown"
+        );
     };
-    const handleDrawerToggle = () => {
-        setMobileOpen(!mobileOpen);
-    };
-    const getRoute = () => {
-        return window.location.pathname !== "/admin/maps";
-    };
+
+    const handleDrawerToggle = () => setMobileOpen( !mobileOpen );
+
     const resizeFunction = () => {
-        if (window.innerWidth >= 960) {
-            setMobileOpen(false);
+        if (window.innerWidth >= MOBILE_OPEN_WIDTH) {
+            setMobileOpen( false );
         }
     };
+
     // initialize and destroy the PerfectScrollbar plugin
-    React.useEffect(() => {
-        if (navigator.platform.indexOf("Win") > -1) {
-            ps = new PerfectScrollbar(mainPanel.current, {
+    React.useEffect( () => {
+
+        if( navigator.platform.includes( "Win" )) {
+            ps = new PerfectScrollbar( mainPanel.current, {
                 suppressScrollX: true,
                 suppressScrollY: false
             });
             document.body.style.overflow = "hidden";
         }
-        window.addEventListener("resize", resizeFunction);
+        window.addEventListener( "resize", resizeFunction );
         // Specify how to clean up after this effect:
         return function cleanup() {
-            if (navigator.platform.indexOf("Win") > -1) {
+            if( navigator.platform.includes( "Win" )) {
                 ps.destroy();
             }
-            window.removeEventListener("resize", resizeFunction);
+            window.removeEventListener( "resize", resizeFunction );
         };
     }, [mainPanel]);
+
+
     return (
         <div className={classes.wrapper}>
             <Sidebar
@@ -108,29 +142,25 @@ export default function Admin({ ...rest }) {
                 handleDrawerToggle={handleDrawerToggle}
                 open={mobileOpen}
                 color={color}
-                {...rest}
+                {...props}
             />
             <div className={classes.mainPanel} ref={mainPanel}>
                 <Navbar
                     routes={routes}
                     handleDrawerToggle={handleDrawerToggle}
-                    {...rest}
+                    {...props}
                 />
-                {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
-                {getRoute() ? (
-                    <div className={classes.content}>
-                        <div className={classes.container}>{switchRoutes}</div>
+
+                <div className={classes.content}>
+                    <div className={classes.container}>
+                        <SwitchRoutes />
                     </div>
-                ) : (
-                    <div className={classes.map}>{switchRoutes}</div>
-                )}
+                </div>
         
-                {getRoute() 
-                    ? <Footer 
-                        appVersion ={window.document.appVersion}
-                    /> 
-                    : null}
-        
+                <Footer 
+                    appVersion ={window.document.wrsis.appVersion}
+                /> 
+                
                 <FixedPlugin
                     handleImageClick={handleImageClick}
                     handleColorClick={handleColorClick}

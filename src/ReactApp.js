@@ -1,14 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from 'components/wrsis/App';
+import HotApp from 'components/wrsis/App/index.js';
 
 
 const element = document.getElementById( "react-app" );
-window.document.appVersion = element.innerHTML;
-console.log( 'appVersion =', window.document.appVersion );
+window.document.wrsis = { appVersion: element.innerHTML };
+console.log( 'wrsis.appVersion =', window.document.wrsis.appVersion );
 
 ReactDOM.render( 
-    <App />,
+    <HotApp />,
     element
 );
 

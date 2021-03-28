@@ -1,5 +1,13 @@
+const debug = require( "debug" )( 'view:UISAMPLES' );
+
 import React from "react";
-import { Switch, Route, /*Redirect*/ } from "react-router-dom";
+import { 
+    Switch, 
+    Route, 
+    Redirect,
+    //useRouteMatch,
+    useLocation,
+} from "react-router-dom";
 
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
@@ -9,12 +17,14 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 import { makeStyles } from "@material-ui/core/styles";
 
 // core components
-import Navbar from "components/m-d-r/Navbars/Navbar.js";
 import Footer from "components/m-d-r/Footer/Footer.js";
 import FixedPlugin from "components/m-d-r/FixedPlugin/FixedPlugin.js";
 
+
+import Navbar from "components/wrsis/Navbars/Navbar.js";
 import Sidebar from "components/wrsis/Sidebar/Sidebar.js";
-import Whoops404 from "components/misc/Whoops404.js";
+
+import Whoops404 from "views/Whoops404.js";
 import routes from "./UISamplesRoutes.js";
 
 import styles from "assets/jss/m-d-r/layouts/adminStyle.js";
@@ -25,114 +35,140 @@ import logo from "assets/img/reactlogo.png";
 let ps;
 
 const switchRoutes = (
-  <Switch>
-    {routes.map((prop, key) => {
-      if (prop.layout === "/uisamples") {
-        return (
-          <Route
-            path={prop.layout + prop.path}
-            component={prop.component}
-            key={key}
-          />
-        );
-      }
-      return null;
-    })}
-    <Route component = {Whoops404} />
-  </Switch>
+    <Switch>
+        {routes
+        .map( (prop, index) => {
+            if( prop.layout === "/uisamples" ) {
+                return (
+                    <Route
+                        path={prop.layout + prop.path}
+                        component={prop.component}
+                        key={index}
+                    />
+                );
+            }
+            return null;
+        })
+        .filter( Boolean )}
+        
+        <Redirect exact from="/uisamples" to="/uisamples/uis-dash" />
+        <Route>
+            <Whoops404 callFrom="UISamples layout" />
+        </Route> 
+    </Switch>
 );
 
-const useStyles = makeStyles(styles);
+debug( 'init layout' );
+const useStyles = makeStyles( styles );
 
-export default function Admin({ ...rest }) {
-  // styles
-  const classes = useStyles();
-  // ref to help us initialize PerfectScrollbar on windows devices
-  const mainPanel = React.createRef();
-  // states and functions
-  const [image, setImage] = React.useState(bgImage);
-  const [color, setColor] = React.useState("blue");
-  const [fixedClasses, setFixedClasses] = React.useState("dropdown");
-  const [mobileOpen, setMobileOpen] = React.useState(false);
 
-  const handleImageClick = image => {
-    setImage(image);
-  };
-  const handleColorClick = color => {
-    setColor(color);
-  };
-  const handleFixedClick = () => {
-    if (fixedClasses === "dropdown") {
-      setFixedClasses("dropdown show");
-    } else {
-      setFixedClasses("dropdown");
-    }
-  };
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-  const getRoute = () => {
-    return window.location.pathname !== "/uisamples/maps";
-  };
-  const resizeFunction = () => {
-    if (window.innerWidth >= 960) {
-      setMobileOpen(false);
-    }
-  };
-  // initialize and destroy the PerfectScrollbar plugin
-  React.useEffect(() => {
-    if (navigator.platform.indexOf("Win") > -1) {
-      ps = new PerfectScrollbar(mainPanel.current, {
-        suppressScrollX: true,
-        suppressScrollY: false
-      });
-      document.body.style.overflow = "hidden";
-    }
-    window.addEventListener("resize", resizeFunction);
-    // Specify how to clean up after this effect:
-    return function cleanup() {
-      if (navigator.platform.indexOf("Win") > -1) {
-        ps.destroy();
-      }
-      window.removeEventListener("resize", resizeFunction);
+export default function UISamples({ ...props }) {
+
+    // styles
+    const classes = useStyles();
+    debug( 'layout`s props', Object.keys( props ), props );
+
+    /*const routeMatch = useRouteMatch();
+    debug( 'useRouteMatch:', routeMatch );*/
+    
+    // Вызов useLocation исправляет ошибки в навигации по Sidebar.
+    // когда click по ссылке обновляет адресную строку браузера,
+    // но выделение в Sidebar не изменяется и Navbar не обновляется.
+    const viewLocation = useLocation();    
+    debug( 'useLocation:', viewLocation );
+
+    // ref to help us initialize PerfectScrollbar on windows devices
+    const mainPanel = React.createRef();
+    debug( 'mainPanel ref:', mainPanel );
+
+    // states and functions
+    const [image, setImage] = React.useState(bgImage);
+    const [color, setColor] = React.useState("blue");
+    const [fixedClasses, setFixedClasses] = React.useState("dropdown");
+    const [mobileOpen, setMobileOpen] = React.useState(false);
+
+    const handleImageClick = image => {
+        setImage(image);
     };
-  }, [mainPanel]);
-  return (
-    <div className={classes.wrapper}>
-      <Sidebar
-        routes={routes}
-        logoText={"Creative AsKlim"}
-        logo={logo}
-        image={image}
-        handleDrawerToggle={handleDrawerToggle}
-        open={mobileOpen}
-        color={color}
-        {...rest}
-      />
-      <div className={classes.mainPanel} ref={mainPanel}>
-        <Navbar
-          routes={routes}
-          handleDrawerToggle={handleDrawerToggle}
-          {...rest}
-        />
-        {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
-        {getRoute() ? (
-          <div className={classes.content}>
-            <div className={classes.container}>{switchRoutes}</div>
-          </div>
-        ) : (
-          <div className={classes.map}>{switchRoutes}</div>
-        )}
-        {getRoute() ? <Footer /> : null}
-        <FixedPlugin
-          handleImageClick={handleImageClick}
-          handleColorClick={handleColorClick}
-          bgColor={color}
-          bgImage={image}
-          handleFixedClick={handleFixedClick}
-          fixedClasses={fixedClasses}
-        />
-      </div>
-    </div>
-  );
+    const handleColorClick = color => {
+        setColor(color);
+    };
+    const handleFixedClick = () => {
+        if (fixedClasses === "dropdown") {
+            setFixedClasses("dropdown show");
+        } else {
+            setFixedClasses("dropdown");
+        }
+    };
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+    };
+    const getRoute = () => {
+        return window.location.pathname !== "/uisamples/maps";
+    };
+    const resizeFunction = () => {
+        if (window.innerWidth >= 960) {
+            setMobileOpen(false);
+        }
+    };
+
+    // initialize and destroy the PerfectScrollbar plugin
+    React.useEffect( () => {
+
+        if (navigator.platform.indexOf("Win") > -1) {
+            ps = new PerfectScrollbar(mainPanel.current, {
+                suppressScrollX: true,
+                suppressScrollY: false
+            });
+            document.body.style.overflow = "hidden";
+        }
+        window.addEventListener("resize", resizeFunction);
+        // Specify how to clean up after this effect:
+        return function cleanup() {
+            if (navigator.platform.indexOf("Win") > -1) {
+                ps.destroy();
+            }
+            window.removeEventListener("resize", resizeFunction);
+        };
+    }, [mainPanel]);
+
+
+    return (
+        <div className={classes.wrapper}>
+            <Sidebar
+                routes={routes}
+                logoText={"Creative Tim"}
+                logo={logo}
+                image={image}
+                handleDrawerToggle={handleDrawerToggle}
+                open={mobileOpen}
+                color={color}
+                {...props}
+            />
+            <div className={classes.mainPanel} ref={mainPanel}>
+                <Navbar
+                    routes={routes}
+                    handleDrawerToggle={handleDrawerToggle}
+                    {...props}
+                />
+                {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
+                {getRoute() ? (
+                    <div className={classes.content}>
+                        <div className={classes.container}>{switchRoutes}</div>
+                    </div>
+                ) : (
+                    <div className={classes.map}>{switchRoutes}</div>
+                )}
+                {getRoute() ? <Footer /> : null}
+                <FixedPlugin
+                    handleImageClick={handleImageClick}
+                    handleColorClick={handleColorClick}
+                    bgColor={color}
+                    bgImage={image}
+                    handleFixedClick={handleFixedClick}
+                    fixedClasses={fixedClasses}
+                />
+            </div>
+        </div>
+    );
 }
