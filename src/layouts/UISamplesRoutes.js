@@ -5,7 +5,7 @@ import {
     Person,
     LibraryBooks,
     BubbleChart,
-    LocationOn,
+    //LocationOn,
     Notifications,
     Unarchive,
     Language,
@@ -18,7 +18,7 @@ import UserProfile from "../views/m-d-r/UserProfile.js";
 import TableList from "../views/m-d-r/TableList.js";
 import Typography from "../views/m-d-r/Typography.js";
 import Icons from "../views/m-d-r/Icons.js";
-import Maps from "../views/m-d-r/Maps";
+//import Maps from "../views/m-d-r/Maps";
 import NotificationsPage from "../views/m-d-r/Notifications.js";
 import UpgradeToPro from "../views/m-d-r/UpgradeToPro.js";
 // core components/views for RTL layout
@@ -75,14 +75,14 @@ const uisamplesRoutes = [
         component: Icons,
         layout: "/uisamples"
     },
-    {
+    /*{
         path: "/maps",
         name: "Maps",
         rtlName: "خرائط",
         icon: LocationOn,
         component: Maps,
         layout: "/uisamples"
-    },
+    },*/
     {
         path: "/notifications",
         name: "Notifications",
