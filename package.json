@@ -115,7 +115,7 @@
     "path-browserify": "^1.0.1",
     "perfect-scrollbar": "^1.4.0",
     "pnp-webpack-plugin": "^1.5.0",
-    "postcss": "^8.2.4",
+    "postcss": "^8.2.10",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-loader": "^4.2.0",
     "postcss-normalize": "^9.0.0",
