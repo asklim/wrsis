@@ -32,13 +32,13 @@ const postcssNormalize = require( 'postcss-normalize' );
 const InterpolateHtmlPlugin = require( 'react-dev-utils/InterpolateHtmlPlugin' );
 const ModuleScopePlugin = require( 'react-dev-utils/ModuleScopePlugin' );
 const ModuleNotFoundPlugin = require( 'react-dev-utils/ModuleNotFoundPlugin' );
-const WatchMissingNodeModulesPlugin = 
-      require( 'react-dev-utils/WatchMissingNodeModulesPlugin');
+//const WatchMissingNodeModulesPlugin =
+//      require( 'react-dev-utils/WatchMissingNodeModulesPlugin');
 const { WebpackManifestPlugin } = require( 'webpack-manifest-plugin' );
 
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-// Source maps are resource heavy 
+// Source maps are resource heavy
 // and can cause out of memory issue
 // for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP === 'true';
@@ -59,7 +59,7 @@ const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 
 // This is the production and development configuration.
-// It is focused on developer experience, 
+// It is focused on developer experience,
 // fast rebuilds, and a minimal bundle.
 
 module.exports = function( webpackEnv ) {
@@ -140,7 +140,7 @@ module.exports = function( webpackEnv ) {
         ].filter( Boolean );
 
         if( preProcessor ) {
-            
+
             loaders.push(
                 {
                     loader: require.resolve( 'resolve-url-loader' ),
@@ -156,7 +156,7 @@ module.exports = function( webpackEnv ) {
         return loaders;
     };
 
-    
+
     return {
 
         mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
@@ -182,7 +182,7 @@ module.exports = function( webpackEnv ) {
             // The build folder.
             path: paths.appBuild,
 
-            // There will be one main bundle, 
+            // There will be one main bundle,
             // and one file per asynchronous chunk.
             // In development, it does not produce real files.
             filename: isEnvProduction
@@ -191,18 +191,18 @@ module.exports = function( webpackEnv ) {
 
             assetModuleFilename: 'assets/[hash][ext][query]',
 
-            // There are also additional JS chunk files 
+            // There are also additional JS chunk files
             // if you use code splitting.
             chunkFilename: isEnvProduction
                 ? 'js/[name].[contenthash].chunk.js'
                 : isEnvDevelopment && 'js/[name].chunk.js',
 
-            // We inferred the "public path" 
+            // We inferred the "public path"
             // (such as / or /my-project) from homepage.
             // We use "/" in development.
             publicPath: publicPath,
 
-            // Point sourcemap entries 
+            // Point sourcemap entries
             // to original disk location (format as URL on Windows)
             devtoolModuleFilenameTemplate: isEnvProduction
                 ? info =>
@@ -211,20 +211,20 @@ module.exports = function( webpackEnv ) {
                     .replace(/\\/g, '/')
                 : isEnvDevelopment &&
                 ( info => path.resolve( info.absoluteResourcePath ).replace(/\\/g, '/')),
-                           
+
             // this defaults to 'window', but by setting it to 'this' then
             // module chunks which are built will work in web workers as well.
             globalObject: 'this',
         },
         optimization: {
             //isEnvProduction ?
-           
+
             // In development if minimizer is present,
             // then: "Uncaught TypeError: this is undefined"
             minimizer: [
                 // This is only used in production mode
                 //'...',
-                new CssMinimizerPlugin(),                    
+                new CssMinimizerPlugin(),
             ],
             // Automatically split vendor and commons
             // https://twitter.com/wSokra/status/969633336732905474
@@ -255,7 +255,7 @@ module.exports = function( webpackEnv ) {
             modules: [
                 paths.appSrc,
                 'node_modules',
-                paths.appNodeModules 
+                paths.appNodeModules
             ]
             .concat( modules.additionalModulePaths || []
             // It is guaranteed to exist because we tweak it in `env.js`
@@ -283,21 +283,21 @@ module.exports = function( webpackEnv ) {
                     'react-dom$': 'react-dom/profiling',
                     'scheduler/tracing': 'scheduler/tracing-profiling',
                 }),
-                ...( modules.webpackAliases || {} ),        
+                ...( modules.webpackAliases || {} ),
             },
             plugins: [
-                // Adds support for installing with Plug'n'Play, 
+                // Adds support for installing with Plug'n'Play,
                 // leading to faster installs and adding
                 // guards against forgotten dependencies and such.
                 PnpWebpackPlugin,
 
                 // Prevents users from importing files from outside
-                // of src/ (or node_modules/). This often causes confusion 
+                // of src/ (or node_modules/). This often causes confusion
                 // because we only process files within src/ with babel.
                 // To fix this, we prevent you from importing files out
-                // of src/ -- if you'd like to, please link the files 
+                // of src/ -- if you'd like to, please link the files
                 // into your node_modules/ and let module-resolution kick in.
-                // Make sure your source files are compiled, 
+                // Make sure your source files are compiled,
                 // as they will not be processed in any way.
                 new ModuleScopePlugin( paths.appSrc, [ paths.appPackageJson ]),
             ],
@@ -311,11 +311,11 @@ module.exports = function( webpackEnv ) {
                 "url": require.resolve( 'url' ),
                 "util": require.resolve( 'util/' ),
                 "fs" : false,
-            } 
+            }
         },
         resolveLoader: {
             plugins: [
-                // Also related to Plug'n'Play, but this time 
+                // Also related to Plug'n'Play, but this time
                 // it tells Webpack to load its loaders
                 // from the current package.
                 PnpWebpackPlugin.moduleLoader( module ),
@@ -342,7 +342,7 @@ module.exports = function( webpackEnv ) {
                     include: /node_modules/,
                     type: 'javascript/auto',
                     use: [],
-                },        
+                },
                 {
                     // "oneOf" will traverse all following loaders until one will
                     // match the requirements. When no loader matches it will fall
@@ -358,8 +358,8 @@ module.exports = function( webpackEnv ) {
                             }
                         },
                         // Fonts and SVGs: Inline files
-                        {   
-                            test: /\.(woff(2)?|eot|ttf|otf|svg)$/, 
+                        {
+                            test: /\.(woff(2)?|eot|ttf|otf|svg)$/,
                             type: 'asset/inline',
                             generator: {
                                 filename: 'fonts/[hash][ext][query]'
@@ -374,9 +374,9 @@ module.exports = function( webpackEnv ) {
                             loader: require.resolve( 'babel-loader' ),
                             options: {
                                 presets: [
-                                    '@babel/preset-env', 
+                                    '@babel/preset-env',
                                     '@babel/preset-react'
-                                ],                                                
+                                ],
                                 plugins: [
                                     'react-hot-loader/babel',
                                 ],
@@ -402,7 +402,7 @@ module.exports = function( webpackEnv ) {
                                 cacheDirectory: true,
                                 // See #6846 for context on why cacheCompression is disabled
                                 cacheCompression: false,
-                                
+
                                 // If an error happens in a package, it's possible to be
                                 // because it was compiled. Thus, we don't want the browser
                                 // debugger to show the original code. Instead, the code
@@ -473,7 +473,7 @@ module.exports = function( webpackEnv ) {
                                     modules: true,
                                     getLocalIdent: getCSSModuleLocalIdent,
                                 },
-                                'sass-loader' 
+                                'sass-loader'
                             ),
                         },
                         // "file" loader makes sure those assets get served by WebpackDevServer.
@@ -484,13 +484,13 @@ module.exports = function( webpackEnv ) {
                         {
                             loader: require.resolve( 'file-loader' ),
                             // Exclude `js` files to keep "css" loader working as
-                            // it injects its runtime that would otherwise be 
+                            // it injects its runtime that would otherwise be
                             // processed through "file" loader.
                             // Also exclude `html` and `json` extensions so they
                             // get processed by webpacks internal loaders.
                             exclude: [
-                                jstsRegex, 
-                                /\.html$/, 
+                                jstsRegex,
+                                /\.html$/,
                                 /\.json$/,
                             ],
                             options: {
@@ -511,13 +511,13 @@ module.exports = function( webpackEnv ) {
                     //analyzerPort: '8888',      //default
                     openAnalyzer: false,
                 }),
-            // The ProgressPlugin provides a way to customize how progress is 
+            // The ProgressPlugin provides a way to customize how progress is
             // reported during a compilation.
             isEnvDevelopment && !isHMR &&
                 new webpack.ProgressPlugin(),
-            
-            // By default, this plugin will remove all files inside webpack's 
-            // output.path directory, as well as all unused webpack assets after 
+
+            // By default, this plugin will remove all files inside webpack's
+            // output.path directory, as well as all unused webpack assets after
             // every successful rebuild.
             new CleanWebpackPlugin(),
 
@@ -568,8 +568,8 @@ module.exports = function( webpackEnv ) {
                         : undefined
                 )
             ),
-        
-            // Inlines the webpack runtime script. 
+
+            // Inlines the webpack runtime script.
             // This script is too small to warrant a network request.
             // https://github.com/facebook/create-react-app/issues/5358
             isEnvProduction &&
@@ -584,9 +584,9 @@ module.exports = function( webpackEnv ) {
             // In development, this will be an empty string.
             new InterpolateHtmlPlugin( HtmlWebpackPlugin, env.raw ),
 
-            // This gives some necessary context 
-            // to module not found errors, 
-            // such as the requesting resource.      
+            // This gives some necessary context
+            // to module not found errors,
+            // such as the requesting resource.
             new ModuleNotFoundPlugin( paths.appPath ),
 
             // Makes some environment variables available to the JS code, for example:
@@ -594,25 +594,25 @@ module.exports = function( webpackEnv ) {
             // It is absolutely essential that NODE_ENV is set to production
             // during a production build.
             // Example of use:
-            //     new webpack.DefinePlugin({ 
-            //         "process.env.NODE_ENV": JSON.stringify( 'development' ) 
+            //     new webpack.DefinePlugin({
+            //         "process.env.NODE_ENV": JSON.stringify( 'development' )
             //     }),
-            // Otherwise React will be compiled in the very slow development mode.      
+            // Otherwise React will be compiled in the very slow development mode.
             new webpack.DefinePlugin( env.stringified ),
 
             // Watcher doesn't work well if you mistype casing in a path so we use
             // a plugin that prints an error when you attempt to do this.
             // See https://github.com/facebook/create-react-app/issues/240
-            isEnvDevelopment && 
+            isEnvDevelopment &&
                 new CaseSensitivePathsPlugin(),
 
             // If you require a missing module and then `npm install` it, you still have
             // to restart the development server for Webpack to discover it. This plugin
             // makes the discovery automatic so you don't have to restart.
             // See https://github.com/facebook/create-react-app/issues/186
-            isEnvDevelopment &&
-                new WatchMissingNodeModulesPlugin( paths.appNodeModules ),
-            
+            //isEnvDevelopment &&
+            //    new WatchMissingNodeModulesPlugin( paths.appNodeModules ),
+
             isEnvProduction &&
             new MiniCssExtractPlugin({
                 // Options similar to the same options in webpackOptions.output
@@ -671,7 +671,7 @@ module.exports = function( webpackEnv ) {
 
         // Some libraries import Node modules but don't use them in the browser.
         // Tell Webpack to provide empty mocks for them so importing them works.
-        // Uncaught ReferenceError: global is not defined, 
+        // Uncaught ReferenceError: global is not defined,
         // if: node: false,
         //node : {}, // it`s Ok
         // Turn off performance processing because we utilize
@@ -679,7 +679,7 @@ module.exports = function( webpackEnv ) {
         performance: isEnvProduction
             ? {
                 maxEntrypointSize: 512000,
-                maxAssetSize: 512000, 
+                maxAssetSize: 512000,
             }
             : false,
     };

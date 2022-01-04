@@ -241,7 +241,7 @@ process.on( 'SIGINT', () => {
 
 
 // For Heroku app termination
-process.on('SIGTERM', () => {
+process.on( 'SIGTERM', () => {
 
     databasesShutdown( 'Heroku app termination', () => {
 

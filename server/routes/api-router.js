@@ -1,7 +1,7 @@
 
 const router = require( 'express' ).Router();
 
-require( './auth' )( router );
+require( '../api/user/rout-user' )( router );
 
 require( './config/catalogs' )( router );
 

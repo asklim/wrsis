@@ -26,7 +26,7 @@ const db = connection.createConn( uri, title );
 const agentSchema = require( '../models/agents' );
 db.model( 'Agent', agentSchema, 'agents' ); 
 
-const userSchema = require( '../models/users' );
+const userSchema = require( '../api/user/schm-user' );
 db.model( 'User', userSchema, 'users' ); 
 
 const idMappingSchema = require( '../models/catalogs' ).idMappingExcel;

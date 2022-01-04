@@ -14,12 +14,8 @@ const {
 
 const log = consoleLogger( 'ctrl-SUM:' );
 
-//const HTTP = require( `${icwd}/src/config/http-response-codes` );
-
 const db = require( `${icwd}/server/databases` ).getDB( 'sum' );
 const WeekNatural = db.model( 'WeekNatural' );
-
-//const workdate = require( `${icwd}/imports/utils/workdate` );
 
 
 /** 
@@ -32,15 +28,16 @@ const WeekNatural = db.model( 'WeekNatural' );
  * @fires 404 Not Found   & message
  * @fires 500 Server Error & error object
  * @returns {} undefined
- * @example 
+ * @template
  * GET /api/sum/weeknatural/:weekId
+ * @example 
  * GET /api/sum/weeknatural/960
  * GET /api/sum/weeknatural/1011
  * GET /api/sum/weeknatural/last 
  *
  * 
 **/
-const readOne = ( req, res ) => {
+const readOne = (req, res) => {
 
 
     console.log( 
@@ -48,7 +45,6 @@ const readOne = ( req, res ) => {
         `\nI: finding weekNatural's params:`, req.params,
         `\nI: finding weekNatural's query :`, req.query
     );
-    //console.log(req.hostname);
     
     const { weekId } = req.params;
 
@@ -118,21 +114,21 @@ const readOne = ( req, res ) => {
  * 
  *  
 **/
-const create = ( req, res )  => {
+const create = (req, res)  => {
 
 
     log.info( `try create, sum-week-natural body.id: ${req.body.id}` ); 
     
     if( !req.body || req.body === {} ) {
         
-        return send400BadRequest( res, 'Bad request, body is required' );        
+        return send400BadRequest( res, 'Bad request, body is required' );
     }
 
     const { id } = req.body;
 
     if( !id /*|| weekId === ''*/ ) {
 
-        return send400BadRequest( res, 'Bad request, body.id number is required' );        
+        return send400BadRequest( res, 'Bad request, body.id number is required' );
     }  
   
     const finding = { id };
@@ -151,7 +147,7 @@ const create = ( req, res )  => {
 
                 return send409Conflict( res, 
                     `Summary data for week ${id} already exists.` 
-                );                
+                );
             }
 
             WeekNatural.create( 
@@ -192,14 +188,14 @@ const updateOne = ( req, res ) => {
 
     //console.log(req.body);
 
-    if( !req.body || req.body === {} ) {    
-        return send400BadRequest( res, 'Bad request, body is required' );        
+    if( !req.body || req.body === {} ) {
+        return send400BadRequest( res, 'Bad request, body is required' );
     }
 
     const weekNumber  = Number.parseInt( req.body.id, 10 );
 
     if( !weekNumber ) {    
-        return send400BadRequest( res, 'Bad request, body.id is required or wrong.' );        
+        return send400BadRequest( res, 'Bad request, body.id is required or wrong.' );
     }
 
     WeekNatural
@@ -247,14 +243,14 @@ const updateOne = ( req, res ) => {
  * @fires 404 Not Found   & null
  * @fires 500 Server Error & error object
  * @returns {} undefined
- * @example
+ * @template
  * DELETE /api/sum/weeknatural/:weekId 
  * @example
  * DELETE /api/sum/weeknatural/956
  * DELETE /api/sum/weeknatural/1011
  *  
 **/
-const deleteOne = ( req, res ) => {
+const deleteOne = (req, res) => {
 
 
     const { weekId } = req.params;
@@ -287,7 +283,6 @@ const deleteOne = ( req, res ) => {
             return send204NoContent( res, doc );
         });  
 };
-
 
 
 module.exports = {

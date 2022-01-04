@@ -32,6 +32,10 @@ function send400BadRequest (res, msg = 'BAD_REQUEST (invalid syntax)') {
     sendJSONresponse( res, HTTP.BAD_REQUEST, msg );
 }
 
+function send401UnAuthorized (res, msg = 'UnAuthorized') {
+    sendJSONresponse( res, HTTP.UNAUTHORIZED, msg );
+}
+
 function send404NotFound (res, msg = 'NOT_FOUND') {
     sendJSONresponse( res, HTTP.NOT_FOUND, msg );
 }
@@ -72,6 +76,7 @@ module.exports = {
     send201Created,
     send204NoContent,
     send400BadRequest,
+    send401UnAuthorized,
     send404NotFound,
     send405MethodNotAllowed,
     send409Conflict,

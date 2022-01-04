@@ -4,7 +4,6 @@ const path = require( 'path' );
 const cors = require( 'cors' );
 const favicon = require( 'serve-favicon' );
 const cookieParser = require( 'cookie-parser' );
-//const bodyParser = require( 'body-parser' );
 const morganLogger = require( 'morgan' );
 const colors = require( 'colors' );
 //const inspect = require( 'object-inspect' );
@@ -31,7 +30,6 @@ const {
 
 createConns();
 
-require( './passport.js' ); //after db create models
 
 let { PWD, } = process.env;
 console.log( colors.red( 'package.json dir is ', icwd )); // = '/app'
@@ -46,7 +44,18 @@ app.set( 'view engine', 'ejs');
 
 app.use( '*', cors() );
 
+app.use( cookieParser() );
+
+app.use( express.static( `${icwd}/static` ));
+
+app.use( express.urlencoded( { 
+    extended: true,
+    limit: "5mb",
+}));
+
 app.use( passport.initialize() );
+app.use( passport.session() );
+require( './passport.js' ); //after db create models
 
 // uncomment after placing your favicon in /public
 app.use( favicon( `${icwd}/public/favicon.ico` ));
@@ -88,16 +97,6 @@ app.use( express.json( {
     limit: "5mb",
 }));
 
-app.use( express.urlencoded( { 
-    extended: true,
-    limit: "5mb",
-}));
-
-app.use( cookieParser() );
-
-app.use( express.static( `${icwd}/static` ));
-
-
 app.use( '/api', apiRouter );
 
 
@@ -121,11 +120,12 @@ if( !isProduction && isHMR ) {
     }));
 }
 
-app.get('*', (_req, res, next) => {
+app.get( '*', (req, res, next) => {
     
     //console.log( inspect( _req, { depth: 2, indent: 4 } ));
-
+    
     log.info( `server-app dirname is ${__dirname}` );
+    log.info( 'req.user:', req.user );
     res.sendFile( 
         path.resolve( `${icwd}/static/index.html` ),
         (err) => { 
