@@ -103,7 +103,7 @@
     "http-errors": "^1.7.3",
     "https-browserify": "^1.0.0",
     "is-wsl": "^2.1.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "messaging-api-viber": "^1.0.4",
     "mini-css-extract-plugin": "^2.4.5",
     "mongoose": "^5.7.12",
