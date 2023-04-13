@@ -27,13 +27,13 @@ const mongoose = require('mongoose');
  * @property {Object} body - данные в зависимости от типа агента
  */
 module.exports = new mongoose.Schema({
-         id: {type: String, required: true},
-       type: {type: String, 
-              required: true,
-              lowercase: true},
-      group: {type: String,
-              lowercase: true},
-       body: {type: Object},
-       host: {type: String, required: true},
-  updatedAt: {type: Date, 'default': Date.now}
+    id: {type: String, required: true},
+    type: {type: String, 
+        required: true,
+        lowercase: true},
+    group: {type: String,
+        lowercase: true},
+    body: {type: Object},
+    host: {type: String, required: true},
+    updatedAt: {type: Date, 'default': Date.now}
 });

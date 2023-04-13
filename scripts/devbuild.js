@@ -7,7 +7,7 @@ process.env.NODE_ENV = 'development';
 // ignoring them. In the future, promise rejections that are not handled will
 // terminate the Node.js process with a non-zero exit code.
 process.on('unhandledRejection', err => {
-  throw err;
+    throw err;
 });
 
 // Ensure environment variables are read.
@@ -43,7 +43,7 @@ const isInteractive = process.stdout.isTTY;
 
 // Warn and crash if required files are missing
 if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
-  process.exit(1);
+    process.exit(1);
 }
 
 // Tools like Cloud9 rely on this.
@@ -51,20 +51,20 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 //const HOST = process.env.HOST || '0.0.0.0';
 
 if (process.env.HOST) {
-  console.log(
-    chalk.cyan(
-      `Attempting to bind to HOST environment variable: ${chalk.yellow(
-        chalk.bold(process.env.HOST)
-      )}`
-    )
-  );
-  console.log(
-    `If this was unintentional, check that you haven't mistakenly set it in your shell.`
-  );
-  console.log(
-    `Learn more here: ${chalk.yellow('https://bit.ly/CRA-advanced-config')}`
-  );
-  console.log();
+    console.log(
+        chalk.cyan(
+            `Attempting to bind to HOST environment variable: ${chalk.yellow(
+                chalk.bold(process.env.HOST)
+            )}`
+        )
+    );
+    console.log(
+        `If this was unintentional, check that you haven't mistakenly set it in your shell.`
+    );
+    console.log(
+        `Learn more here: ${chalk.yellow('https://bit.ly/CRA-advanced-config')}`
+    );
+    console.log();
 }
 
 //console.log('before checkBrowsers');
@@ -74,123 +74,123 @@ if (process.env.HOST) {
 const { checkBrowsers } = require('react-dev-utils/browsersHelper');
 
 checkBrowsers(
-  paths.appPath, 
-  isInteractive
-  )
+    paths.appPath, 
+    isInteractive
+)
   // First, read the current file sizes in build directory.
   // This lets us display how much they changed later.  
   .then(() => {
-    return measureFileSizesBeforeBuild(paths.appBuild);
+      return measureFileSizesBeforeBuild(paths.appBuild);
   })
-    // Remove all content but keep the directory so that
-    // if you're in it, you don't end up in Trash  
+// Remove all content but keep the directory so that
+// if you're in it, you don't end up in Trash  
   .then( 
-    (previousFileSizes) => 
-    {
-    fs.emptyDirSync(paths.appBuild);
-    // Merge with the public folder
-    copyPublicFolder();
-    // Start the webpack build
-    return devBuild(previousFileSizes);
-  })
-  .then(
-    ({ stats, previousFileSizes, warnings }) => 
+      (previousFileSizes) => 
       {
-      if (warnings.length) {
-        console.log(chalk.yellow('Compiled with warnings.\n'));
-        console.log(warnings.join('\n\n'));
-        console.log(
-          '\nSearch for the ' +
+          fs.emptyDirSync(paths.appBuild);
+          // Merge with the public folder
+          copyPublicFolder();
+          // Start the webpack build
+          return devBuild(previousFileSizes);
+      })
+  .then(
+      ({ stats, previousFileSizes, warnings }) => 
+      {
+          if (warnings.length) {
+              console.log(chalk.yellow('Compiled with warnings.\n'));
+              console.log(warnings.join('\n\n'));
+              console.log(
+                  '\nSearch for the ' +
             chalk.underline(chalk.yellow('keywords')) +
             ' to learn more about each warning.'
-        );
-        console.log(
-          'To ignore, add ' +
+              );
+              console.log(
+                  'To ignore, add ' +
             chalk.cyan('// eslint-disable-next-line') +
             ' to the line before.\n'
-        );
-      } else {
-        console.log(chalk.green('Compiled successfully.\n'));
-      }
+              );
+          } else {
+              console.log(chalk.green('Compiled successfully.\n'));
+          }
 
-      console.log('File sizes after gzip:\n');
-      printFileSizesAfterBuild(
-        stats,
-        previousFileSizes,
-        paths.appBuild,
-        WARN_AFTER_BUNDLE_GZIP_SIZE,
-        WARN_AFTER_CHUNK_GZIP_SIZE
-      );
-      console.log();
+          console.log('File sizes after gzip:\n');
+          printFileSizesAfterBuild(
+              stats,
+              previousFileSizes,
+              paths.appBuild,
+              WARN_AFTER_BUNDLE_GZIP_SIZE,
+              WARN_AFTER_CHUNK_GZIP_SIZE
+          );
+          console.log();
 
-    },
-    err => {
-      console.log(chalk.red('Failed to compile.\n'));
-      printBuildError(err);
-      process.exit(1);
-    })
+      },
+      err => {
+          console.log(chalk.red('Failed to compile.\n'));
+          printBuildError(err);
+          process.exit(1);
+      })
 
   .catch(err => {
-    if (err && err.message) {
-      console.log(err.message);
-    }
-    process.exit(1);
+      if (err && err.message) {
+          console.log(err.message);
+      }
+      process.exit(1);
   });
 
 
 function devBuild( previousFileSizes )
 {
 
-  console.log('Creating a development build...');
-  //console.log(paths);
+    console.log('Creating a development build...');
+    //console.log(paths);
 
-  const config = configFactory('development');
-  //const config = webpackCfg;
-  const compiler = webpack(config);
+    const config = configFactory('development');
+    //const config = webpackCfg;
+    const compiler = webpack(config);
 
-  return new Promise(
-    (resolve, reject) =>
-    {
-    compiler.run((err, stats) => {
-      let messages;
-      if (err) {
-        if (!err.message) {
-          return reject(err);
-        }
-        messages = formatWebpackMessages({
-          errors: [err.message],
-          warnings: [],
+    return new Promise(
+        (resolve, reject) =>
+        {
+            compiler.run((err, stats) => {
+                let messages;
+                if (err) {
+                    if (!err.message) {
+                        return reject(err);
+                    }
+                    messages = formatWebpackMessages({
+                        errors: [err.message],
+                        warnings: [],
+                    });
+                } else {
+                    messages = formatWebpackMessages(
+                        stats.toJson({ all: true, warnings: true, errors: true })
+                    );
+                }
+                if (messages.errors.length) {
+                    // Only keep the first error. Others are often indicative
+                    // of the same problem, but confuse the reader with noise.
+                    if (messages.errors.length > 1) {
+                        messages.errors.length = 1;
+                    }
+                    return reject(new Error(messages.errors.join('\n\n')));
+                }    
+
+                const resolveArgs = {
+                    stats,
+                    previousFileSizes,
+                    warnings: messages.warnings,
+                };
+                return resolve(resolveArgs);
+            });
         });
-      } else {
-        messages = formatWebpackMessages(
-          stats.toJson({ all: true, warnings: true, errors: true })
-        );
-      }
-      if (messages.errors.length) {
-        // Only keep the first error. Others are often indicative
-        // of the same problem, but confuse the reader with noise.
-        if (messages.errors.length > 1) {
-          messages.errors.length = 1;
-        }
-        return reject(new Error(messages.errors.join('\n\n')));
-      }    
-
-      const resolveArgs = {
-        stats,
-        previousFileSizes,
-        warnings: messages.warnings,
-      };
-      return resolve(resolveArgs);
-    });
-  });
 }
 
 
 function copyPublicFolder() 
 {
-  fs.copySync(paths.appPublic, paths.appBuild, {
-    dereference: true,
-    filter: file => file !== paths.appHtml,
-  });
+    fs.copySync(paths.appPublic, paths.appBuild, {
+        dereference: true,
+        filter: file => file !== paths.appHtml,
+    });
 }
 

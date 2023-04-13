@@ -10,12 +10,12 @@ const catalogs = '/config/catalogs';
  **/
 const setCatalogs4ExcelRoutes = ( router ) => {
 
-  let catalogExcel = catalogs+'/v1';
+    let catalogExcel = catalogs+'/v1';
    
-  router.get(catalogExcel, ctrlCatalogExcel.catalogReadOne);
-  router.post(catalogExcel, ctrlCatalogExcel.catalogCreateOne);
-  router.put(catalogExcel, ctrlCatalogExcel.catalogUpdateOne);
-  router.delete(catalogExcel, ctrlCatalogExcel.catalogDeleteOne); 
+    router.get(catalogExcel, ctrlCatalogExcel.catalogReadOne);
+    router.post(catalogExcel, ctrlCatalogExcel.catalogCreateOne);
+    router.put(catalogExcel, ctrlCatalogExcel.catalogUpdateOne);
+    router.delete(catalogExcel, ctrlCatalogExcel.catalogDeleteOne); 
 };
 
 /**  
@@ -23,16 +23,16 @@ const setCatalogs4ExcelRoutes = ( router ) => {
  **/
 const setCatalogs4WebRoutes = ( router ) => { 
 
-  let catalogWeb = catalogs+'/v2';
-  router.get(catalogWeb, ctrlCatalogWeb.catalogReadOne);
+    let catalogWeb = catalogs+'/v2';
+    router.get(catalogWeb, ctrlCatalogWeb.catalogReadOne);
 };
  
 
 module.exports = function ( router ) { 
 
-  setCatalogs4ExcelRoutes( router );
-  setCatalogs4WebRoutes( router );
+    setCatalogs4ExcelRoutes( router );
+    setCatalogs4WebRoutes( router );
 
-   /*  get all catalogs (list?) */
-  router.get(catalogs, ctrlCatalogs.catalogsAllClients);
+    /*  get all catalogs (list?) */
+    router.get(catalogs, ctrlCatalogs.catalogsAllClients);
 };

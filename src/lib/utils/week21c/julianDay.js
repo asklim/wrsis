@@ -10,25 +10,25 @@
  */
 function julianDay( gregorianDate ) {
 
-  const gDate = (typeof gregorianDate == 'object')
-              ? gregorianDate 
-              : new Date( gregorianDate );
+    const gDate = (typeof gregorianDate == 'object')
+        ? gregorianDate 
+        : new Date( gregorianDate );
   
-  const year = gDate.getFullYear(); // return positiv & negative   
-  const month = gDate.getMonth() + 1; //getMonth return 0 .. 11
-  const day = gDate.getDate(); // getDate return 1 .. 31
+    const year = gDate.getFullYear(); // return positiv & negative   
+    const month = gDate.getMonth() + 1; //getMonth return 0 .. 11
+    const day = gDate.getDate(); // getDate return 1 .. 31
 
-  const a = Math.trunc((14 - month) / 12);
-  const y = year + 4800 - a;
-  const m = month + 12*a - 3;
+    const a = Math.trunc((14 - month) / 12);
+    const y = year + 4800 - a;
+    const m = month + 12*a - 3;
 
-  return day + Math.trunc((153*m + 2) / 5)  
+    return day + Math.trunc((153*m + 2) / 5)  
          + 365*y - 32045 - Math.trunc(y/100)  
          + Math.trunc(y/4) + Math.trunc(y/400);
 }
 
 module.exports = {
-  julianDay
+    julianDay
 };
 // TODO
 // Надо уточнять правильность работы функции

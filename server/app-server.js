@@ -1,16 +1,17 @@
 const createError = require( 'http-errors' );
 const express = require( 'express' );
+const session = require('express-session')
 const path = require( 'path' );
 const cors = require( 'cors' );
 const favicon = require( 'serve-favicon' );
-const cookieParser = require( 'cookie-parser' );
+// const cookieParser = require( 'cookie-parser' );
 const morganLogger = require( 'morgan' );
 const colors = require( 'colors' );
 //const inspect = require( 'object-inspect' );
 
-const { 
-    icwd, 
-    consoleLogger 
+const {
+    icwd,
+    consoleLogger
 } = require( './helpers' );
 
 const log = consoleLogger( 'appSrvr:' );
@@ -23,9 +24,9 @@ const isHMR = DEV_MODE === 'HotModuleReplacement';
 
 const passport = require( 'passport' );  //passport must be before dbs-models
 
-const { 
+const {
     createConns,
-    databasesShutdown, 
+    databasesShutdown,
 } = require( './databases' );
 
 createConns();
@@ -44,14 +45,26 @@ app.set( 'view engine', 'ejs');
 
 app.use( '*', cors() );
 
-app.use( cookieParser() );
+// app.use( cookieParser() );
 
 app.use( express.static( `${icwd}/static` ));
 
-app.use( express.urlencoded( { 
+app.use( express.urlencoded( {
     extended: true,
     limit: "5mb",
 }));
+
+
+const sess = {
+    secret: 'keyboard cat',
+    cookie: {}
+};
+if( isProduction ) {
+    app.set('trust proxy', 1 ) // trust first proxy
+    sess.cookie.secure = true // serve secure cookies
+}
+app.use(session(sess))
+
 
 app.use( passport.initialize() );
 app.use( passport.session() );
@@ -61,7 +74,7 @@ require( './passport.js' ); //after db create models
 app.use( favicon( `${icwd}/public/favicon.ico` ));
 
 let loggerTemplate = [
-    '[:date[web]]', ':status',  
+    '[:date[web]]', ':status',
     //':remote-addr', ':remote-user',
     ':method :url :response-time[0] ms - :res[content-length]'
 ].join(' ');
@@ -70,22 +83,22 @@ app.use( morganLogger( loggerTemplate ));
 // IMPORTANT!!! Должен быть перед express.json()
 const { bot: mikaVitebskViberBot } = require( './viber-bot' );
 const viberBotMiddleware = mikaVitebskViberBot.middleware();
-app.use( '/viber/mikavitebsk', 
+app.use( '/viber/mikavitebsk',
     function (req, res, next) {
 
         let originalSig = req.headers[ 'x-viber-content-signature' ];
         //req.query.sig = originalSig;
         req.headers.X_Viber_Content_Signature = originalSig;
 
-        console.log( 
-            'viber-bot-middleware request:', 
+        console.log(
+            'viber-bot-middleware request:',
             '\nreq.query', req.query,
             '\nreq.headers', req.headers,
             '\nreq.body', req.body
-            //inspect( req, { depth: 2, indent: 4 } ) 
+            //inspect( req, { depth: 2, indent: 4 } )
         );
         try {
-            viberBotMiddleware( req, res, next ); 
+            viberBotMiddleware( req, res, next );
         }
         catch (err) {
             console.log( 'viberBotMiddleware error:\n', err );
@@ -101,13 +114,13 @@ app.use( '/api', apiRouter );
 
 
 if( !isProduction && isHMR ) {
-        
+
     const webpack = require( 'webpack' );
     const webpackConfig = require( `${icwd}/config/webpack.devhmr` );
     const webpackDevMiddleware = require( 'webpack-dev-middleware' );
 
     const compiler = webpack( webpackConfig );
-    
+
     const wdmOption = {
         publicPath: webpackConfig.output.publicPath,
     };
@@ -121,15 +134,15 @@ if( !isProduction && isHMR ) {
 }
 
 app.get( '*', (req, res, next) => {
-    
+
     //console.log( inspect( _req, { depth: 2, indent: 4 } ));
-    
+
     log.info( `server-app dirname is ${__dirname}` );
     log.info( 'req.user:', req.user );
-    res.sendFile( 
+    res.sendFile(
         path.resolve( `${icwd}/static/index.html` ),
-        (err) => { 
-            if( err ) next( err ); 
+        (err) => {
+            if( err ) next( err );
         }
     );
 });
@@ -142,15 +155,15 @@ app.use( (req, res, next) => {
 // ***************   error handler   **************************
 
 // eslint-disable-next-line no-unused-vars
-app.use( (err, req, res, _next) => {     
+app.use( (err, req, res, _next) => {
     // must be 4 args
 
     let runMode = req.app.get( 'env' );
     const isDev = runMode === 'development';
-    log.info( 
+    log.info(
         `error-handler: env='${runMode}'`,
         '\nreq.body = ', req.body,
-        '\nerror = ', err 
+        '\nerror = ', err
     );
 
     // set locals, only providing error in development

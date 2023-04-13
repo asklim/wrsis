@@ -2,10 +2,10 @@ var mongoose = require('mongoose');
 
 
 module.exports.idMappingExcel = new mongoose.Schema({
-  client: {type: String, required: true},       
+    client: {type: String, required: true},       
     list: {type: String, required: true},
     type: {type: String, required: true},         
-   items: [[Number]]         
+    items: [[Number]]         
 });
 
 

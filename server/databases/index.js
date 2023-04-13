@@ -16,44 +16,44 @@ var dbs = {};
  */
 const getDB = dbType => 
 {    
-  if( typeof dbType !== 'string' ) {
-    console.log( 'dbType must be a string.' );
-    return;
-  }
-  //console.log('getDB : ',); 
-  switch( dbType.toLowerCase() ) {
-    case 'config': return dbs.rsiscfg;
-    case   'temp': return dbs.rsistmp;
-    case    'sum': return dbs.rsissum;
-  }
+    if( typeof dbType !== 'string' ) {
+        console.log( 'dbType must be a string.' );
+        return;
+    }
+    //console.log('getDB : ',); 
+    switch( dbType.toLowerCase() ) {
+        case 'config': return dbs.rsiscfg;
+        case   'temp': return dbs.rsistmp;
+        case    'sum': return dbs.rsissum;
+    }
 };
 
 
 const createConns = () => 
 {
-  if( !dbs.rsiscfg ) { dbs.rsiscfg = require( './dbrsiscfg' ); }
-  if( !dbs.rsissum ) { dbs.rsissum = require( './dbrsissum' ); }
-  if( !dbs.rsistmp ) { dbs.rsistmp = require( './dbrsistmp' ); }
+    if( !dbs.rsiscfg ) { dbs.rsiscfg = require( './dbrsiscfg' ); }
+    if( !dbs.rsissum ) { dbs.rsissum = require( './dbrsissum' ); }
+    if( !dbs.rsistmp ) { dbs.rsistmp = require( './dbrsistmp' ); }
 };
 
 
 // To be called when process is restarted Nodemon or terminated
 const databasesShutdown = (msg, next) => 
 {  
-  const allDbsClosingPromises = Object.keys( dbs ).map( 
-    dbKey => dbs[ dbKey ].closeConn() );
+    const allDbsClosingPromises = Object.keys( dbs ).map( 
+        dbKey => dbs[ dbKey ].closeConn() );
 
-  Promise.all( allDbsClosingPromises )
+    Promise.all( allDbsClosingPromises )
   .then( dbsNames => {
-    console.log( 'dbs closed: ', dbsNames );
-    console.log( 'Mongoose disconnected through ' + msg );
-    next();  
+      console.log( 'dbs closed: ', dbsNames );
+      console.log( 'Mongoose disconnected through ' + msg );
+      next();  
   })
   .catch( error => console.log( error.message ));
 };
 
 module.exports = {
-  getDB,
-  createConns,
-  databasesShutdown
+    getDB,
+    createConns,
+    databasesShutdown
 };

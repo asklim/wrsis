@@ -45,7 +45,7 @@ module.exports.createConn = function(uri, title) {
     connection.closeConn = () => {
         
         return new Promise( (resolve) => 
-        connection.close( () => resolve( title ))
+            connection.close( () => resolve( title ))
         );
     };
 

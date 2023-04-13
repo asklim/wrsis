@@ -13,22 +13,22 @@ const JDN_of_20010101 = 2451911;
  */
 function week21c( gregorianDate ) {
 
-  const gDate = (typeof gregorianDate == 'object')
-              ? gregorianDate 
-              : new Date( gregorianDate );
+    const gDate = (typeof gregorianDate == 'object')
+        ? gregorianDate 
+        : new Date( gregorianDate );
   
-  //console.log(`argum = ${gregorianDate}`);
-  //console.log(`gDate = ${gDate}`);
+    //console.log(`argum = ${gregorianDate}`);
+    //console.log(`gDate = ${gDate}`);
   
-  const diff = julianDay(gDate) - JDN_of_20010101;
-  //console.log(`diff = ${diff}`);
+    const diff = julianDay(gDate) - JDN_of_20010101;
+    //console.log(`diff = ${diff}`);
 
-  return Math.floor(diff/7)+1;
-         /*(diff<0) 
+    return Math.floor(diff/7)+1;
+    /*(diff<0) 
          ? Math.trunc((diff+1)/7)
          : Math.trunc(diff/7)+1;*/
 }
 
 module.exports = {
-  week21c
+    week21c
 };

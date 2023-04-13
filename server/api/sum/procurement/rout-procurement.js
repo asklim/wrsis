@@ -5,10 +5,10 @@ const { readOne } = require('./ctrl-procurement');
  */
 module.exports = function ( router ) {
 
-  let route = '/sum/procurement';
-  let routeWithWeekId = route + '/:weekId';
+    let route = '/sum/procurement';
+    let routeWithWeekId = route + '/:weekId';
   
-  router.get(routeWithWeekId, readOne);
+    router.get(routeWithWeekId, readOne);
 
 };
 
