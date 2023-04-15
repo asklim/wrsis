@@ -13,14 +13,16 @@ module.exports = function (ticker = '') {
         : ' ' + ticker
     ;
 
-    function log (type, ...args) { // Все аргументы = массив аргументов    
+    function log (type, ...args) { // Все аргументы = массив аргументов
 
-        console.log( 
+        console.log(
             `${prefix}${type}${suffix}`,
             ...args // Распаковка массива в значения
-        );  // После `suffix` есть пробел. `,` вставляет пробел. 
+        );  // После `suffix` есть пробел. `,` вставляет пробел.
     }
-    
+
+    const debug = (...args) => log( 'D:', ...args );
+
     const info = (...args) => log( 'I:', ...args );
 
     const warn = (...args) => log( 'W:', ...args );
@@ -28,6 +30,7 @@ module.exports = function (ticker = '') {
     const error = (...args) => log( 'E:', ...args );
 
     return ({
+        debug,
         info,
         warn,
         error,

@@ -3,11 +3,11 @@ import ReactDOM from "react-dom";
 import HotApp from 'components/wrsis/App/index.js';
 
 
-const element = document.getElementById( "react-app" );
+const element = document.querySelector("#react-app");
 window.document.wrsis = { appVersion: element.innerHTML };
-console.log( 'wrsis.appVersion =', window.document.wrsis.appVersion );
+console.log(`wrsis.appVersion = ${window.document.wrsis.appVersion}`);
 
-ReactDOM.render( 
+ReactDOM.render(
     <HotApp />,
     element
 );

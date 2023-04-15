@@ -36,16 +36,16 @@ const ENV_MODE = isEnvDevelopment ? 'development' : 'production';
 
 // Generate configuration
 const webpackConfiguration = isEnvDevelopment
-    ? require( '../config/webpack.dev' )
-    : require( '../config/webpack.prod' )
+    ? require('../config/webpack.dev')
+    : require('../config/webpack.prod')
 ;
-console.log( 'entry: ', webpackConfiguration.entry );
+console.log('entry: ', webpackConfiguration.entry );
 //console.log( 'devServer: ', webpackConfiguration.devServer );
 
 // Ensure environment variables are read.
 // require( '../config/env' );
 
-const compiler = require( 'webpack' )( webpackConfiguration );
+const compiler = require('webpack')( webpackConfiguration );
 
 const chalk = require( 'react-dev-utils/chalk' );
 const printHostingInstructions = require( 'react-dev-utils/printHostingInstructions' );
@@ -63,11 +63,11 @@ const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 
 const isInteractive = process.stdout.isTTY;
 
-console.log( '\nBefore checkBrowsers, isInteractive', isInteractive );
+console.log('\nBefore checkBrowsers, isInteractive', isInteractive );
 
 // We require that you explicitly set browsers and do not fall back to
 // browserslist defaults.
-const { checkBrowsers } = require( 'react-dev-utils/browsersHelper' );
+const { checkBrowsers } = require('react-dev-utils/browsersHelper');
 
 checkBrowsers( paths.appPath, isInteractive )
     .then(() => {
@@ -75,36 +75,36 @@ checkBrowsers( paths.appPath, isInteractive )
         // This lets us display how much they changed later.
         return measureFileSizesBeforeBuild( paths.appBuild );
     })
-    .then( 
+    .then(
         (previousFileSizes) => {
             // Start the webpack build
             return build( previousFileSizes );
         })
-    .then( ({  
-        stats, 
-        previousFileSizes, 
-        warnings 
+    .then( ({
+        stats,
+        previousFileSizes,
+        warnings
     }) => {
 
         if( warnings.length ) {
-            console.log( chalk.yellow( 'Compiled with warnings.\n' ));
-            console.log( warnings.join( '\n\n' ));
+            console.log( chalk.yellow('Compiled with warnings.\n'));
+            console.log( warnings.join('\n\n'));
             console.log(
                 '\nSearch for the ' +
-                chalk.underline( chalk.yellow( 'keywords' )) +
+                chalk.underline( chalk.yellow('keywords')) +
                 ' to learn more about each warning.'
             );
             console.log(
                 'To ignore, add ' +
-                chalk.cyan( '// eslint-disable-next-line' ) +
+                chalk.cyan('// eslint-disable-next-line') +
                 ' to the line before.\n'
             );
-        } 
+        }
         else {
-            console.log( chalk.green( 'Compiled successfully.\n' ));
+            console.log( chalk.green('Compiled successfully.\n'));
         }
 
-        console.log( 'File sizes after gzip:\n' );
+        console.log('File sizes after gzip:\n');
         printFileSizesAfterBuild(
             stats,
             previousFileSizes,
@@ -134,9 +134,9 @@ checkBrowsers( paths.appPath, isInteractive )
             ));
             printBuildError( err );
             process.exit(1);
-        } 
+        }
         else {
-            console.log( chalk.red( 'Failed to compile.\n' ));
+            console.log( chalk.red('Failed to compile.\n'));
             printBuildError( err );
             process.exit(1);
         }
@@ -154,16 +154,16 @@ checkBrowsers( paths.appPath, isInteractive )
 
 // Create the webpack build and print the deployment instructions.
 //
-function build (previousFileSizes) 
-{
-    console.log( `Creating an ${ENV_MODE} build...` );
+function build (previousFileSizes) {
 
-    return new Promise( (resolve, reject) => 
+    console.log(`Creating an ${ENV_MODE} build...`);
+
+    return new Promise( (resolve, reject) =>
     {
-        compiler.run( (err, stats) => 
+        compiler.run( (err, stats) =>
         {
             let messages;
-            
+
             if( err ) {
                 if( !err.message ) {
                     return reject( err );
@@ -172,12 +172,12 @@ function build (previousFileSizes)
                     errors: [err.message],
                     warnings: [],
                 });
-            } 
+            }
             else {
-                let statistics = stats.toJson(
+                const statistics = stats.toJson(
                     'errors-warnings'
                 );
-                console.log( 'Stats.toJson:\n', statistics );
+                console.log('Stats.toJson:\n', statistics );
                 //Replaced on helper.formatWebpack5Messages
                 messages = formatWebpackMessages( statistics );
             }
@@ -188,7 +188,7 @@ function build (previousFileSizes)
                 if( messages.errors.length > 1 ) {
                     messages.errors.length = 1;
                 }
-                return reject( new Error( messages.errors.join( '\n\n' )));
+                return reject( new Error( messages.errors.join('\n\n')));
             }
 
             const resolveArgs = {
@@ -196,7 +196,7 @@ function build (previousFileSizes)
                 previousFileSizes,
                 warnings: messages.warnings,
             };
-            
+
             /*if( writeStatsJson ) {
                 // ЗАВИСАЕТ ПРИ ЗАПИСИ.
                 return bfj

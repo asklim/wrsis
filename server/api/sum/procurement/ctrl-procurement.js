@@ -36,6 +36,25 @@ const convertToProcurement = (item) => {
 };
 
 
+async function getBodyOfWeekNatural (
+    hostname,
+    weekId
+) {
+    const resp = await axios({
+        method: 'GET',
+        url: `${hostname}/api/sum/weeknatural/${weekId}`,
+        headers: {
+            "Cache-Control": 'no-cache, no-store'
+        },
+    });
+    // d('resp', resp.status, resp.data );
+    const { body } = resp.data;
+    log.debug(`ctrl-: week-natural data got: ${body.length} items`);
+
+    return body;
+}
+
+
 async function makeProcurementDataSet (
     hostname,
     weekId
@@ -49,23 +68,16 @@ async function makeProcurementDataSet (
         return sampleDataset;
     }
 
-    const data = await axios({
-        url: `${hostname}/api/sum/weeknatural/${weekId}`,
-        method: "GET",
-        headers: {
-            "Cache-Control": "no-cache, no-store"
-        },
-    });
-    d('ctrl-: week-natural data got: %d items', data.length );
+    const body = getBodyOfWeekNatural( hostname, weekId );
 
-    const result = data.
+    const result = body.
         map( convertToProcurement ).
         filter( onlyItemsXtraLongGTZero )
         // Клиент получает только те позиции которые нужны на закупку
         // на xtraLong период
         // т.e. хотя-бы один элемент больше 0, => их сумма >0, а не [0,0,0]
     ;
-    d('ctrl-: converted week-natural-body to procurement dataset.');
+    log.debug('ctrl-: converted week-natural-body to procurement dataset.');
 
     return result;
 }

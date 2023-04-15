@@ -1,6 +1,6 @@
 const createError = require( 'http-errors' );
 const express = require( 'express' );
-const session = require('express-session')
+const session = require('express-session');
 const path = require( 'path' );
 const cors = require( 'cors' );
 const favicon = require( 'serve-favicon' );
@@ -12,7 +12,7 @@ const colors = require( 'colors' );
 const {
     icwd,
     consoleLogger
-} = require( './helpers' );
+} = require('./helpers');
 
 const log = consoleLogger( 'appSrvr:' );
 
@@ -22,17 +22,17 @@ const { NODE_ENV, DEV_MODE, } = process.env;
 const isProduction = NODE_ENV === 'production';
 const isHMR = DEV_MODE === 'HotModuleReplacement';
 
-const passport = require( 'passport' );  //passport must be before dbs-models
+const passport = require('passport');  //passport must be before dbs-models
 
 const {
     createConns,
     databasesShutdown,
-} = require( './databases' );
+} = require('./databases');
 
 createConns();
 
 
-let { PWD, } = process.env;
+const { PWD, } = process.env;
 console.log( colors.red( 'package.json dir is ', icwd )); // = '/app'
 console.log( colors.red( `PWD (${__filename}) is ${PWD}` ));
 
@@ -47,7 +47,7 @@ app.use( '*', cors() );
 
 // app.use( cookieParser() );
 
-app.use( express.static( `${icwd}/static` ));
+app.use( express.static( `${icwd}/dist` ));
 
 app.use( express.urlencoded( {
     extended: true,
@@ -56,22 +56,26 @@ app.use( express.urlencoded( {
 
 
 const sess = {
-    secret: 'keyboard cat',
+    secret: 'rsis web app',
+    resave: false,
+    saveUninitialized: true,
     cookie: {}
 };
 if( isProduction ) {
-    app.set('trust proxy', 1 ) // trust first proxy
-    sess.cookie.secure = true // serve secure cookies
+    app.set('trust proxy', 1 ); // trust first proxy
+    // sess.resave = false;
+    // sess.saveUninitialized = true;
+    sess.cookie.secure = true; // serve secure cookies
 }
-app.use(session(sess))
+app.use(session(sess));
 
 
 app.use( passport.initialize() );
 app.use( passport.session() );
-require( './passport.js' ); //after db create models
+require('./passport.js'); //after db create models
 
 // uncomment after placing your favicon in /public
-app.use( favicon( `${icwd}/public/favicon.ico` ));
+app.use( favicon(`${icwd}/public/favicon.ico`));
 
 let loggerTemplate = [
     '[:date[web]]', ':status',
@@ -86,7 +90,7 @@ const viberBotMiddleware = mikaVitebskViberBot.middleware();
 app.use( '/viber/mikavitebsk',
     function (req, res, next) {
 
-        let originalSig = req.headers[ 'x-viber-content-signature' ];
+        let originalSig = req.headers['x-viber-content-signature'];
         //req.query.sig = originalSig;
         req.headers.X_Viber_Content_Signature = originalSig;
 
@@ -133,14 +137,14 @@ if( !isProduction && isHMR ) {
     }));
 }
 
-app.get( '*', (req, res, next) => {
+app.get('*', (req, res, next) => {
 
     //console.log( inspect( _req, { depth: 2, indent: 4 } ));
 
-    log.info( `server-app dirname is ${__dirname}` );
-    log.info( 'req.user:', req.user );
+    log.info(`server-app dirname is ${__dirname}` );
+    log.info('req.user:', req.user );
     res.sendFile(
-        path.resolve( `${icwd}/static/index.html` ),
+        path.resolve(`${icwd}/dist/index.html`),
         (err) => {
             if( err ) next( err );
         }
@@ -173,8 +177,8 @@ app.use( (err, req, res, _next) => {
     res.status( err.status || 500 );
 });
 
-module.exports = {
 
+module.exports = {
     app,
     databasesShutdown,
     isProduction,

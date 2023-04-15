@@ -1,4 +1,9 @@
-require( 'dotenv' ).config();
+require('dotenv').config();
+const d = require('debug')('sapp:www');
+const http = require('http');
+const util = require('util');
+const os = require('os');
+const colors = require('colors');
 
 const {
     app: rsisWebApp,
@@ -7,17 +12,11 @@ const {
     isProduction,
 } = require( './app-server' );
 
-const debug = require( 'debug' )( 'sapp:www' );
-const http = require( 'http' );
-const util = require( 'util' );
-const os = require( 'os' );
-const colors = require( 'colors' );
-
-const ngrok = isProduction ? null : require( 'ngrok' );
+const ngrok = isProduction ? null : require('ngrok');
 
 //const log = require( './helpers/logger')('wwwSrvr:');
-const { icwd } = require( './helpers/serverconfig' );
-const version = require( `${icwd}/package.json` ).version;
+const { icwd } = require('./helpers/serverconfig');
+const version = require(`${icwd}/package.json`).version;
 
 
 
@@ -26,12 +25,12 @@ const version = require( `${icwd}/package.json` ).version;
 /**
  * Выводит переменные окружения process.env.*,
  * но без npm_* переменых, которых очень много
- *  
+ *
 **/
 (function () {
-    
+
     function isSecretEnvVar( varName ) {
-        
+
         const secretKeys = [
             'JWT_SECRET', 'ATLAS_CREDENTIALS',
             'GOOGLE_MAP_API_KEY', 'RSIS_GOOGLE_API_KEY',
@@ -40,7 +39,7 @@ const version = require( `${icwd}/package.json` ).version;
         ];
         return secretKeys.includes( varName );
     }
-    
+
     const envWithoutNpm = {};
 
     Object.keys( process.env )
@@ -51,7 +50,7 @@ const version = require( `${icwd}/package.json` ).version;
         else if( !key.startsWith('npm_') ) {
             envWithoutNpm[ key ] = process.env[ key ];
         }
-    });     
+    });
     console.log( envWithoutNpm );
 })();
 
@@ -84,7 +83,7 @@ const server = http.createServer( rsisWebApp );
 /*const shutdownTheServer = () => new Promise(
 
     (resolve) => {
-    
+
         server.close( () => {
             console.log( 'http-server closed now.' );
             resolve();
@@ -93,10 +92,10 @@ const server = http.createServer( rsisWebApp );
 );*/
 
 const shutdownTheServer = () => {
-    
-    return Promise.resolve( 
+
+    return Promise.resolve(
         server.close( () => {
-            console.log( 'http-server closed now.' );        
+            console.log( 'http-server closed now.' );
         })
     );
 };
@@ -111,7 +110,7 @@ const handleOnError = error => {
         throw error;
     }
 
-    let bind = typeof port === 'string' 
+    let bind = typeof port === 'string'
         ? 'Pipe ' + port
         : 'Port ' + port
     ;
@@ -123,12 +122,12 @@ const handleOnError = error => {
             console.error( bind + ' requires elevated privileges' );
             process.exit(1);
             break;
-        
+
         case 'EADDRINUSE':
             console.error( bind + ' is already in use' );
             process.exit(1);
             break;
-        
+
         default:
             throw error;
     }
@@ -140,11 +139,11 @@ const handleOnError = error => {
 const handleOnListening = () => {
 
     const addr = server.address();
-    const bind = typeof addr === 'string' 
+    const bind = typeof addr === 'string'
         ? 'pipe ' + addr
         : 'port ' + addr.port
     ;
-    debug( 'Listening on ' + bind );
+    d( 'Listening on ' + bind );
 };
 
 server.on( 'error', handleOnError );
@@ -192,7 +191,7 @@ server.listen( port, async () => {
             });
             viberHookURL = `${ngrokURL}/viber/mikavitebsk`;
         }
-    
+
         if( viberHookURL ) {
             await viberBot.setWebhook( viberHookURL /*, true*/ );
             let response = await viberBot.getBotProfile();
@@ -228,7 +227,7 @@ process.on( 'SIGINT', () => {
     databasesShutdown( 'app termination', () => {
 
         shutdownTheServer()
-        .then( 
+        .then(
             function () {
                 setTimeout(
                     () => { process.exit(0); },
@@ -246,7 +245,7 @@ process.on( 'SIGTERM', () => {
     databasesShutdown( 'Heroku app termination', () => {
 
         shutdownTheServer()
-        .then( 
+        .then(
             function () {
                 setTimeout(
                     () => { process.exit(0); },
@@ -263,7 +262,7 @@ process.on( 'SIGTERM', () => {
 /**
  * @description
  *  Normalize a port into a number, string, or false.
- * 
+ *
  */
 function normalizePort (val) {
 
@@ -283,11 +282,11 @@ function serverAppOutput( outputMode, appVersion, httpServer ) {
 
 
     let addr = httpServer.address();
-    let { 
-        address, family, port 
+    let {
+        address, family, port
     } = addr;
 
-    let bind = typeof addr === 'string' 
+    let bind = typeof addr === 'string'
         ? 'pipe ' + addr
         : 'port ' + port
     ;
@@ -300,7 +299,7 @@ function serverAppOutput( outputMode, appVersion, httpServer ) {
             console.log( 'app version ', appVersion.cyan );
             console.log( 'NODE Environment is ', node_env.cyan );
             console.log(
-                'Express server = "' + address.cyan 
+                'Express server = "' + address.cyan
                 + '" Family= "' + family.cyan
                 + '" listening on ' + bind.cyan );
         },

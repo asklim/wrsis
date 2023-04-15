@@ -20,13 +20,13 @@ const envPublicUrl = process.env.PUBLIC_URL;
 function ensureSlash (inputPath, needsSlash) {
 
     const hasSlash = inputPath.endsWith('/');
-    
+
     if( hasSlash && !needsSlash ) {
         return inputPath.substr(0, inputPath.length - 1);
-    } 
+    }
     else if( !hasSlash && needsSlash ) {
         return `${inputPath}/`;
-    } 
+    }
     else {
         return inputPath;
     }
@@ -45,11 +45,11 @@ const getPublicUrl = appPackageJson => envPublicUrl || require( appPackageJson )
 function getServedPath (appPackageJson) {
 
     const publicUrl = getPublicUrl( appPackageJson );
-    const servedUrl = envPublicUrl 
+    const servedUrl = envPublicUrl
         || ( publicUrl && publicUrl.startsWith( 'http' )
-            ? (new URL( publicUrl )).pathname 
+            ? (new URL( publicUrl )).pathname
             : '/' );
-    
+
     return ensureSlash( servedUrl, true );
 }
 
@@ -87,7 +87,7 @@ module.exports = {
 
     dotenv : resolveApp( '.env' ),
     appPath : resolveApp( '.' ),
-    appBuild : resolveApp( 'static' ), //('build'),
+    appBuild : resolveApp( 'dist' ), //('build'),
     appPublic : resolveApp( 'public' ),
     ejsRoot : resolveApp( 'server/views/index.ejs' ),
     appHtml : resolveApp( 'src/index.html' ),
